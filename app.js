@@ -1,6 +1,10 @@
 const indexRouter = require('./server/views/indexRouter'); 
 const express = require('express');
 const { join } = require('path');
+import connectDB from './server/helper/connect';
+
+
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +19,11 @@ let config = {
     port: process.env.EXPRESS_PORT || 5000,
     host: process.env.EXPRESS_HOST_NAME || 'localhost'
 };
+
+
+// Conexión a MongoDB
+connectDB(); // Conecta a MongoDB
+
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
