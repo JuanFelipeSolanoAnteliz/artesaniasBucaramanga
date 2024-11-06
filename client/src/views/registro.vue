@@ -22,22 +22,48 @@
             Regístrate con Discord
           </button>
   
-          <button class="social-button gmail">
+          <button @click="goToCrearGmail" class="social-button gmail">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
             </svg>
             Regístrate con Gmail
           </button>
+
+          <button @click="goToCrearTelefono" class="social-button gmail">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+            </svg>
+            Regístrate con Telefono
+          </button>
         </div>
   
         <div class="login-link">
           <p>¿Ya tienes una cuenta?</p>
-          <a href="#" class="link">Inicia sesión</a>
+          <a @click="goToiniciarSesion" class="link">Inicia sesión</a>
         </div>
       </div>
     </div>
   </template>
   
+  <script setup>
+  import { useRoute, useRouter } from 'vue-router'
+
+  const router = useRouter()
+
+  const goToiniciarSesion = () => {
+  router.push("/inicioSesion");};
+
+  const goToCrearTelefono = () =>{
+    router.push("/crearTelefono")
+  };
+
+  const goToCrearGmail = () =>{
+    router.push("crearGmail")
+  };
+
+
+</script>
+
   <style scoped>
   .registration-screen {
     min-height: 100vh;
@@ -94,7 +120,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
+    width: 93%;
   }
   
   .icon {

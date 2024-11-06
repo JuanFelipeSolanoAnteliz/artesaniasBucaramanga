@@ -6,8 +6,12 @@
 
 <script setup>
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 onMounted(() => {
+  // Agregar el estilo para la fuente
   const style = document.createElement('style');
   style.textContent = `
     @font-face {
@@ -18,6 +22,11 @@ onMounted(() => {
     }
   `;
   document.head.appendChild(style);
+
+  // Configurar el temporizador para la redirección
+  setTimeout(() => {
+    router.push('/registro');
+  }, 5000); // 5000 milisegundos = 5 segundos
 });
 </script>
 

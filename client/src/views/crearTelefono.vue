@@ -1,6 +1,6 @@
 <template>
     <div class="form-container">
-        <button class="back-button">
+        <button @click="goBack" class="back-button">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
@@ -83,7 +83,10 @@
   
   <script setup>
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   
+  const router = useRouter()
+
   const username = ref('')
   const countryCode = ref('+51')
   const confirmCountryCode = ref('+51')
@@ -97,8 +100,12 @@
   const year = ref('')
   
   const handleSubmit = () => {
-    // Handle form submission
+
   }
+
+  const goBack = () => {
+  router.back()
+}
   </script>
   
   <style scoped>
@@ -151,7 +158,7 @@
     width: 100%;
     padding: 12px;
     border: none;
-    background: #F5F5F5;
+    background: #D9D9D9;
     border-radius: 4px;
     font-size: 14px;
   }
@@ -165,7 +172,7 @@
     width: 80px;
     padding: 12px;
     border: none;
-    background: #F5F5F5;
+    background: #D9D9D9;
     border-radius: 4px;
     font-size: 14px;
     appearance: none;
@@ -193,7 +200,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;
+    width: 70%;
     padding: 12px 24px;
     background: none;
     border: none;

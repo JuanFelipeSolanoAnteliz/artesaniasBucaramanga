@@ -95,7 +95,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
+    width: 93%;
   }
   
   .icon {
