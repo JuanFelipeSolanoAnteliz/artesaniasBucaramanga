@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Products = require('../model/productsModel');
 
@@ -13,8 +14,17 @@ exports.getAllProducts = async (req, res) =>{
 }
 
 exports.addProduct = async (req, res)=>{
+    //artesanoId: req.data._id
     try{
-        let newProduct = new Products(req.body); ;
+        let newProduct = new Products({
+            nombre: req.body.nombre,
+            descripcion: req.body.descripcion,
+            precio: req.body.precio,
+            categoria: req.body.categoria,
+            fotos: req.body.fotos,
+            stock: req.body.stock,
+            artesanoId: new ObjectId('5f3e5f4c2c0e4a1d4c8b4572')
+        }); 
         let result = await newProduct.save();
         res.status(201).json({status: 201,message: 'Product added successfully',data: result});
     }catch(error){
