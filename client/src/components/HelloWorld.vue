@@ -1,43 +1,50 @@
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  msg: String,
-})
-
-const count = ref(0)
-</script>
-
 <template>
-  <h1>{{ msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
+  <div class="splash-screen">
+    <h1 class="splash-text">Ruraq Maki</h1>
   </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
-  </p>
-  <p>
-    Learn more about IDE Support for Vue in the
-    <a
-      href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support"
-      target="_blank"
-      >Vue Docs Scaling up Guide</a
-    >.
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
 
+<script setup>
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  const style = document.createElement('style');
+  style.textContent = `
+    @font-face {
+      font-family: 'Bellota';
+      src: url('../assets/font/bellota/Bellota-Bold.ttf') format('truetype');
+      font-weight: bold;
+      font-style: normal;
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>
+
 <style scoped>
-.read-the-docs {
-  color: #888;
+.splash-screen {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../assets/img/Group 3.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: black; 
+}
+
+.splash-text {
+  font-family: 'Bellota', sans-serif;
+  color: white;
+  font-size: 2.5rem;
+  letter-spacing: 0.05em;
+}
+
+@media (min-width: 768px) {
+  .splash-text {
+    font-size: 3.75rem;
+  }
 }
 </style>
