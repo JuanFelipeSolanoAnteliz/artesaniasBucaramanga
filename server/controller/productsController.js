@@ -11,3 +11,14 @@ exports.getAllProducts = async (req, res) =>{
         res.status(500).send({'message':'Error al obtener los productos', 'error':error});
     }
 }
+
+exports.addProduct = async (req, res)=>{
+    try{
+        let newProduct = new Products(req.body); ;
+        let result = await newProduct.save();
+        res.status(201).json({status: 201,message: 'Product added successfully',data: result});
+    }catch(error){
+            console.log(error);
+            res.status(500).send({message: 'Error while adding the product',error: error});
+    }
+}
