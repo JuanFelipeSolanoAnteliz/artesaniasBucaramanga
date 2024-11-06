@@ -1,7 +1,9 @@
-const router = require('express').Router();
-const controller = require('../controller/userController');
-const version = require('../middleware/versionate')
+const express = require('express');
+const UserController = require('../controller/userController');
 
-router.get('/', version('1.0.0'), controller.getAllUsers);
+const router = express.Router();
+
+router.get('/getAllUsers', UserController.getAllUsers);
+router.post('/newUser', UserController.createUser );
 
 module.exports = router;

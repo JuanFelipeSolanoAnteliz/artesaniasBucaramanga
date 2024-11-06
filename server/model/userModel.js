@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -13,6 +12,6 @@ const userSchema = new mongoose.Schema({
     compras: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pedidos' }],
     talleresInscritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'talleres' }],
     cupones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cupones' }],
-  });
+}, { versionKey: false }); // Deshabilitar el versionado
 
-  module.exports = mongoose.model('usuarios', userSchema);
+module.exports = mongoose.model('usuarios', userSchema);
