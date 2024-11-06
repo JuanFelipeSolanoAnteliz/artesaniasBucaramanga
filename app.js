@@ -3,6 +3,7 @@ const express = require('express');
 const { join } = require('path');
 const dotenv = require('dotenv').config();
 const userRouter = require('./server/router/userRouter');
+const productRouter = require('./server/router/productRouter');
 
 
 
@@ -13,6 +14,7 @@ app.use(express.static(join(__dirname, 'client/dist')));
 
 app.use("/", indexRouter);
 app.use('/users',userRouter);
+app.use('/products', productRouter);
 
 
 app.get('*', (req, res) => {
