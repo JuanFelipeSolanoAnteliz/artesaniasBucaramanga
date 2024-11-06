@@ -7,15 +7,15 @@ exports.addVoucher = async (req, res) =>{
         let body = req.body
         const newVoucher = new Vouchers ( {
             codigo:body.codigo ,
-            descuento: body.decuento,
+            descuento: body.descuento,
             tipo: body.tipo,
-            fechaExpiracion: body.date,
-            usuarioId: body.usuarioId || null
+            fechaExpiracion: Date(body.fechaExpiracion),
+            usuarioId: body.usuarioId === null ? null: new ObjectId(body.usuarioId) 
         })
         let result = await newVoucher.save();
         res.status(200).send({'status':201,'message':'Voucher created correctly', 'data':result});
     }catch(error){
         console.log(error)
-        res.status(500).send({'message':'Error at fecth Vouchers', 'error':error});
+        res.status(500).send({'message':'Error at create Voucher', 'error':error});
     }
 }

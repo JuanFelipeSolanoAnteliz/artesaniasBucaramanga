@@ -4,7 +4,7 @@ const { join } = require('path');
 const dotenv = require('dotenv').config();
 const userRouter = require('./server/router/userRouter');
 const productRouter = require('./server/router/productRouter');
-
+const voucherRouter = require('./server/router/voucherRouter');
 
 
 const app = express();
@@ -15,6 +15,7 @@ app.use(express.static(join(__dirname, 'client/dist')));
 app.use("/", indexRouter);
 app.use('/users',userRouter);
 app.use('/products', productRouter);
+app.use('/vouchers',voucherRouter);
 
 
 app.get('*', (req, res) => {
