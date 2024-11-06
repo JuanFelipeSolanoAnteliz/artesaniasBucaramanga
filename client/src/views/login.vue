@@ -27,7 +27,7 @@
           >
         </div>
   
-        <button type="submit" class="login-button">
+        <button @click="goPagina9" type="submit" class="login-button">
           Iniciar sesión
         </button>
   
@@ -42,6 +42,9 @@
   
   <script setup>
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
   
   const identifier = ref('')
   const password = ref('')
@@ -49,6 +52,10 @@
   const handleSubmit = () => {
     // Handle login submission
   }
+
+  const goPagina9 =  () => {
+  router.push("/tallerMes")
+}
   </script>
   
   <style scoped>
@@ -61,13 +68,14 @@
   }
   
   .back-button {
-    background: none;
+    background: #D9D9D9;
     border: none;
     padding: 10px;
     cursor: pointer;
     position: absolute;
     top: 10px;
     left: 10px;
+
   }
   
   .login-form {
@@ -92,7 +100,7 @@
     width: 100%;
     padding: 12px;
     border: none;
-    background: #F5F5F5;
+    background: #D9D9D9;
     border-radius: 4px;
     font-size: 14px;
   }

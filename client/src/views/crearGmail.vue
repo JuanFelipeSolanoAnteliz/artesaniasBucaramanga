@@ -1,36 +1,27 @@
 <template>
-  <div class="form-container">
-      <button @click="goBack" class="back-button">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </svg>
-    </button>
 
+  <button @click="goBack" class="back-button">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+  <div class="form-container">
     <form @submit.prevent="handleSubmit" class="registration-form">
+
       <div class="form-group">
         <label>Nombre de usuario*</label>
-        <input type="text" v-model="username" class="form-input">
         <span class="helper-text">*Crea un nombre de usuario de mínimo 5 y máximo de 12 caracteres</span>
+        <input type="text" v-model="username" class="form-input">
       </div>
 
       <div class="form-group">
-        <label>Número de celular*</label>
-        <div class="phone-input-group">
-          <select v-model="countryCode" class="country-select">
-            <option value="+51">+51</option>
-          </select>
-          <input type="tel" v-model="phone" class="form-input phone-input">
-        </div>
+        <label>Correo electronico*</label>
+        <input type="text" v-model="username" class="form-input">
       </div>
 
       <div class="form-group">
-        <label>Confirma tu celular*</label>
-        <div class="phone-input-group">
-          <select v-model="confirmCountryCode" class="country-select">
-            <option value="+51">+51</option>
-          </select>
-          <input type="tel" v-model="phoneConfirmation" class="form-input phone-input">
-        </div>
+        <label>Confirma tu correo*</label>
+        <input type="text" v-model="username" class="form-input">
       </div>
 
       <div class="form-group">
@@ -72,7 +63,7 @@
         </div>
       </div>
 
-      <button type="submit" class="continue-button">
+      <button @click="goPoliticas" type="submit" class="continue-button">
         Continuar
       </button>
     </form>
@@ -106,7 +97,14 @@ const handleSubmit = () => {
 const goBack = () => {
 router.back()
 }
+
+const goPoliticas =  () => {
+  router.push("/politicas")
+}
+
 </script>
+
+
 
 <style scoped>
 .form-container {
@@ -118,24 +116,23 @@ router.back()
 }
 
 .back-button {
-  background: none;
+  background: #D9D9D9;
   border: none;
   padding: 10px;
   cursor: pointer;
-  top: 10px;
   left: 10px;
 
 }
 
 .registration-form {
   max-width: 400px;
-  margin: 20px auto;
+  margin: 10px auto;
   position: relative;
   z-index: 1;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 label {
@@ -207,7 +204,7 @@ label {
   color: #000;
   font-size: 14px;
   cursor: pointer;
-  margin-left: auto;
+  margin-left: 55%;
   text-decoration: underline;
 }
 
