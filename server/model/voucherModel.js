@@ -7,10 +7,10 @@ const couponSchema = new Schema(
         descuento: { type: Number, required: true },
         tipo: { type: String, required: true, enum: ['asignado a usuario', 'genereal'] },
         fechaExpiracion: { type: Date, required: true },
-        usuarioId: { type: Schema.Types.ObjectId, ref: 'usuarios', required: true }
+        usuarioId: { type: Schema.Types.ObjectId, ref: 'usuarios', required: false, default: null, validate: { validator: v => v === null || mongoose.Types.ObjectId.isValid(v), message: props => `${props.value} no es un ObjectId válido!` } }
     }, 
     {  
-        timestamps: true 
+        timestamps: false 
     }
 );
 
