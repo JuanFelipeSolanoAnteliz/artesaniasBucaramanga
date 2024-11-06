@@ -8,8 +8,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, 'client/dist')));
 
-
 app.use("/", indexRouter);
+app.use('/users',userRouter);
+
+
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, 'client/dist/index.html'));
+});
+
 
 
 app.get('*', (req, res) => {
@@ -17,7 +23,7 @@ app.get('*', (req, res) => {
 });
 
 let config = {
-    port: process.env.EXPRESS_PORT || 5000,
+    port: process.env.EXPRESS_PORT || 5001,
     host: process.env.EXPRESS_HOST_NAME || 'localhost'
 };
 
