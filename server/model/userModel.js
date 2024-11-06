@@ -15,4 +15,4 @@ const userSchema = new mongoose.Schema({
     cupones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cupones' }],
   });
 
-  module.exports = mongoose.model('usuarios', userSchema, 'usuarios');
+  module.exports = mongoose.model('usuarios', userSchema);
