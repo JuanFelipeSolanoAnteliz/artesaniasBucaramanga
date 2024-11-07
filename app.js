@@ -6,12 +6,16 @@ const userRouter = require('./server/router/userRouter');
 const productRouter = require('./server/router/productRouter');
 const voucherRouter = require('./server/router/voucherRouter');
 const workshopsRouter = require('./server/router/workshopRouter');
-
+const session = require('express-session');
+const passport = require('passport');
+require('./server/middleware/passportSetup');
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, 'client/dist')));
+
 
 app.use("/", indexRouter);
 app.use('/users',userRouter);
