@@ -20,16 +20,17 @@ npm run dev:server
 # APIS PARA USERS:
 
 
+## get all users:
 GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
 
 
-
+## get one user:
 GET http://localhost:5001/users/{id} (se puede dar click y ver la info pero especifica una ID antes)
 ejemplo:
 http://localhost:5001/users/getUser/672cb5e790cb620ef1ae1e88
 
 
-
+## create one user(no bcrypt):
 POST http://localhost:5001/users/newUser (user body en thunderClient)
 
 esta API crea un usuario nuevo normal, pero no encripta contraseña ojo
@@ -50,7 +51,7 @@ body:
 
 
 
-
+## edit one user(email cant be same than other):
 PUT http://localhost:5001/users/updateUser/:id (user body en thunderClient)
 
 el editar puede editar cualquier campo del dato desde uno solo, hasta todo, las unicas condiciones son no se puede modificar el tipo, el email no se puede poner uno existente y se debe poner el _id del usuario, id ejemplo:
@@ -102,7 +103,7 @@ o incluso:
 
 
 
-
+## create one user and log in with token and bcrypt password (complete usefull):
 POST http://localhost:5001/users/createAndAuth (body on thunder client needed)
 
 esta funcion funciona de forma que crea una cuenta nueva al igual que la logea o verifica, para eso se deben ingresar los siguientes valores obligatorios para funcionar:
