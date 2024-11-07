@@ -1,22 +1,52 @@
 <template>
   <div class="min-h-screen bg-white">
-    <!-- Back button and image section -->
-    <div class="relative bg-white">
-      <button class="absolute top-4 left-4 z-10" @click="goBack">
-        <ChevronLeft class="w-6 h-6 text-black" />
+    <div class="relative bg-black">
+      <button class="absolute top-0 left-0 z-10" @click="goBack">
+        <div class="relative w-9 h-17">
+          <img 
+            src="../assets/img/Rectangle.svg" 
+            alt="rectangle"
+            class="w-full h-full object-cover" 
+          />
+          <img 
+            src="../assets/img/flecha.svg" 
+            alt="back"
+            class="absolute top-6 left-1 w-5 h-5" 
+          />
+        </div>
       </button>
+    
+      <!-- Imagen de producto -->
       <img 
-        src="https://via.placeholder.com/600x400/f5f5f5/cccccc"
-        alt="Chalina beige con flecos"
-        class="w-full h-[400px] object-cover"
+        src="https://via.placeholder.com/200x400"
+        alt="Tapiz Chumpi Andino III"
+        class="w-full h-[290px] object-cover"
       />
-      <!-- Discount badge -->
-      <div class="absolute top-4 right-4 bg-black text-white text-sm font-medium px-3 py-1 rounded-full">
-        -35%
+
+      <!-- Crazy image with discount badge -->
+      <div class="absolute bottom-14 left-3 z-20">
+        <div class="relative">
+          <img 
+            src="../assets/img/crazy.svg" 
+            alt="crazy"
+            class="w-12 h-13" 
+          />
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div class=" text-white text-sm font-medium px-3 py-1 rounded-full">
+              -35%
+            </div>
+          </div>
+        </div>
       </div>
+
       <!-- Title overlay -->
-      <div class="absolute bottom-0 left-0 right-0 bg-black/60 px-4 py-3">
-        <h1 class="text-white text-lg font-normal">Chalina beige con flecos</h1>
+      <div class="absolute bottom-0 left-0 right-0 bg-black/60 px-4 py-2">
+        <img 
+          src="../assets/img/RectangleS.svg" 
+          alt="rentangleS"
+          class="absolute top-0 left-0 w-5 h-15" 
+        />
+        <h1 class="text-left text-white text-lg font-normal ml-3">Chalina beige con flecos</h1>
       </div>
     </div>
 
@@ -38,22 +68,20 @@
       </div>
 
       <div class="space-y-3">
-        <h2 class="text-base font-medium">Taller Awaq Ayllus</h2>
+        <h2 class="text-left text-base font-medium ml-1.5">Asociación de artesanos Tinkuy</h2>
         
-        <div>
-          <h3 class="font-medium mb-1">Dimensiones:</h3>
-          <p class="text-gray-600">60 x 80 cm</p>
+         <div class="flex items-center space-x-2"> 
+          <h3 class="text-left text-base font-medium ml-1.5">Dimensiones:</h3>
+          <p class="text-gray-600">18 x 200 cm</p>
         </div>
 
-        <div>
-          <h3 class="font-medium mb-1">Descripción:</h3>
-          <p class="text-gray-600">
-            Tapiz tridimensional con diseños de la tradición textil andina prehispánica.
-            Elaborado con lana de ovino y tejido en telar a pedal.
+        <div class="text-gray-600 text-base text-justify leading-relaxed ml-2">
+          <span class="font-medium">Descripción:</span>
+          <p class="indent inline">
+            Tapiz tridimensional con diseños de la tradición textil andina prehispánica. Elaborado con lana de ovino y tejido en telar a pedal.
           </p>
         </div>
 
-        <!-- Reemplaza el ícono Truck con la imagen de Check -->
         <div class="flex items-center gap-2 text-gray-600 pt-2">
           <img 
             src="../assets/img/check.svg"
@@ -65,20 +93,23 @@
 
       <!-- Add to cart button -->
       <button 
-        class="w-full bg-[#e6f4ff] text-[#0066cc] py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6"
+        class="w-full bg-gray-100 text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6"
         @click="addToCart"
       >
-        <ShoppingCart class="w-5 h-5" />
+        <img 
+          src="../assets/img/car.svg" 
+          alt="carrito" 
+          class="w-5 h-5" 
+        />
         <span class="text-sm font-medium">Añadir a mi carrito de compras</span>
       </button>
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue'
-import { ShoppingCart, ChevronLeft } from 'lucide-vue-next' // No es necesario importar Check si usas imagen
 
-// Importa las imágenes desde src/assets/img
 import corazonLleno from '../assets/img/corazonLleno.svg'
 import corazonVacio from '../assets/img/corazonVacio.svg'
 
@@ -89,7 +120,6 @@ const toggleFavorite = () => {
 }
 
 const addToCart = () => {
-  // Lógica para añadir al carrito
   console.log('Añadido al carrito')
 }
 
@@ -99,5 +129,11 @@ const goBack = () => {
 </script>
 
 <style scoped>
-/* Estilos específicos para la página */
+.indent {
+  text-indent: 1em;
+  margin-top: 0;
+}
+.inline {
+  display: inline;
+}
 </style>
