@@ -26,6 +26,9 @@ GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
 
 
 POST http://localhost:5001/users/newUser (user body en thunderClient)
+
+esta API crea un usuario nuevo normal, pero no encripta contraseña ojo
+
 body:
 ´´´
 {
@@ -35,7 +38,8 @@ body:
     "fotoPerfil": "url_a_la_foto",
     "direccion": "Calle Falsa 123",
     "telefono": "1234567890",
-    "tipo": "comprador"
+    "sexo": "masculino", // Opciones: 'masculino', 'femenino', 'otro', etc.
+    "fechaNacimiento": "1990-01-01" // Formato: YYYY-MM-DD
 }
 ´´´
 
@@ -60,6 +64,9 @@ y en body:
   "fotoPerfil": "https://example.com/foto/carlos.jpg",
   "direccion": "Avenida 45, Armenia",
   "telefono": "3201234567",
+  "sexo": "femenino",
+  "fechaNacimiento": "1995-05-15",
+  "direccion": "Nueva Calle 456",
   "favoritos": [
     {
       "$oid": "64f2c111fc13ae1b23000009"
@@ -77,12 +84,9 @@ y en body:
 O tambien: 
 
 {
-    "nombre": "Juan Pérez",
-    "correo": "juan.perez@example.com",
-    "contraseña": "miContraseñaSegura",
-    "fotoPerfil": "url_a_la_foto",
-    "direccion": "Calle Falsa 123",
-    "telefono": "1234567890",
+    "sexo": "femenino",
+    "fechaNacimiento": "1995-05-15",
+    "direccion": "Nueva Calle 456"
 }
 
 o incluso:
@@ -105,10 +109,12 @@ ejemplo de body:
 {
     "nombre": "Juan Pérez",
     "correo": "juan.perez@example.com",
-    "contraseña": "miContraseñaSegura123",
-    "fotoPerfil": "url_de_la_foto",
+    "contraseña": "miContraseñaSegura",
+    "fotoPerfil": "http://ejemplo.com/miFoto.jpg",
     "direccion": "Calle Falsa 123",
-    "telefono": "1234567890"
+    "telefono": "123456789",
+    "sexo": "masculino",
+    "fechaNacimiento": "1990-01-01"
 }
 ´´´
 

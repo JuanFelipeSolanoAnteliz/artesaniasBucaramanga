@@ -17,7 +17,7 @@ class UserController {
 
     static async createUser (req, res) {
         try {
-            const { nombre, correo, contraseña, fotoPerfil, direccion, telefono } = req.body;
+            const { nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
 
             // Siempre establecer el tipo como "comprador"
             const newUser  = new Users({
@@ -27,11 +27,13 @@ class UserController {
                 fotoPerfil,
                 direccion,
                 telefono,
+                sexo, 
+                fechaNacimiento, 
                 tipo: 'comprador', // Establecer tipo como "comprador"
                 favoritos: [],
                 compras: [],
                 talleresInscritos: [],
-                cupones: []
+                cupones: [],
             });
 
             const result = await newUser .save();
@@ -74,60 +76,58 @@ class UserController {
 
     static async createAndAuth(req, res) {
         try {
-            const { nombre, correo, contraseña, fotoPerfil, direccion, telefono } = req.body;
-    
+            const { nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
+
             // Verificar si el usuario ya existe
-            const existingUser   = await Users.findOne({ correo });
+            const existingUser  = await Users.findOne({ correo });
             if (existingUser ) {
                 return res.status(400).json({ message: 'User  already exists, change the email' });
             }
-    
+
             // Hash de la contraseña
             const hashedPassword = await bcrypt.hash(contraseña, 10);
-    
+
             // Crear un nuevo usuario
-            const newUser   = new Users({
+            const newUser  = new Users({
                 nombre,
                 correo,
                 contraseña: hashedPassword,
                 fotoPerfil,
                 direccion,
                 telefono,
+                sexo, 
+                fechaNacimiento, 
                 tipo: 'comprador',
                 favoritos: [],
                 compras: [],
                 talleresInscritos: [],
-                cupones: []
+                cupones: [],
             });
-    
+
             // Guardar el nuevo usuario en la base de datos
             const result = await newUser .save();
-    
+
             // Introducir un retraso de 1 segundo antes de continuar
             await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
             // Generar un token JWT usando la clave secreta del archivo .env
             const token = jwt.sign({ id: result._id, correo: result.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
-    
+
             // Establecer la cookie con el token JWT
             res.cookie('login', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 3600000 // 1 hora
             });
-    
+
             // Responder con éxito
             return res.status(201).json({ message: 'Successfully created and authenticated', jwt: token });
-    
+
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error creating and authenticating user' });
+            res.status(500).json({ message : 'Error creating and authenticating user' });
         }
     }
-
-
-
-
 }
 
 module.exports = UserController;

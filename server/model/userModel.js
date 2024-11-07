@@ -7,11 +7,13 @@ const userSchema = new mongoose.Schema({
     fotoPerfil: { type: String }, // URL of the profile photo
     direccion: { type: String },
     telefono: { type: String },
-    tipo: { type: String, enum: ['comprador', 'vendedor'], required: true },
+    sexo: { type: String, enum: ['femenino', 'masculino', 'otro'], required: true },
+    fechaNacimiento: { type: Date, required: true }, 
     favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'productos' }],
     compras: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pedidos' }],
     talleresInscritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'talleres' }],
     cupones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cupones' }],
-}, { versionKey: false }); // Deshabilitar el versionado
+    tipo: { type: String, enum: ['comprador', 'vendedor'], required: true }
+}, { versionKey: false }); 
 
 module.exports = mongoose.model('usuarios', userSchema);
