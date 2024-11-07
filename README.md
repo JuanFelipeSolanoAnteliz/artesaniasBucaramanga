@@ -16,12 +16,12 @@ npm run dev:server
 
 
 
-http://localhost:5001/users/getAllUsers (se puede dar click y ver)
+GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
 
 
 
 
-http://localhost:5001/users/newUser (user body en thunderClient)
+POST http://localhost:5001/users/newUser (user body en thunderClient)
 body:
 ´´´
 {
@@ -34,3 +34,5 @@ body:
     "tipo": "comprador"
 }
 ´´´
+
+PUT http://localhost:5001/users/updateUser /:id
