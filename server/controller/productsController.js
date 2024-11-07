@@ -48,3 +48,16 @@ exports.searchProduct = async ( req, res ) =>{
         res.status(500).send({'message':'Error at fetch products', 'error':error});
     }
 }
+
+exports.getByCategory = async (req, res, ) => {
+    try{
+        let category = req.params.category;
+        if(category === ''){ return res.status(400).send({'status':400,'message':'Category param is not valid'})};
+        let result = await Products.find({ categoria: category }).select('-__v');
+        if(result.length === 0){return res.status(404).send({'status':404,'message':'No products found in this category', 'data':result})};
+        return res.status(200).send({'status':200,'message':'Products fetched correctly', 'data':result});
+    }catch(error){
+        console.log(error)
+        res.status(500).send({'message':'Error at fetch products', 'error':error});
+    }
+}
