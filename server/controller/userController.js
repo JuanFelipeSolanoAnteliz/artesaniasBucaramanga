@@ -15,6 +15,29 @@ class UserController {
         }
     }
 
+
+    static async getUserById(req, res) {
+        try {
+            const { id } = req.params; // Obtener el ID del usuario de los parámetros de la URL
+    
+            // Buscar el usuario por ID
+            const user = await Users.findById(id);
+    
+            // Verificar si el usuario existe
+            if (!user) {
+                return res.status(404).json({ message: 'User  not found' });
+            }
+    
+            // Devolver el usuario encontrado
+            res.status(200).json(user);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error retrieving user' });
+        }
+    }
+
+
+
     static async createUser (req, res) {
         try {
             const { nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;

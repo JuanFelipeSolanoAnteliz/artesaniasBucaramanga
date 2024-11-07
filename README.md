@@ -24,6 +24,11 @@ GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
 
 
 
+GET http://localhost:5001/users/{id} (se puede dar click y ver la info pero especifica una ID antes)
+ejemplo:
+http://localhost:5001/users/getUser/672cb5e790cb620ef1ae1e88
+
+
 
 POST http://localhost:5001/users/newUser (user body en thunderClient)
 
