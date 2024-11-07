@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config();
 const userRouter = require('./server/router/userRouter');
 const productRouter = require('./server/router/productRouter');
 const voucherRouter = require('./server/router/voucherRouter');
+const workshopsRouter = require('./server/router/workshopRouter');
 
 
 const app = express();
@@ -16,7 +17,7 @@ app.use("/", indexRouter);
 app.use('/users',userRouter);
 app.use('/products', productRouter);
 app.use('/vouchers',voucherRouter);
-
+app.use('/workshops',workshopsRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'client/dist/index.html'));

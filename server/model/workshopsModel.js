@@ -17,6 +17,6 @@ const workshopSchema = new Schema({
   versionKey: false
 });
 
-const Workshop = mongoose.model('Workshop', workshopSchema);
+const Workshop = mongoose.model('talleres', workshopSchema);
 
 module.exports = Workshop;
