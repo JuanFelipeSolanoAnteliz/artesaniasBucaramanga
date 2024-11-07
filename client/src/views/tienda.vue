@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white text-white">
+  <div id="main-container" class="min-h-screen text-white">
     <!-- Main Header -->
     <header v-if="!selectedCategory" class="fixed top-0 w-full bg-gray-900 z-50">
       <div class="flex items-center p-4 bg-black">
@@ -62,19 +62,16 @@
     </div>
 
     <!-- Main Content -->
-    <main class="pt-16 pb-20 px-4 bg-white min-h-screen">
+    <main class="pt-16 pb-20 px-4 min-h-screen">
       <div class="py-6">
         <p class="text-sm text-gray-500 mb-4">Tiendas de artesanías de todas partes de Bucaramanga</p>
         <div class="flex items-center space-x-2 mb-6">
           <h1 class="text-xl font-semibold text-black">Talleres y tiendas artesanales</h1>
-          <button class="flex flex-col  h-15 w-15 rounded-full justify-center ">
-          <Settings2  class="h-6 w-6 text-black" />
-          <span class="text-xs mt-1"></span>
-        </button>
-          
+          <button class="flex flex-col h-15 w-15 rounded-full justify-center">
+            <Settings2 class="h-6 w-6 text-black" />
+            <span class="text-xs mt-1"></span>
+          </button>
         </div>
-        <!-- Categories -->
-
 
         <!-- Products Grid -->
         <div @click="goDetalleTaller" class="grid grid-cols-2 gap-4">
@@ -83,12 +80,11 @@
             :key="product.id"
             class="bg-white rounded-lg overflow-hidden shadow"
           >
-          <div class="p-3 mt-2 bg-black rounded-lg">
+            <div class="p-3 mt-2 bg-black rounded-lg">
               <h3 class="text-sm font-medium text-white">{{ product.name }}</h3>
               <p class="text-xs text-gray-300">{{ product.artisan }}</p>
             </div>
             <img :src="product.image" :alt="product.name" class="w-full h-40 object-cover rounded-lg" />
-            
           </div>
         </div>
       </div>
@@ -96,17 +92,17 @@
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
-      <div class="flex justify-around p-3 ">
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center ">
-          <Store  class="h-6 w-6" />
+      <div class="flex justify-around p-3">
+        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <Store class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <BadgePercent class="h-6 w-6" />
+          <BadgePercent @click="goToDescuentos" class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <HomeIcon class="h-6 w-6" />
+          <HomeIcon @click="goToHome" class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
@@ -123,13 +119,20 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const goDetalleTaller =  () => {
+const goDetalleTaller = () => {
   router.push("/detalleTaller")
+}
+
+const goToHome = () => {
+  router.push("/tallerMes")
+}
+
+const goToDescuentos = () => {
+  router.push("/descuentos")
 }
 
 import {
@@ -306,7 +309,22 @@ const filteredProducts = computed(() => {
   display: none; /* Para Chrome, Safari y Opera */
 }
 
-.hr{
+.hr {
   color: black;
+}
+
+#main-container {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('../assets/img/fondoPantalla.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+#main-container > * {
+
+  z-index: 1;
 }
 </style>

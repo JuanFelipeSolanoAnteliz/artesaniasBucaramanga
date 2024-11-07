@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-white text-white">
-    <!-- Main Header -->
+    <!-- Main Header -->inline-block align-middle
     <header v-if="!selectedCategory" class="fixed top-0 w-full bg-gray-900 z-50">
       <div class="flex items-center p-4 bg-black">
         <button @click="toggleDrawer" class="p-2">
@@ -132,7 +132,7 @@
           </div>
           <div class="text-[#D9D9D9] text-center mb-8">Aprende como hacerlos en estos talleres educativos!</div>
           <div class="flex justify-center">
-            <img src="../assets/img/Vector (2).png" alt="imagen en gris" class="filter grayscale w-52 h-80">
+            <img src="../assets/img/Vector (2).png" alt="imagen en gris" class="filter grayscale w-52 ">
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <BadgePercent class="h-6 w-6" />
+          <BadgePercent @click="goToDescuentos" class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
         <button @click="goTotallres" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
@@ -175,9 +175,13 @@ const goTotallres =() =>{
     router.push("/tallerMes")
   }
 
-  const goTotienda =() =>{
-    router.push("/tallerYtiendas")
-  }
+const goTotienda =() =>{
+  router.push("/tallerYtiendas")
+}
+
+const goToDescuentos =() =>{
+  router.push("/descuentos")
+}
 
 import {
   MenuIcon,
@@ -355,4 +359,6 @@ const filteredProducts = computed(() => {
 .hr{
   color: black;
 }
+
+
 </style>

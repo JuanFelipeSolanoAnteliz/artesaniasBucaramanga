@@ -10,6 +10,7 @@ import crearGmail from '../views/crearGmail.vue'
 import tallerMes from '../views/TalleresMes9.vue'
 import tallresytiendas from '../views/tienda.vue'
 import detalleTaller from '../views/detalleTaller.vue'
+import descuentos from '../views/descuentos.vue'
 
 const routes = [
   { path: '/', component: explore },
@@ -22,6 +23,7 @@ const routes = [
   { path: '/tallerMes', component:tallerMes},
   { path: '/tallerYtiendas', component:tallresytiendas},
   { path: '/detalleTaller', component:detalleTaller},
+  { path: '/descuentos', component:descuentos},
 
 
 ]

@@ -1,19 +1,25 @@
 <template>
     <div class="min-h-screen bg-white">
       <!-- Header with back button -->
-      <div class="relative h-64">
+      <div class="relative h-64  inset-x-0 top-0">
         <img 
           :src="product.bannerImage || '/placeholder.svg?height=256&width=384'" 
           alt="Banner"
           class="w-full h-full object-cover"
         />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20">
-          <button @click="goBack" class="p-4">
-            <ArrowLeft class="h-6 w-6 text-white" />
-          </button>
-          <div class="absolute bottom-0 p-4 text-white">
-            <h1 class="text-xl font-semibold">{{ product.artisan }}</h1>
-            <p class="text-sm mt-1">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20 ">
+          <div class="flex ">
+            <button @click="goBack" class="p-4  bg-[#3D3D3D]">
+          <ArrowLeft class="h-6 w-6 text-white" />
+        </button>
+
+
+            <h1 class=" text-white  text-center bg-[#3D3D3D] h-8 w-52 justify-between ml-14 rounded-lg">{{ product.artisan }}</h1>
+          </div>
+          
+          <div class="absolute bottom-0 text-white">
+            
+            <p class="text-sm  bg-[#3D3D3D] w-full p-4 underline decoration-solid inset-x-0 bottom-0">
               Conoce la historia detrás de este taller artesanal y conoce como producen sus textiles
             </p>
           </div>
@@ -21,23 +27,23 @@
       </div>
   
       <!-- Artesanías Title -->
-      <div class="flex justify-center -mt-6 relative z-10">
-        <div class="bg-white px-8 py-2 rounded-full shadow-lg">
-          <h2 class="text-lg font-medium text-black">Artesanías</h2>
+      <div class="flex justify-center  relative z-10 ">
+        <div class="px-8 py-2  bg-[#D9D9D9] top-4">
+          <h2 class="text-lg  text-black ">Artesanías</h2>
         </div>
       </div>
   
       <!-- Search Bar -->
       <div class="px-4 py-6">
         <div class="relative">
-          <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+          <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-black" />
           <input
             type="search"
             placeholder="Buscar producto o palabra clave..."
-            class="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none"
+            class="w-full bg-[#D9D9D9] rounded-lg py-2 pl-10 pr-4 text-sm focus:outline-none"
           />
           <button class="absolute right-3 top-2">
-            <SlidersHorizontal class="h-5 w-5 text-gray-400" />
+            <SlidersHorizontal class="h-5 w-5 text-black" />
           </button>
         </div>
       </div>
@@ -93,6 +99,34 @@
   
   // Simulated workshop products
   const workshopProducts = ref([
+    {
+      id: 1,
+      name: 'Tapiz Chumpi Andino III',
+      price: '600',
+      artisan: 'Taller Awaq Ayllus',
+      image: '../assets/img/perfile.png'
+    },
+    {
+      id: 2,
+      name: 'Cartuchera Flores I',
+      price: '30',
+      artisan: 'Taller Awaq Ayllus',
+      image: '../assets/img/perfile.png'
+    },
+    {
+      id: 3,
+      name: 'Tapiz Floral',
+      price: '450',
+      artisan: 'Taller Awaq Ayllus',
+      image: '../assets/img/perfile.png'
+    },
+    {
+      id: 4,
+      name: 'Tapiz Geométrico',
+      price: '500',
+      artisan: 'Taller Awaq Ayllus',
+      image: '../assets/img/perfile.png'
+    },
     {
       id: 1,
       name: 'Tapiz Chumpi Andino III',
