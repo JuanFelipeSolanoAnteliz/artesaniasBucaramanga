@@ -10,11 +10,11 @@ const userSchema = new mongoose.Schema({
     telefono: { type: String },
     sexo: { type: String, enum: ['femenino', 'masculino', 'otro'], required: true },
     fechaNacimiento: { type: Date, required: true }, 
+    tipo: { type: String, enum: ['comprador', 'vendedor'], required: true },
     favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'productos' }],
     compras: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pedidos' }],
     talleresInscritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'talleres' }],
-    cupones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cupones' }],
-    tipo: { type: String, enum: ['comprador', 'vendedor'], required: true }
+    cupones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cupones' }]
 }, { versionKey: false }); 
 
 module.exports = mongoose.model('usuarios', userSchema);

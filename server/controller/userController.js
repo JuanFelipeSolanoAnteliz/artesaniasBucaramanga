@@ -5,7 +5,7 @@ require('dotenv').config();
 
 class UserController {
 
-    
+
     static async getAllUsers(req, res) {
         try {
             const result = await Users.find();
@@ -100,6 +100,54 @@ class UserController {
         }
     }
 
+
+    static async loginAndAuth(req, res) {
+        try {
+            const { userName, correo, telefono, contraseña } = req.body;
+
+            // Verificar que al menos uno de los campos de identificación esté presente
+            if (!userName && !correo && !telefono) {
+                return res.status(400).json({ message: 'Please provide userName, correo, or telefono' });
+            }
+
+            // Buscar al usuario por userName, correo o telefono
+            let user;
+            if (userName) {
+                user = await Users.findOne({ userName });
+            } else if (correo) {
+                user = await Users.findOne({ correo });
+            } else if (telefono) {
+                user = await Users.findOne({ telefono });
+            }
+
+            // Si no se encuentra el usuario
+            if (!user) {
+                return res.status(404).json({ message: 'User  not found' });
+            }
+
+            // Verificar la contraseña
+            const isMatch = await bcrypt.compare(contraseña, user.contraseña);
+            if (!isMatch) {
+                return res.status(401).json({ message: 'Invalid password' });
+            }
+
+            // Crear el token JWT
+            const token = jwt.sign({ id: user._id, correo: user.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+
+            // Configurar la cookie de sesión
+            res.cookie('login', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 3600000
+            });
+
+            return res.status(200).json({ message: 'Successfully logged in', jwt: token });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error logging in' });
+        }
+    }
 
 
 

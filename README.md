@@ -103,6 +103,32 @@ o incluso:
 }
 
 
+## search one userName,telefono or correo and log in with token and bcrypt password (complete usefull):
+
+POST http://localhost:5001/users/loginAndAuth
+
+esta API lo que hace es servir de login tomando cualquiera de los 3 datos y la contraseña encriptada, verifica en la db y si todo es correcto, crea el token de acceso a la pagina
+
+ejemplos combinaciones de login manual:
+
+1:
+{
+  "userName": "juanperez",
+  "contraseña": "tuContraseña123"
+}
+
+2:
+{
+  "correo": "juan.perez@example.com",
+  "contraseña": "tuContraseña123"
+}
+
+3:
+{
+  "telefono": "123456789",
+  "contraseña": "tuContraseña123"
+}
+
 
 ## create one user and log in with token and bcrypt password (complete usefull):
 POST http://localhost:5001/users/createAndAuth (body on thunder client needed)
