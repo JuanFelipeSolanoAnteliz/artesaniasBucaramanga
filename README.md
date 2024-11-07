@@ -7,7 +7,9 @@ SECRET_KEY=729e97f2f54e6a1edb3cfe3d7b1b96516458312623d8757bb1cbb4245a8a4d1eb5d31
 npm i mongoose
 npm i dotenv
 npm i jsonwebtoken
-
+npm i passport
+npm i passport-discord
+npm i express-session
 
 # APIs:
 

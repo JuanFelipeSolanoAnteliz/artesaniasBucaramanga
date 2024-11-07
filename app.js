@@ -1,21 +1,30 @@
 require('dotenv').config();
 const express = require('express');
 const { join } = require('path');
+const session = require('express-session');
+const passport = require('passport');
 const userRouter = require('./server/router/userRouter'); 
 const indexRouter = require('./server/views/indexRouter');
 const connectDB = require('./server/helper/connect'); 
+require('./server/middleware/passportSetup');
 
 const app = express();
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, 'client/dist')));
 
-// Conectar a MongoDB
 connectDB();
 
-// Routes
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'your_secret_key',
+    resave: false,
+    saveUninitialized: false,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/", indexRouter);
 app.use('/users', userRouter); 
 
