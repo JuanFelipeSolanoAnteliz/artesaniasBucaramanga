@@ -106,9 +106,9 @@
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <ShoppingCart class="h-6 w-6" />
+          <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+        <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <UserIcon class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
@@ -133,6 +133,14 @@ const goToHome = () => {
 
 const goToDescuentos = () => {
   router.push("/descuentos")
+}
+
+const goToCarritoCompras = () => {
+  router.push("/carritoCompras")
+}
+
+const goToUser = () => {
+  router.push("/user")
 }
 
 import {
@@ -168,6 +176,7 @@ import Hojalateria from "../assets/img/sheetMetalCategory.svg"
 import bordado from "../assets/img/embroideryCategory.svg"
 import ceramica from "../assets/img/ceramicCategory.svg"
 import pinturaTradicional from "../assets/img/paintingTraditionalCategory.svg"
+import CarritCompras from './carritCompras.vue';
 
 const isDrawerOpen = ref(false)
 const selectedCategory = ref(null)

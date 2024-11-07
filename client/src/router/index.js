@@ -11,6 +11,8 @@ import tallerMes from '../views/TalleresMes9.vue'
 import tallresytiendas from '../views/tienda.vue'
 import detalleTaller from '../views/detalleTaller.vue'
 import descuentos from '../views/descuentos.vue'
+import carritoCompras from '../views/carritCompras.vue'
+import user from '../views/user.vue'
 
 const routes = [
   { path: '/', component: explore },
@@ -24,7 +26,8 @@ const routes = [
   { path: '/tallerYtiendas', component:tallresytiendas},
   { path: '/detalleTaller', component:detalleTaller},
   { path: '/descuentos', component:descuentos},
-
+  { path: '/carritoCompras', component:carritoCompras},
+  { path: '/user', component:user}
 
 ]
 

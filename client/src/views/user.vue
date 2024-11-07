@@ -61,61 +61,86 @@
         </div>
       </div>
   
-      <!-- Main Content -->
-      <main class="pt-16 pb-20 min-h-screen">
-        <!-- Hero Banner -->
-        <div class="relative h-28 bg-transparent">
-          <div class="absolute inset-0 flex flex-col justify-center px-4">
-            <p class="text-sm text-gray-600 mb-2 absolute inset-x-0 bottom-0 ml-4">En cientos de artesanias</p>
-            <h1 class="text-black text-xl">  Descuentos y promociones</h1>
-          </div>
+      <main>
+        <div class="text-black p- pt-28">
+    <div class="">
+      <div class="">
+        
+        <div class="relative flex flex-col items-center">
+            <div class="absolute top-0 text-center">Foto perfil</div>
+            <img class="w-40 h-40 object-cover mt-6" src="../assets/img/perfile.png" alt="Foto de perfil">
+            </div>
+
         </div>
-  
-        <!-- Categories -->
-        <div class="overflow-x-auto scrollbar-hide mb-4">
-          <div class="flex">
-            <button
-              v-for="category in categories"
-              :key="category"
-              @click="selectCategory(category)"
-              :class="[
-                'px-3 text-xs w-24',
-                selectedCategory === category
-                  ? 'bg-black text-white'
-                  : 'bg-gray-200 text-gray-800'
-              ]"
-            >
-              {{ category }}
+      
+      <div class="p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-black text-sm">Usuario:</h2>
+          <div class="flex items-left space-x-2">
+            <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">SaraMartin99.</span>
+            <button class="text-black">
+              <PencilIcon class="h-5 w-5" />
             </button>
           </div>
-          <hr class="bg-black h-1">
         </div>
-  
-        <!-- Products Grid -->
-        <div class="grid grid-cols-2 gap-4 px-4">
-          <div
-            v-for="product in filteredProducts"
-            :key="product.id"
-            class="relative bg-white rounded-lg shadow"
-          >
-            <div class="relative h-40 w-full">
-              <img
-                :src="product.image"
-                :alt="product.title"
-                class="absolute inset-0 w-full h-full object-cover rounded-t-lg"
-              />
-              <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs rounded">
-                {{ product.discount }}
-              </div>
-            </div>
-            <div class="p-3 bg-black rounded-b-lg">
-              <h3 class="text-white text-xs font-medium truncate">{{ product.title }}</h3>
-              <p class="text-gray-400 text-xs mt-1">{{ product.price }}</p>
-              <p class="text-gray-500 text-[10px] mt-1 truncate">{{ product.artisan }}</p>
-            </div>
+
+        <div class="flex items-center justify-between">
+          <h2 class="text-black text-sm">Correo:</h2>
+          <div class="flex items-left space-x-2">
+            <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">acasto@gmail</span>
+            <button class="text-black">
+              <PencilIcon class="h-5 w-5" />
+            </button>
           </div>
         </div>
+
+        <div class="flex items-center justify-between">
+          <h2 class="text-black text-sm">Celular:</h2>
+          <div class="flex items-center space-x-2">
+            <span class="bg-[#D9D9D9] px-2 py-1 rounded  text-sm ml-2 text-black">+57</span>
+            <span class="bg-[#D9D9D9] px-3 py-1 rounded text-sm text-black">Ingresa tu numero</span>
+            <button class="text-black">
+              <PencilIcon class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div class="flex ">
+        <div class="flex items-center ">
+          <h2 class="text-sm text-black">Sexo:</h2>
+          <div class="flex items-center space-x-2">
+            <span class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black">F</span>
+            <button class="text-black">
+              <PencilIcon class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div class="flex ml-2">
+          <h2 class="text-sm text-black">Fecha de nacimiento:</h2>
+          <div class="flex items-center space-x-2 w-40 ">
+            <span class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30">15 / 09 / 96</span>
+            <button class="text-black">
+              <PencilIcon class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+    </div>
+
+        <div class="space-y-3">
+          <h2 class="text-sm text-black">Métodos de pago</h2>
+          <div class="bg-[#D9D9D9] p-2 rounded text-black">
+            <span>Visa Mastercard</span>
+          </div>
+          <button class="w-full bg-[#D9D9D9] p-3 rounded text-left text-gray-400">
+            Añadir método de pago
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
       </main>
+      
   
       <!-- Bottom Navigation -->
       <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
@@ -132,7 +157,7 @@
           <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
             <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
           </button>
-          <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
             <UserIcon class="h-6 w-6" />
           </button>
         </div>
@@ -143,6 +168,9 @@
   <script setup>
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
+  import { PencilIcon, ChevronRightIcon } from 'lucide-vue-next';
+
+const profileImageUrl = ref('../assets/img/perfile.png');
   
   const router = useRouter()
   
@@ -156,10 +184,6 @@
 
   const goToCarritoCompras = () => {
     router.push("/carritoCompras")
-  }
-
-  const goToUser = () => {
-    router.push("/user")
   }
   
   import {

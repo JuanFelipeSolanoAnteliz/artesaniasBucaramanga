@@ -154,9 +154,9 @@
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <ShoppingCart class="h-6 w-6" />
+          <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+        <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <UserIcon class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
@@ -181,6 +181,14 @@ const goTotienda =() =>{
 
 const goToDescuentos =() =>{
   router.push("/descuentos")
+}
+
+const goToCarritoCompras =() =>{
+  router.push("/carritoCompras")
+}
+
+const goToUser =() =>{
+  router.push("/user")
 }
 
 import {
