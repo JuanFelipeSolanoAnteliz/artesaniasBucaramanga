@@ -53,7 +53,7 @@ exports.getByCategory = async (req, res, ) => {
     try{
         let category = req.params.category;
         if(category === ''){ return res.status(400).send({'status':400,'message':'Category param is not valid'})};
-        let result = await Products.find({ categoria: category }).select('-__v');
+        let result = await Products.find({  categoria: { $regex: new RegExp(category, 'i') } }).select('-__v');
         if(result.length === 0){return res.status(404).send({'status':404,'message':'No products found in this category', 'data':result})};
         return res.status(200).send({'status':200,'message':'Products fetched correctly', 'data':result});
     }catch(error){
