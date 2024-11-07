@@ -14,11 +14,18 @@
         class="absolute top-6 left-1 w-5 h-5" 
       />
     </div>
-    
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-center text-2xl font-medium">Tus artesanías</h1>
-      <h2 class="text-center text-xl">favoritas</h2>
+
+    <!-- Imagen RectangleA como fondo y las palabras encima -->
+    <div class="relative mb-8">
+      <img 
+        src="../assets/img/RectangleA.svg" 
+        alt="back"
+        class="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-30 z-0" 
+      />
+      <div class="relative z-10 text-center">
+        <h3 class="text-2xl font-medium">Tus artesanías</h3>
+        <h2 class="text-xl">favoritas</h2>
+      </div>
     </div>
 
     <!-- Categories -->
@@ -32,7 +39,7 @@
       >
         <!-- Fondo gris clarito para las categorías -->
         <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-          <component :is="category.icon" class="w-6 h-6" />
+          <img :src="category.icon" alt="category icon" class="w-6 h-6" />
         </div>
         <span class="text-xs text-center">{{ category.name }}</span>
       </button>
@@ -74,24 +81,36 @@
 
 <script setup>
 import { ref } from 'vue'
-import { 
-  ChevronLeft, 
-  X,
-  Scissors,
-  Square,
-  Container,
-  Diamond,
-  Eye
-} from 'lucide-vue-next'
+import { X } from 'lucide-vue-next'
 
 const selectedCategory = ref('textileria')
 
 const categories = [
-  { id: 'textileria', name: 'Textilería', icon: Square },
-  { id: 'bordado', name: 'Bordado', icon: Scissors },
-  { id: 'ceramica', name: 'Cerámica', icon: Container },
-  { id: 'joyeria', name: 'Joyería', icon: Diamond },
-  { id: 'orfebreria', name: 'Orfebrería', icon: Eye },
+  { 
+    id: 'textileria', 
+    name: 'Textilería', 
+    image: "../assets/img/text.svg"
+  },
+  { 
+    id: 'bordado', 
+    name: 'Bordado', 
+    icon: '../assets/img/bordado.svg' // URL de la imagen para "Bordado"
+  },
+  { 
+    id: 'ceramica', 
+    name: 'Cerámica', 
+    icon: '../assets/img/ceramica.svg' // URL de la imagen para "Cerámica"
+  },
+  { 
+    id: 'joyeria', 
+    name: 'Joyería', 
+    icon: '../assets/img/joyeria.svg' // URL de la imagen para "Joyería"
+  },
+  { 
+    id: 'orfebreria', 
+    name: 'Orfebrería', 
+    icon: '../assets/img/orfebreri.svg' // URL de la imagen para "Orfebrería"
+  },
 ]
 
 const favorites = ref([
