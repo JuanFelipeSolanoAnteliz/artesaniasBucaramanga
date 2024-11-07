@@ -1,21 +1,21 @@
+# .env:
 MONGODB_URI= URI valentina
 MONGODB_DB_NAME= nombre db
+SECRET_KEY=729e97f2f54e6a1edb3cfe3d7b1b96516458312623d8757bb1cbb4245a8a4d1eb5d3111961baeb8227a6ba6971c15f54da447862813a07d391a02de5447814031cca4ab6921f44d57fb7b2d3e9aa3d8e07987071ede00d3ff13b70ad05134c5162cdd27bb7f58cfd0620548ca45946d16af151f3b4c50965ae44f5cf690cdccb
 
-instalar:
+# instalar:
 npm i mongoose
 npm i dotenv
+npm i jsonwebtoken
 
 
-APIs:
+# APIs:
 
 primero activar server :
 
 ´´´
 npm run dev:server
 ´´´
-
-
-
 
 # APIS PARA USERS:
 
@@ -44,7 +44,7 @@ body:
 
 PUT http://localhost:5001/users/updateUser/:id (user body en thunderClient)
 
-el editar puede editar cualquier campo del dato desde uno solo, hasta todo, las unicas condiciones son, ajustar el id ejemplo:
+el editar puede editar cualquier campo del dato desde uno solo, hasta todo, las unicas condiciones son no se puede modificar el tipo, el email no se puede poner uno existente y se debe poner el _id del usuario, id ejemplo:
 
 http://localhost:5001/users/updateUser/672b784954bc940d9200e06f
 
@@ -60,7 +60,6 @@ y en body:
   "fotoPerfil": "https://example.com/foto/carlos.jpg",
   "direccion": "Avenida 45, Armenia",
   "telefono": "3201234567",
-  "tipo": "artesano",
   "favoritos": [
     {
       "$oid": "64f2c111fc13ae1b23000009"
@@ -75,7 +74,6 @@ y en body:
   "cupones": []
 }
 
-
 O tambien: 
 
 {
@@ -85,11 +83,39 @@ O tambien:
     "fotoPerfil": "url_a_la_foto",
     "direccion": "Calle Falsa 123",
     "telefono": "1234567890",
-    "tipo": "comprador"
 }
 
 o incluso:
 
 {
     "correo": "juan.perez@example.com"
+}
+
+
+
+
+POST http://localhost:5001/users/createAndAuth (body on thunder client needed)
+
+esta funcion funciona de forma que crea una cuenta nueva al igual que la logea o verifica, para eso se deben ingresar los siguientes valores obligatorios para funcionar:
+
+condiciones: el email debe ser unico, todo es string y todo debe estar lleno
+
+ejemplo de body:
+´´´
+{
+    "nombre": "Juan Pérez",
+    "correo": "juan.perez@example.com",
+    "contraseña": "miContraseñaSegura123",
+    "fotoPerfil": "url_de_la_foto",
+    "direccion": "Calle Falsa 123",
+    "telefono": "1234567890"
+}
+´´´
+
+resultado de la operacion:
+
+Status: 201 Created
+{
+  "message": "Successfully created and authenticated",
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNhZGJhY2Q4ZWMzZTQ3OGIzYzUxMyIsImNvcnJlbyI6Imp1YW4ucGVyZXNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA5ODEzMDcsImV4cCI6MTczMDk4NDkwN30.R64yiD9LMKiL_YlHkKkEx9iGEcvVSXYidx_u05bCACA"
 }
