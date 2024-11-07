@@ -38,14 +38,15 @@ esta API crea un usuario nuevo normal, pero no encripta contraseña ojo
 body:
 ´´´
 {
+    "userName": "juanperez",
     "nombre": "Juan Pérez",
     "correo": "juan.perez@example.com",
     "contraseña": "miContraseñaSegura",
     "fotoPerfil": "url_a_la_foto",
     "direccion": "Calle Falsa 123",
     "telefono": "1234567890",
-    "sexo": "masculino", // Opciones: 'masculino', 'femenino', 'otro', etc.
-    "fechaNacimiento": "1990-01-01" // Formato: YYYY-MM-DD
+    "sexo": "masculino",
+    "fechaNacimiento": "1990-01-01"
 }
 ´´´
 
@@ -61,30 +62,30 @@ http://localhost:5001/users/updateUser/672b784954bc940d9200e06f
 y en body:
 
 {
-  "_id": {
-    "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
-  },
-  "nombre": "Carlos Méndez",
-  "correo": "carlos.mendez@example.com",
-  "contraseña": "$2a$10$PmfVghukfkgkfbdhfhPhU3rdKhHvghgkj45j.PgghH5yH",
-  "fotoPerfil": "https://example.com/foto/carlos.jpg",
-  "direccion": "Avenida 45, Armenia",
-  "telefono": "3201234567",
-  "sexo": "femenino",
-  "fechaNacimiento": "1995-05-15",
-  "direccion": "Nueva Calle 456",
-  "favoritos": [
-    {
-      "$oid": "64f2c111fc13ae1b23000009"
-    }
-  ],
-  "compras": [],
-  "talleresInscritos": [
-    {
-      "$oid": "64f2c111fc13ae1b23000030"
-    }
-  ],
-  "cupones": []
+    "_id": {
+        "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
+    },
+    "userName": "carlosmendez",
+    "nombre": "Carlos Méndez",
+    "correo": "carlos.mendez@example.com",
+    "contraseña": "$2a$10$PmfVghukfkgkfbdhfhPhU3rdKhHvghgkj45j.PgghH5yH",
+    "fotoPerfil": "https://example.com/foto/carlos.jpg",
+    "direccion": "Avenida 45, Armenia",
+    "telefono": "3201234567",
+    "sexo": "femenino",
+    "fechaNacimiento": "1995-05-15",
+    "favoritos": [
+        {
+            "$oid": "64f2c111fc13ae1b23000009"
+        }
+    ],
+    "compras": [],
+    "talleresInscritos": [
+        {
+            "$oid": "64f2c111fc13ae1b23000030"
+        }
+    ],
+    "cupones": []
 }
 
 O tambien: 
@@ -113,6 +114,7 @@ condiciones: el email debe ser unico, todo es string y todo debe estar lleno
 ejemplo de body:
 ´´´
 {
+    "userName": "juanperez",
     "nombre": "Juan Pérez",
     "correo": "juan.perez@example.com",
     "contraseña": "miContraseñaSegura",

@@ -5,6 +5,7 @@ require('dotenv').config();
 
 class UserController {
 
+    
     static async getAllUsers(req, res) {
         try {
             const result = await Users.find();
@@ -16,19 +17,14 @@ class UserController {
     }
 
 
+
     static async getUserById(req, res) {
         try {
-            const { id } = req.params; // Obtener el ID del usuario de los parámetros de la URL
-    
-            // Buscar el usuario por ID
+            const { id } = req.params;
             const user = await Users.findById(id);
-    
-            // Verificar si el usuario existe
             if (!user) {
                 return res.status(404).json({ message: 'User  not found' });
             }
-    
-            // Devolver el usuario encontrado
             res.status(200).json(user);
         } catch (error) {
             console.error(error);
@@ -38,28 +34,28 @@ class UserController {
 
 
 
-    static async createUser (req, res) {
-        try {
-            const { nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
 
-            // Siempre establecer el tipo como "comprador"
-            const newUser  = new Users({
+    static async createUser(req, res) {
+        try {
+            const { userName, nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
+            const newUser = new Users({
+                userName,
                 nombre,
                 correo,
                 contraseña,
                 fotoPerfil,
                 direccion,
                 telefono,
-                sexo, 
-                fechaNacimiento, 
-                tipo: 'comprador', // Establecer tipo como "comprador"
+                sexo,
+                fechaNacimiento,
+                tipo: 'comprador',
                 favoritos: [],
                 compras: [],
                 talleresInscritos: [],
                 cupones: [],
             });
 
-            const result = await newUser .save();
+            const result = await newUser.save();
             res.status(201).json(result);
         } catch (error) {
             console.error(error);
@@ -67,23 +63,30 @@ class UserController {
         }
     }
 
-    static async updateUser (req, res) {
-        try {
-            const { id } = req.params; // Obtener el ID del usuario de los parámetros de la URL
-            const updates = req.body; // Obtener los datos a actualizar del cuerpo de la solicitud
 
-            // Verificar si el correo está siendo actualizado
+
+
+    static async updateUser(req, res) {
+        try {
+            const { id } = req.params;
+            const updates = req.body;
+
             if (updates.correo) {
-                const existingUser  = await Users.findOne({ correo: updates.correo });
-                if (existingUser  && existingUser ._id.toString() !== id) {
+                const existingUser = await Users.findOne({ correo: updates.correo });
+                if (existingUser && existingUser._id.toString() !== id) {
                     return res.status(400).json({ message: 'Email is already in use by another user' });
                 }
             }
 
-            // Eliminar el campo "tipo" de las actualizaciones para que no se pueda modificar
+            if (updates.userName) {
+                const existingUserName = await Users.findOne({ userName: updates.userName });
+                if (existingUserName && existingUserName._id.toString() !== id) {
+                    return res.status(400).json({ message: 'Username is already in use by another user' });
+                }
+            }
+
             delete updates.tipo;
 
-            // Actualizar el usuario en la base de datos
             const result = await Users.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
 
             if (!result) {
@@ -97,29 +100,35 @@ class UserController {
         }
     }
 
+
+
+
     static async createAndAuth(req, res) {
         try {
-            const { nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
+            const { userName, nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
 
-            // Verificar si el usuario ya existe
-            const existingUser  = await Users.findOne({ correo });
-            if (existingUser ) {
+            const existingUser = await Users.findOne({ correo });
+            if (existingUser) {
                 return res.status(400).json({ message: 'User  already exists, change the email' });
             }
 
-            // Hash de la contraseña
+            const existingUserName = await Users.findOne({ userName });
+            if (existingUserName) {
+                return res.status(400).json({ message: 'Username already exists, choose another one' });
+            }
+
             const hashedPassword = await bcrypt.hash(contraseña, 10);
 
-            // Crear un nuevo usuario
-            const newUser  = new Users({
+            const newUser = new Users({
+                userName,
                 nombre,
                 correo,
                 contraseña: hashedPassword,
                 fotoPerfil,
                 direccion,
                 telefono,
-                sexo, 
-                fechaNacimiento, 
+                sexo,
+                fechaNacimiento,
                 tipo: 'comprador',
                 favoritos: [],
                 compras: [],
@@ -127,30 +136,28 @@ class UserController {
                 cupones: [],
             });
 
-            // Guardar el nuevo usuario en la base de datos
-            const result = await newUser .save();
-
-            // Introducir un retraso de 1 segundo antes de continuar
+            const result = await newUser.save();
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Generar un token JWT usando la clave secreta del archivo .env
             const token = jwt.sign({ id: result._id, correo: result.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
 
-            // Establecer la cookie con el token JWT
             res.cookie('login', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 3600000 // 1 hora
+                maxAge: 3600000
             });
 
-            // Responder con éxito
             return res.status(201).json({ message: 'Successfully created and authenticated', jwt: token });
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message : 'Error creating and authenticating user' });
+            res.status(500).json({ message: 'Error creating and authenticating user' });
         }
     }
+
+
+
+
 }
 
 module.exports = UserController;
