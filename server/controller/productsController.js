@@ -39,10 +39,10 @@ exports.addProduct = async (req, res)=>{
 exports.searchProduct = async ( req, res ) =>{
     try{
         let search = req.query.searchTerm;
-        if(!search) res.status(400).send({'status':400,'message':'Search param is not valid', 'data':result});
+        if(search === ''){ return res.status(400).send({'status':400,'message':'Search param is not valid'})};
         let result = await Products.find({ $or: [ { nombre: { $regex: search, $options: 'i' } }, { descripcion: { $regex: search, $options: 'i' } } ] }).select('-__v');
-        if(result.length === 0)  res.status(404).send({'status':404,'message':'No matching product found', 'data':result});
-        res.status(200).send({'status':200,'message':'Products fetched correctly', 'data':result});
+        if(result.length === 0){return res.status(404).send({'status':404,'message':'No matching product found', 'data':result})};
+        return res.status(200).send({'status':200,'message':'Products fetched correctly', 'data':result});
     }catch(error){
         console.log(error)
         res.status(500).send({'message':'Error at fetch products', 'error':error});
