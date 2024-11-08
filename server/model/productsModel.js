@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema(
         categoria: {type: String,required: true},
         fotos: [{type: String}],
         stock: {type: Number,required: true},
-        artesanoId: {type: mongoose.Schema.Types.ObjectId, ref: 'usuarios', required: true}
+        artesanoId: {type: mongoose.Schema.Types.ObjectId, ref: 'usuarios', required: true},
+        descuento: { type: Number, default: null }
     }, 
     {
         timestamps: false
