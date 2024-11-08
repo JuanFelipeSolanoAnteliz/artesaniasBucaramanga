@@ -30,9 +30,9 @@
     
     <!-- Purchased Items -->
     <div class="flex-1 p-4 mb-4"> <!-- Añadido margen para separar de la sección de productos -->
-      <!-- Item Card 1 -->
-      <div class="bg-gray-100 rounded-lg p-3 flex mb-4 h-28"> <!-- Reducido tamaño con h-28 -->
-        <img src="../assets/placeholder.svg?height=60&width=60" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" /> <!-- Reducción de tamaño de imagen -->
+      <!-- Item Card 1 - Igual al segundo cuadro gris -->
+      <div class="bg-gray-100 rounded-lg p-3 flex mb-4 h-32 w-full"> <!-- Ajustado tamaño con h-32 y w-full -->
+        <img src="../assets/placeholder.svg?height=60&width=60" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" /> <!-- Imagen de 60x60px -->
         <div class="flex-1 ml-3 flex flex-col">
           <div class="flex justify-between items-start">
             <div>
@@ -54,9 +54,9 @@
         </div>
       </div>
 
-      <!-- Item Card 2 -->
-      <div class="bg-gray-100 rounded-lg p-3 flex h-28"> <!-- Reducido tamaño con h-28 -->
-        <img src="../assets/placeholder.svg?height=60&width=60" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" /> <!-- Reducción de tamaño de imagen -->
+      <!-- Item Card 2 - Mantener igual -->
+      <div class="bg-gray-100 rounded-lg p-3 flex mb-4 h-32 w-full"> <!-- Ajustado tamaño con h-32 y w-full -->
+        <img src="../assets/placeholder.svg?height=60&width=60" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" />
         <div class="flex-1 ml-3 flex flex-col">
           <div class="flex justify-between items-start">
             <div>
@@ -79,9 +79,11 @@
       </div>
     </div>
 
+    <!-- Título "Sigue viendo más artesanías" ajustado más arriba -->
+    <h2 class="text-left text-base font-medium ml-1.5 mt-0 mb-1">Sigue viendo más artesanías</h2> <!-- Título subido más cerca -->
+
     <!-- More Products Section with Scroll -->
     <div class="p-4 overflow-y-auto max-h-80">
-      <h2 class="text-left text-base font-medium ml-1.5 mb-3">Sigue viendo más artesanías</h2>
       <div class="grid grid-cols-2 gap-4">
         <div v-for="(item, index) in moreProducts" :key="index" class="relative">
           <img :src="`@/assets/${item.image}`" :alt="item.name" class="w-full h-40 object-cover rounded-lg" />
@@ -201,5 +203,14 @@ img {
 
 .overflow-y-auto {
   overflow-y: auto; /* Agrega scroll solo en el eje Y */
+}
+
+/* Asegura que el primer cuadro tenga el mismo tamaño que el segundo */
+.bg-gray-100 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 8rem; /* Ajusta la altura para que sea igual al segundo cuadro */
 }
 </style>
