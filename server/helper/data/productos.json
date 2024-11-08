@@ -1,0 +1,163 @@
+[{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000010"
+  },
+  "nombre": "Maceta de Cerámica",
+  "descripcion": "Maceta pintada a mano para plantas pequeñas.",
+  "precio": 22,
+  "categoria": "Jardinería",
+  "fotos": [
+    "https://example.com/fotos/maceta1.jpg"
+  ],
+  "stock": 12,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4572"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000005"
+  },
+  "nombre": "Escultura de Madera",
+  "descripcion": "Escultura tallada a mano en madera de roble.",
+  "precio": 150,
+  "categoria": "Decoración",
+  "fotos": [
+    "https://example.com/fotos/escultura1.jpg"
+  ],
+  "stock": 3,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000007"
+  },
+  "nombre": "Cojín Bordado",
+  "descripcion": "Cojín bordado con motivos tradicionales.",
+  "precio": 35,
+  "categoria": "Hogar",
+  "fotos": [
+    "https://example.com/fotos/cojin1.jpg"
+  ],
+  "stock": 8,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4572"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000004"
+  },
+  "nombre": "Bufanda de Lana",
+  "descripcion": "Bufanda tejida a mano con lana de alpaca.",
+  "precio": 55,
+  "categoria": "Ropa",
+  "fotos": [
+    "https://example.com/fotos/bufanda1.jpg",
+    "https://example.com/fotos/bufanda2.jpg"
+  ],
+  "stock": 5,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000006"
+  },
+  "nombre": "Aretes de Plata",
+  "descripcion": "Aretes de plata con diseño minimalista.",
+  "precio": 20,
+  "categoria": "Joyería",
+  "fotos": [
+    "https://example.com/fotos/aretes1.jpg"
+  ],
+  "stock": 25,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4570"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000002"
+  },
+  "nombre": "Bolso de Yute",
+  "descripcion": "Bolso ecológico hecho de yute natural.",
+  "precio": 30,
+  "categoria": "Accesorios",
+  "fotos": [
+    "https://example.com/fotos/bolso1.jpg"
+  ],
+  "stock": 20,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4570"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000001"
+  },
+  "nombre": "Collar de Cuarzo",
+  "descripcion": "Collar hecho a mano con piedras de cuarzo rosa.",
+  "precio": 45.5,
+  "categoria": "Joyería",
+  "fotos": [
+    "https://example.com/fotos/collar1.jpg",
+    "https://example.com/fotos/collar2.jpg"
+  ],
+  "stock": 15,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000003"
+  },
+  "nombre": "Taza de Cerámica",
+  "descripcion": "Taza de cerámica pintada a mano.",
+  "precio": 25,
+  "categoria": "Hogar",
+  "fotos": [
+    "https://example.com/fotos/taza1.jpg"
+  ],
+  "stock": 10,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4572"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000008"
+  },
+  "nombre": "Vela Aromática",
+  "descripcion": "Vela de soja con fragancia de lavanda.",
+  "precio": 15,
+  "categoria": "Bienestar",
+  "fotos": [
+    "https://example.com/fotos/vela1.jpg",
+    "https://example.com/fotos/vela2.jpg"
+  ],
+  "stock": 30,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000009"
+  },
+  "nombre": "Pulsera de Cuero",
+  "descripcion": "Pulsera trenzada de cuero genuino.",
+  "precio": 18.5,
+  "categoria": "Joyería",
+  "fotos": [
+    "https://example.com/fotos/pulsera1.jpg"
+  ],
+  "stock": 40,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  }
+}]

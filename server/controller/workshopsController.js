@@ -1,0 +1,31 @@
+const { ObjectId } = require('mongodb');
+const connectDB = require('../helper/connect');
+const Workshop = require('../model/workshopsModel');
+
+exports.search = async (req, res) =>{
+    try{
+        const searchTerm = req.query.searchTerm;
+        const escapeRegex = (str) => {
+            return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");  
+          }
+        if(searchTerm === '') return res.status(400).send({ satus:400, message: 'Search term is required' });
+        const safeSearchTerm = escapeRegex(searchTerm);
+        const result = await Workshop.find({
+             $or: [ 
+                    { nombre: { $regex: safeSearchTerm, $options: 'i' } },
+                    { modalidad: { $regex: safeSearchTerm, $options: 'i' } },
+                    { ubicacion: { $regex: safeSearchTerm, $options: 'i' } },
+                    { descripcion: { $regex: safeSearchTerm, $options: 'i' } }
+                ] 
+            }).select('-__v');
+    
+        if(result.length === 0) return res.status(404).send({ message: 'No workshops found matching the search term', data:result });
+    
+        res.status(200).send({ message: 'Workshops fetched successfully', data: result });
+    }catch(error){
+        console.log(error)
+        res.status(500).send({ message: 'Error searching for workshops', error: error });  // Error handling for database operations. You might want to log this error or return a more specific error message.
+    }
+
+
+}
