@@ -8,10 +8,12 @@ const voucherRouter = require('./server/router/voucherRouter');
 const workshopsRouter = require('./server/router/workshopRouter');
 const session = require('express-session');
 const passport = require('passport');
+const sessionConfig = require('./server/middleware/sessionConfig');
 require('./server/middleware/passportSetup');
 
 const app = express();
 
+app.use(sessionConfig);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, 'client/dist')));
