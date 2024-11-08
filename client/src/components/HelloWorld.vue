@@ -1,6 +1,6 @@
 <template>
   <div class="splash-screen">
-    <h1 class="splash-text">Ruraq Maki</h1>
+    <h1 src="../assets/font/bellota/Bellota-Bold.ttf" class="splash-text">Ruraq Maki</h1>
   </div>
 </template>
 
