@@ -1,12 +1,12 @@
 const express = require('express');
 const passport = require('passport');
 const UserController = require('../controller/userController');
+const router = express.Router();
+const version = require('../middleware/versionate');
 
-router.get('/', version('1.0.0'), controller.getAllUsers);
-
-
-// Ruta para iniciar sesión con Discord
+router.post('/loginAndAuth', version('1.0.0'), UserController.loginAndAuth);
 router.get('/auth/discord', passport.authenticate('discord'));
+router.post('/createAndAuth', UserController.createAndAuth);
 
 // Ruta de callback de Discord
 router.get('/auth/discord/callback', 

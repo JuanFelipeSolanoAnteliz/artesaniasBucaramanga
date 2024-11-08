@@ -9,15 +9,7 @@ require('dotenv').config();
 
 connectDB();
 
-exports.getAllUsers = async (req, res)=>{
-    try{
-        let result = await Users.find();
-        res.status(200).json(result);
-    }catch(error){
-        console.log(error)
-    }
-
-    class UserController {
+module.exports = class UserController {
 
     static async getUserById(req, res) {
         try {
@@ -259,5 +251,5 @@ exports.getAllUsers = async (req, res)=>{
 
 
 }   
-}
+
 
