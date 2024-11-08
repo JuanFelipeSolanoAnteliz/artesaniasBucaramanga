@@ -10,6 +10,7 @@ npm i jsonwebtoken
 npm i passport
 npm i passport-discord
 npm i express-session
+npm i cookie-parser 
 
 # APIs:
 
@@ -161,3 +162,9 @@ Status: 201 Created
   "message": "Successfully created and authenticated",
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNhZGJhY2Q4ZWMzZTQ3OGIzYzUxMyIsImNvcnJlbyI6Imp1YW4ucGVyZXNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA5ODEzMDcsImV4cCI6MTczMDk4NDkwN30.R64yiD9LMKiL_YlHkKkEx9iGEcvVSXYidx_u05bCACA"
 }
+
+
+
+
+
+http://localhost:5001/users/auth/discord

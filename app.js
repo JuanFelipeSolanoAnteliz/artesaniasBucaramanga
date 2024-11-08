@@ -1,10 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const { join } = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const userRouter = require('./server/router/userRouter'); 
-const indexRouter = require('./server/views/indexRouter');
 const connectDB = require('./server/helper/connect'); 
 require('./server/middleware/passportSetup');
 
@@ -12,26 +10,34 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(join(__dirname, 'client/dist')));
 
+// Conectar a la base de datos
 connectDB();
 
+// Configuración de la sesión
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 3600000
+    }
 }));
 
+// Inicializar Passport
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); // Asegúrate de que esta línea esté habilitada
 
-app.use("/", indexRouter);
+// Rutas de la API
 app.use('/users', userRouter); 
 
-app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, 'client/dist/index.html'));
+// Manejo de rutas no encontradas
+app.use((req, res) => {
+    res.status(404).json({ message: 'Not Found' });
 });
 
+// Configuración del servidor
 const config = {
     port: process.env.EXPRESS_PORT || 5001,
     host: process.env.EXPRESS_HOST_NAME || 'localhost'
