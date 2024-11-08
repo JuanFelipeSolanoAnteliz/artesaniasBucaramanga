@@ -7,7 +7,6 @@
         alt="rectangle"
         class="absolute top-0 left-0 w-10 h-15" 
       />
-      <!-- Imagen de la flecha posicionada encima del rectángulo -->
       <img 
         src="../assets/img/flecha.svg" 
         alt="back"
@@ -15,7 +14,6 @@
       />
     </div>
 
-    <!-- Imagen RectangleA como fondo y las palabras encima -->
     <div class="relative mb-8">
       <img 
         src="../assets/img/RectangleA.svg" 
@@ -28,25 +26,40 @@
       </div>
     </div>
 
-    <!-- Categories -->
-    <div class="flex justify-between mb-8 border-b pb-4">
-      <button 
-        v-for="category in categories" 
-        :key="category.id"
-        class="flex flex-col items-center gap-2"
-        :class="{ 'text-primary': selectedCategory === category.id }"
-        @click="selectedCategory = category.id"
-      >
-        <!-- Fondo gris clarito para las categorías -->
-        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-          <img :src="category.icon" alt="category icon" class="w-6 h-6" />
+    <!-- Scrollable Categories with Independent Line -->
+    <div class="relative mb-8 pb-4">
+      <div class="relative overflow-hidden">
+        <!-- Contenedor de categorías que se desplaza -->
+        <div 
+          class="flex items-center space-x-8 overflow-x-auto"
+          ref="categoriesWrapper"
+          style="scroll-behavior: smooth;"
+        >
+          <button 
+            v-for="(category, index) in categories" 
+            :key="category.id"
+            class="flex flex-col items-center gap-3 relative flex-shrink-0 category-button"
+            @click="scrollToCategory(index)"
+          >
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+              <img :src="category.icon" alt="category icon" class="w-8 h-8" />
+            </div>
+            <span class="text-xs text-center">{{ category.name }}</span>
+          </button>
         </div>
-        <span class="text-xs text-center">{{ category.name }}</span>
-      </button>
+        
+        <!-- Barra negra de desplazamiento -->
+        <div 
+          class="h-[3px] bg-black mt-1 absolute bottom-0 left-0 w-full"
+          ref="scrollBar"
+          @mousedown="startDrag"
+          :style="{ left: `${scrollBarPosition}px` }"
+        ></div>
+      </div>
     </div>
 
     <!-- Products Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 mt-8">
       <div 
         v-for="product in favorites" 
         :key="product.id" 
@@ -59,14 +72,12 @@
           <X class="w-4 h-4 text-white" />
         </button>
         
-        <!-- Imagen del producto, mantiene el fondo gris clarito -->
         <img 
           :src="product.image" 
           :alt="product.name"
           class="w-full h-48 object-cover bg-gray-100"
         />
         
-        <!-- Sección con el texto alineado a la izquierda y fondo negro -->
         <div class="absolute bottom-0 left-0 right-0 bg-black text-white p-3 text-left">
           <h3 class="font-medium text-sm">{{ product.name }}</h3>
           <div class="flex justify-between items-center mt-1">
@@ -80,91 +91,102 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { X } from 'lucide-vue-next'
 
-const selectedCategory = ref('textileria')
+// Importación de imágenes
+import textIcon from '../assets/img/text.svg'
+import bordadoIcon from '../assets/img/bordado.svg'
+import ceramicaIcon from '../assets/img/ceramica.svg'
+import joyeriaIcon from '../assets/img/joyeria.svg'
+import orfebreriaIcon from '../assets/img/orfebreria.svg'
 
 const categories = [
-  { 
-    id: 'textileria', 
-    name: 'Textilería', 
-    image: "../assets/img/text.svg"
-  },
-  { 
-    id: 'bordado', 
-    name: 'Bordado', 
-    icon: '../assets/img/bordado.svg' // URL de la imagen para "Bordado"
-  },
-  { 
-    id: 'ceramica', 
-    name: 'Cerámica', 
-    icon: '../assets/img/ceramica.svg' // URL de la imagen para "Cerámica"
-  },
-  { 
-    id: 'joyeria', 
-    name: 'Joyería', 
-    icon: '../assets/img/joyeria.svg' // URL de la imagen para "Joyería"
-  },
-  { 
-    id: 'orfebreria', 
-    name: 'Orfebrería', 
-    icon: '../assets/img/orfebreri.svg' // URL de la imagen para "Orfebrería"
-  },
+  { id: 'textileria', name: 'Textilería', icon: textIcon },
+  { id: 'bordado', name: 'Bordado', icon: bordadoIcon },
+  { id: 'ceramica', name: 'Cerámica', icon: ceramicaIcon },
+  { id: 'joyeria', name: 'Joyería', icon: joyeriaIcon },
+  { id: 'orfebreria', name: 'Orfebrería', icon: orfebreriaIcon },
 ]
 
 const favorites = ref([
-  {
-    id: 1,
-    name: 'Chullo II',
-    price: 250,
-    artisan: 'Nación Q\'ero',
-    image: '/placeholder.svg?height=300&width=300'
-  },
-  {
-    id: 2,
-    name: 'Pechera de Chompe Kené',
-    price: 350,
-    artisan: 'Shinan Imabo',
-    image: '/placeholder.svg?height=300&width=300'
-  },
-  {
-    id: 3,
-    name: 'Cartuchera Flores I',
-    price: 30,
-    artisan: 'Taller Awaq Ayllus',
-    image: '/placeholder.svg?height=300&width=300'
-  },
-  {
-    id: 4,
-    name: 'Tapiz Tocapu Inka I',
-    price: 8500,
-    artisan: 'Taller Awaq Ayllus',
-    image: '/placeholder.svg?height=300&width=300'
-  },
-  {
-    id: 5,
-    name: 'Mitón de alpaca beige',
-    price: 35,
-    artisan: 'Asoc. Away Wanka',
-    image: '/placeholder.svg?height=300&width=300'
-  },
-  {
-    id: 6,
-    name: 'Chal rectangular gris',
-    price: 220,
-    artisan: 'Asoc. de artesanos Pint...',
-    image: '/placeholder.svg?height=300&width=300'
-  }
+  { id: 1, name: 'Chullo II', price: 250, artisan: 'Nación Q\'ero', image: '/placeholder.svg?height=300&width=300' },
+  { id: 2, name: 'Pechera de Chompe Kené', price: 350, artisan: 'Shinan Imabo', image: '/placeholder.svg?height=300&width=300' },
+  { id: 3, name: 'Cartuchera Flores I', price: 30, artisan: 'Taller Awaq Ayllus', image: '/placeholder.svg?height=300&width=300' },
+  { id: 4, name: 'Tapiz Tocapu Inka I', price: 8500, artisan: 'Taller Awaq Ayllus', image: '/placeholder.svg?height=300&width=300' },
+  { id: 5, name: 'Mitón de alpaca beige', price: 35, artisan: 'Asoc. Away Wanka', image: '/placeholder.svg?height=300&width=300' },
+  { id: 6, name: 'Chal rectangular gris', price: 220, artisan: 'Asoc. de artesanos Pint...', image: '/placeholder.svg?height=300&width=300' }
 ])
 
 const removeFromFavorites = (id) => {
   favorites.value = favorites.value.filter(product => product.id !== id)
 }
 
-const goBack = () => {
-  window.history.back()
+// Variables para manejar el drag
+let isDragging = false
+let initialX = 0
+let scrollLeft = 0
+let scrollBarPosition = 0 // Posición de la barra de desplazamiento
+
+const categoriesWrapper = ref(null)
+const scrollBar = ref(null)
+
+const startDrag = (e) => {
+  e.preventDefault() // Prevenir que el clic realice el comportamiento por defecto
+
+  isDragging = true
+  initialX = e.clientX
+  scrollLeft = categoriesWrapper.value.scrollLeft
+
+  // Escuchar el movimiento y la liberación del mouse
+  document.addEventListener('mousemove', drag)
+  document.addEventListener('mouseup', stopDrag)
 }
+
+const drag = (e) => {
+  if (!isDragging) return
+
+  // Movimiento horizontal del mouse
+  const x = e.clientX
+  const walk = (x - initialX) // Calcular el desplazamiento horizontal
+
+  // Sincronizar el movimiento de la barra
+  scrollBarPosition = Math.max(0, Math.min(categoriesWrapper.value.scrollWidth - scrollBar.value.offsetWidth, scrollBarPosition + walk))
+
+  // Mover el contenedor de las categorías
+  categoriesWrapper.value.scrollLeft = scrollLeft + walk
+}
+
+const stopDrag = () => {
+  isDragging = false
+  // Eliminar los event listeners para el mouse
+  document.removeEventListener('mousemove', drag)
+  document.removeEventListener('mouseup', stopDrag)
+}
+
+// Función para mover el contenedor a la categoría seleccionada
+const scrollToCategory = (index) => {
+  const categoriesWrapper = document.querySelector('[ref="categoriesWrapper"]')
+  const categoryButton = categoriesWrapper.children[index]
+  const categoryOffsetLeft = categoryButton.offsetLeft
+
+  categoriesWrapper.scrollTo({
+    left: categoryOffsetLeft, // Desplazarse a la categoría seleccionada
+    behavior: 'smooth' // Desplazamiento suave
+  })
+}
+
+onMounted(() => {
+  // Inicializar la posición de la barra de desplazamiento
+  scrollBarPosition = 0
+})
+
+onBeforeUnmount(() => {
+  // Limpiar listeners al desmontar el componente
+  document.removeEventListener('mousemove', drag)
+  document.removeEventListener('mouseup', stopDrag)
+})
+
 </script>
 
 <style scoped>
@@ -173,7 +195,14 @@ const goBack = () => {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
-.text-primary {
-  color: #007BFF; /* Color for selected category */
+/* Estilo para el contenedor scrollable */
+.overflow-x-auto {
+  white-space: nowrap;
+  position: relative;
+}
+
+.category-button {
+  cursor: pointer;
+  user-select: none;
 }
 </style>
