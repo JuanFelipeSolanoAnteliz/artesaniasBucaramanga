@@ -62,46 +62,55 @@
 
     <!-- Main Content -->
     <main :class="{'pt-20': !selectedCategory, 'pt-4': selectedCategory}" class="pb-16">
-      <div class="p-4">
-        <div v-if="!selectedCategory" class="flex items-center space-x-2 mb-4 bg-[#D9D9D9]">
+      <div class="">
+        <div v-if="!selectedCategory" class="flex items-center space-x-2 mb-4 bg-[#D9D9D9] p-4">
           <MapPinIcon class="h-5 w-5 text-gray-600" />
           <span class="text-sm text-gray-400 text-gray">Ubicación de entrega actual</span>
         </div>
 
-        <div class="flex justify-between justify-center relative top-[-20px]">
-          <img class="relative top-[-20px]" src="../assets/img/back.png" alt="">
-          <h2 class=" ml-14 text-lg font-semibold mb-4 text-black text-center bg-[#D9D9D9]transform ">Categorías</h2>--------------------
+        <!-- Conditional rendering for the image or back button -->
+        <div v-if="!selectedCategory" class="mb-4">
+          <img src="../assets/img/categorias1.png" alt="Categorías" class="">
         </div>
+        <div v-else class="flex justify-between justify-center relative">
+          <img @click="goToHome" class="relative top-[-10px]" src="../assets/img/back.png" alt="Back">
+          <img src="../assets/img/titleCategorias.png" class="mr-36" alt="Categorías">
+        </div>
+
         <div 
           :class="{
-            'grid grid-cols-5 gap-4': !selectedCategory,
-            'grid grid-cols-10 gap-4 overflow-x-auto': selectedCategory
+            'grid grid-cols-5 gap-1': !selectedCategory,
+            'grid grid-cols-10 gap-4 overflow-x-auto ': selectedCategory
           }"
-          class="mb-8 text-black"
+          class="text-black px-4"
         >
           <div v-for="(category, index) in categories" :key="index"
                @click="selectCategory(category.nombre)"
-               class="flex flex-col items-center text-center cursor-pointer"
+               class="flex flex-col items-center text-center cursor-pointer "
                :class="{'opacity-100': selectedCategory === category.nombre, 'opacity-60': selectedCategory && selectedCategory !== category.nombre}">
             <div class="w-10 h-10 bg-[#D9D9D9] rounded-full flex items-center justify-center">
               <img
                 :src="category.imagen"
                 :alt="category.nombre"
                 class="w-6 h-6"
-              />
-            </div>
-            <span class="text-xs mt-1">{{ category.nombre }}</span>
+                />
+              </div>
+              <span class="text-xs mt-1">{{ category.nombre }}</span>
+             
+             
           </div>
+
+
         </div>
 
         <!-- Products Section -->
-        <div v-if="selectedCategory" class="space-y-4 mt-6">
-          <div class="relative">
+        <div v-if="selectedCategory" class="space-y-4 mt-6 px-4">
+          <div class="relative bottom-39">
             <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-black" />
             <input
               type="search"
               placeholder="Buscar producto o palabra clave..."
-              class="w-full bg-[#D9D9D9] rounded-lg py-2 pl-10 pr-4 text-sm text-black"
+              class="w-full bg-[#D9D9D9] rounded py-2 pl-10  text-sm text-black p-4"
             />
           </div>
 
@@ -118,8 +127,8 @@
         </div>
 
         <!-- Default content when no category is selected -->
-        <div v-else class="mb-6">
-          <div class="flex items-center justify-between mb-4">
+        <div v-else class="p-4 ">
+          <div class="flex items-center justify-between mb-2">
             <div class="flex space-x-3">
               <div v-for="n in 5" :key="n" class="w-2.5 h-2.5 bg-[#D9D9D9] transform rotate-45"></div>
             </div> 
@@ -128,9 +137,9 @@
               <div v-for="n in 5" :key="n" class="w-2.5 h-2.5 bg-[#D9D9D9] transform rotate-45"></div>
             </div> 
           </div>
-          <div class="text-[#D9D9D9] text-center mb-8">Aprende como hacerlos en estos talleres educativos!</div>
+          <div class="text-[#D9D9D9] text-center text-sm">Aprende como hacerlos en estos talleres educativos!</div>
           <div class="flex justify-center">
-            <img src="../assets/img/Vector (2).png" alt="imagen en gris" class="filter grayscale w-52">
+            <img src="../assets/img/Vector (2).png" alt="" class="filter grayscale w-52 ">
           </div>
         </div>
       </div>
@@ -190,6 +199,10 @@ const goToUser = () => {
   router.push("/user");
 };
 
+const goToHome = () => {
+  router.push("/tallerMes");
+};
+
 import {
   MenuIcon,
   SearchIcon,
@@ -229,7 +242,7 @@ const products = ref([]);
 
 const fetchProductsByCategory = async (category) => {
   try {
-    const response = await axios.get(`http://localhost:5000/products/${category}`, {
+    const response = await axios.get(`http://localhost:5001/products/${category}`, {
       headers: {
         "Content-Type": "application/json",
         "x-version": "1.0.0"
@@ -257,7 +270,7 @@ const categories = [
   { nombre: 'Ceramica', imagen: ceramica },
   { nombre: 'Orfebreria', imagen: orfebreria },
   { nombre: 'Talla en piedra', imagen: tallaPiedra },
-  { nombre: 'Talla en madera', imagen: tallaMadera },
+  { nombre: 'Jardineria', imagen: tallaMadera },
   { nombre: 'Bordado', imagen: bordado },
   { nombre: 'Joyeria', imagen: joyeria },
   { nombre: 'Hojalateria', imagen: Hojalateria },
