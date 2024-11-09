@@ -19,3 +19,15 @@ exports.addVoucher = async (req, res) =>{
         res.status(500).send({'message':'Error at create Voucher', 'error':error});
     }
 }
+
+exports.getVouchers = async ( req, res ) =>{
+    try{
+        let result = await Vouchers.find();
+        if(result.length === 0 ){return res.status(404).json({ status: 404, message:'there are no vouchers available'})};
+        console.log(req.cookie)
+        return res.status(200).json({ status: 200, message:'Vouchers fetched correctly.', data:result});
+    }catch(error){
+        console.log(error)
+        res.status(500).send({'message':'Error while fetching Vouchers', 'error':error})
+    }
+}
