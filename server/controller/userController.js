@@ -271,7 +271,66 @@ class UserController {
 
 
 
+    static async loginWithGoogle(req, res) {
+        try {
+            const { id, displayName, email, photos } = req.user;
+    
+            if (!displayName) {
+                console.error("Display name is undefined", req.user);
+                return res.status(400).json({ message: "Display name is required" });
+            }
+    
+            let usuario = await Usuario.findOne({ googleId: id });
+    
+            if (!usuario) {
+                if (!email || !displayName) {
+                    return res.status(400).json({ message: "Email and display name are required to create a new user." });
+                }
+    
+                const existingUser  = await Usuario.findOne({ userName: displayName });
+                if (existingUser ) {
+                    console.log("Username already exists, using existing user.");
+                    usuario = existingUser ; // Usar el usuario existente
+                } else {
+                    usuario = new Usuario({
+                        userName: displayName,
+                        nombre: "",
+                        correo: email || `${displayName}@google.com`,
+                        contraseña: "",
+                        fotoPerfil: photos && photos.length > 0 ? photos[0].value : '',
+                        direccion: '',
+                        telefono: '',
+                        sexo: 'otro',
+                        fechaNacimiento: null,
+                        favoritos: [],
+                        compras: [],
+                        talleresInscritos: [],
+                        cupones: [],
+                        googleId: id,
+                        tipo: 'comprador'
+                    });
+    
+                    await usuario.save();
+                }
+            }
+    
+            const token = jwt.sign({ id: usuario._id, correo: usuario.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    
+            res.cookie('login', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 3600000 // 1 hora
+            });
+    
+            return res.status(200).json({ token, user: usuario });
+        } catch (error) {
+            console.error("Error al iniciar sesión con Google:", error);
+            return res.status(500).json({ message: 'Error al iniciar sesión con Google' });
+        }
+    }
 
+
+    
 }
 
 module.exports = UserController;

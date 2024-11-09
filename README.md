@@ -11,6 +11,7 @@ npm i passport
 npm i passport-discord
 npm i express-session
 npm i cookie-parser 
+npm install passport-google-oauth20
 
 # APIs:
 
@@ -169,4 +170,16 @@ Status: 201 Created
 # authenticate discord
 http://localhost:5001/users/auth/discord
 
-redirecciona para autenticar discord, de ahi toma la data la transforma al formato de usuarios y sube la data, si se hace otro login igual no crea un nuevo dato sino que pasa de largo, verificando que existe el dato(por lo que se puede editar para rellenar valores que no da discord predeterminadamente)
+redirecciona para autenticar discord, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da discord predeterminadamente)
+
+
+# authenticate Google
+http://localhost:5001/users/auth/google
+
+redirecciona para autenticar google, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da google predeterminadamente)
