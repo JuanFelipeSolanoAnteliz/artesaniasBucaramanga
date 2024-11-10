@@ -15,9 +15,9 @@ const orderSchema = new mongoose.Schema({
     total: { type: Number, required: true, min: 0 },
     fecha: { type: Date, default: Date.now },
     estado: { type: String, enum: ['pendiente', 'pagado', 'enviado', 'cancelado'], default: 'pendiente'}
-}, 
+},
 {
-    timestamps: false
+    versionKey: false
 });
 
 module.exports = mongoose.model('pedidos', orderSchema);
