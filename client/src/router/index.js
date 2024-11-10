@@ -9,6 +9,8 @@ import talleres from '../views/talleres.vue'
 import canjear from '../views/canjear.vue'
 import ajustes from '../views/ajustes.vue'
 import comentarios from '../views/comentarios.vue'
+import atencion from '../views/atencion.vue'
+
 
 
 
@@ -21,7 +23,9 @@ const routes = [
   { path: '/talleres', component: talleres },
   { path: '/canjear', component: canjear },
   { path: '/ajustes', component: ajustes },
-  { path: '/comentarios', component: comentarios }
+  { path: '/comentarios', component: comentarios },
+  { path: '/atencion', component: atencion }
+
 
 
 
