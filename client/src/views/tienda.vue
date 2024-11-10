@@ -1,5 +1,5 @@
 <template>
-  <div id="main-container" class="min-h-screen text-white">
+  <div id="main-container" class="min-h-screen text-white bellota-font">
     <!-- Main Header -->
     <header v-if="!selectedCategory" class="fixed top-0 w-full bg-gray-900 z-50">
       <div class="flex items-center p-4 bg-black">
@@ -303,7 +303,21 @@ const filteredProducts = computed(() => {
 })
 </script>
 
-<style scoped>
+<style>
+@font-face {
+  font-family: 'Bellota';
+  src: url('@/assets/font/bellota/Bellota-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+.bellota-font {
+  font-family: 'Bellota', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
 /* Estilos para el scroll horizontal en categorías cuando hay una seleccionada */
 .grid-cols-10 {
   grid-auto-flow: column;
@@ -333,7 +347,6 @@ const filteredProducts = computed(() => {
 }
 
 #main-container > * {
-
   z-index: 1;
 }
 </style>

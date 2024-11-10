@@ -1,10 +1,6 @@
 <template>
     <div class="form-container">
-      <button class="back-button" aria-label="Volver">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
+      <img src="../assets/img/back.png" alt="">
   
       <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-group">
@@ -62,7 +58,6 @@
   .form-container {
     min-height: 100vh;
     background: white;
-    padding: 20px;
     position: relative;
     overflow: hidden;
   }
@@ -86,7 +81,7 @@
   }
   
   .form-group {
-    margin-bottom: 20px;
+    padding: 25px;
   }
   
   label {
@@ -108,7 +103,6 @@
   .login-button {
     display: block;
     width: auto;
-    padding: 12px 24px;
     background: none;
     border: none;
     color: #000;

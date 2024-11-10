@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,5 +9,18 @@ export default defineConfig({
   build: {
     outDir: join(__dirname, 'client/dist'), // Carpeta de salida del build
     emptyOutDir: true
-  }
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'client/src')
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/assets/styles/variables.scss";`
+      }
+    }
+  },
+  assetsInclude: ['**/*.ttf']
 });

@@ -31,6 +31,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+@font-face {
+  font-family: 'Bellota';
+  src: url('@/assets/font/bellota/Bellota-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 .splash-screen {
   min-height: 100vh;
   width: 100%;

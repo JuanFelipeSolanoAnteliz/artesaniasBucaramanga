@@ -1,5 +1,5 @@
 <template>
-  <div id="main-container" class="min-h-screen text-white">
+  <div id="main-container" class="min-h-screen text-white bellota-font">
     <!-- Main Header -->
     <header class="fixed top-0 w-full bg-gray-900 z-50">
       <div class="flex items-center p-4 bg-black">
@@ -198,7 +198,7 @@
     <!-- Success Screen -->
     <div v-if="showSuccessScreen" 
          class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-6">
-      <img src="../assets/img/check.png" alt="">
+      <img src="../assets/img/check.png" alt="Success Check">
       
       <h1 class="text-xl text-center mb-4 text-black">
         ¡Compra realizada con exito!
@@ -241,7 +241,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Trash2Icon } from 'lucide-vue-next'
+import { Trash2Icon, MenuIcon, SearchIcon, HomeIcon, UserIcon, HeartIcon, Store, BadgePercent, ShoppingCart, Briefcase, NotepadText, TicketPercent, Headset, Settings2, MessageSquare } from 'lucide-vue-next'
 
 const router = useRouter()
 
@@ -249,39 +249,21 @@ const goToHome = () => {
   router.push("/tallerMes")
 }
 
-const goTotallres =() =>{
-    router.push("/tallerMes")
-  }
+const goTotallres = () => {
+  router.push("/tallerMes")
+}
 
-const goTotienda =() =>{
+const goTotienda = () => {
   router.push("/tallerYtiendas")
 }
 
-const goToDescuentos =() =>{
+const goToDescuentos = () => {
   router.push("/descuentos")
 }
 
-
-const goToUser =() =>{
+const goToUser = () => {
   router.push("/user")
 }
-
-import {
-  MenuIcon,
-  SearchIcon,
-  HomeIcon,
-  UserIcon,
-  HeartIcon,
-  Store,
-  BadgePercent,
-  ShoppingCart,
-  Briefcase,
-  NotepadText,
-  TicketPercent,
-  Headset,
-  Settings2,
-  MessageSquare
-} from 'lucide-vue-next'
 
 const isDrawerOpen = ref(false)
 const selectedCategory = ref(null)
@@ -386,7 +368,6 @@ const applyCoupon = () => {
   couponCode.value = ''
 }
 
-// New variables and methods for purchase confirmation and success screen
 const showConfirmModal = ref(false)
 const showSuccessScreen = ref(false)
 
@@ -400,10 +381,24 @@ const confirmPurchase = () => {
 }
 </script>
 
-<style scoped>
+<style>
+@font-face {
+  font-family: 'Bellota';
+  src: url('@/assets/font/bellota/Bellota-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+.bellota-font {
+  font-family: 'Bellota', sans-serif;
+  font-style: italic;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

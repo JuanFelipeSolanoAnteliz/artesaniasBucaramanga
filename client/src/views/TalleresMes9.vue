@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white text-white">
+  <div class="min-h-screen bg-white text-white bellota-font">
     <!-- Main Header -->
     <header v-if="!selectedCategory" class="fixed top-0 w-full bg-gray-900 z-50">
       <div class="flex items-center p-4 bg-black">
@@ -77,40 +77,42 @@
           <img src="../assets/img/titleCategorias.png" class="mr-36" alt="Categorías">
         </div>
 
-        <div 
-          :class="{
-            'grid grid-cols-5 gap-1': !selectedCategory,
-            'grid grid-cols-10 gap-4 overflow-x-auto ': selectedCategory
-          }"
-          class="text-black px-4"
-        >
-          <div v-for="(category, index) in categories" :key="index"
-               @click="selectCategory(category.nombre)"
-               class="flex flex-col items-center text-center cursor-pointer "
-               :class="{'opacity-100': selectedCategory === category.nombre, 'opacity-60': selectedCategory && selectedCategory !== category.nombre}">
-            <div class="w-10 h-10 bg-[#D9D9D9] rounded-full flex items-center justify-center">
-              <img
-                :src="category.imagen"
-                :alt="category.nombre"
-                class="w-6 h-6"
+        <!-- Categories and HR -->
+        <div>
+          <div 
+            :class="{
+              'grid grid-cols-5 gap-1': !selectedCategory,
+              'grid grid-cols-10 gap-4 overflow-x-auto': selectedCategory
+            }"
+            class="text-black px-4"
+          >
+            <div v-for="(category, index) in categories" :key="index"
+                 @click="selectCategory(category.nombre)"
+                 class="flex flex-col items-center text-center cursor-pointer"
+                 :class="{'opacity-100': selectedCategory === category.nombre, 'opacity-60': selectedCategory && selectedCategory !== category.nombre}">
+              <div class="w-10 h-10 bg-[#D9D9D9] rounded-full flex items-center justify-center">
+                <img
+                  :src="category.imagen"
+                  :alt="category.nombre"
+                  class="w-6 h-6"
                 />
               </div>
               <span class="text-xs mt-1">{{ category.nombre }}</span>
-             
-             
+            </div>
           </div>
-
-
+          
+          <!-- Horizontal line when a category is selected -->
+          <hr v-if="selectedCategory" class="bg-black h-1 ">
         </div>
 
         <!-- Products Section -->
-        <div v-if="selectedCategory" class="space-y-4 mt-6 px-4">
-          <div class="relative bottom-39">
+        <div v-if="selectedCategory" class="space-y-4 mt-2 px-4">
+          <div class="relative">
             <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-black" />
             <input
               type="search"
               placeholder="Buscar producto o palabra clave..."
-              class="w-full bg-[#D9D9D9] rounded py-2 pl-10  text-sm text-black p-4"
+              class="w-full bg-[#D9D9D9] rounded py-2 pl-10 text-sm text-black p-4"
             />
           </div>
 
@@ -127,7 +129,7 @@
         </div>
 
         <!-- Default content when no category is selected -->
-        <div v-else class="p-4 ">
+        <div v-else class="p-4">
           <div class="flex items-center justify-between mb-2">
             <div class="flex space-x-3">
               <div v-for="n in 5" :key="n" class="w-2.5 h-2.5 bg-[#D9D9D9] transform rotate-45"></div>
@@ -139,7 +141,7 @@
           </div>
           <div class="text-[#D9D9D9] text-center text-sm">Aprende como hacerlos en estos talleres educativos!</div>
           <div class="flex justify-center">
-            <img src="../assets/img/Vector (2).png" alt="" class="filter grayscale w-52 ">
+            <img src="../assets/img/Vector (2).png" alt="" class="filter grayscale w-52">
           </div>
         </div>
       </div>
@@ -293,7 +295,21 @@ const toggleDrawer = () => {
 };
 </script>
 
-<style scoped>
+<style>
+@font-face {
+  font-family: 'Bellota';
+  src: url('@/assets/font/bellota/Bellota-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+.bellota-font {
+  font-family: 'Bellota', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
 /* Estilos para el scroll horizontal en categorías cuando hay una seleccionada */
 .grid-cols-10 {
   grid-auto-flow: column;
