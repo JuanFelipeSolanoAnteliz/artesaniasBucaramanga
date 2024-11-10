@@ -1,11 +1,13 @@
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy; // Importa la estrategia de GitHub
 const Usuario = require('../model/userModel');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
+// Estrategia de Discord
 passport.use(new DiscordStrategy({
     clientID: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
@@ -13,9 +15,9 @@ passport.use(new DiscordStrategy({
     scope: ['identify', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        let existingUser = await Usuario.findOne({ discordId: profile.id });
+        let existingUser  = await Usuario.findOne({ discordId: profile.id });
 
-        if (existingUser) {
+        if (existingUser ) {
             return done(null, existingUser );
         }
 
@@ -50,6 +52,7 @@ passport.use(new DiscordStrategy({
     }
 }));
 
+// Estrategia de Google
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -58,7 +61,7 @@ passport.use(new GoogleStrategy({
     try {
         let existingUser  = await Usuario.findOne({ googleId: profile.id });
 
-        if (existingUser) {
+        if (existingUser ) {
             return done(null, existingUser );
         }
 
@@ -84,6 +87,50 @@ passport.use(new GoogleStrategy({
             cupones: [],
             googleId: profile.id || "",
             avatar: profile.photos[0].value || ""
+        });
+
+        await newUser .save();
+        done(null, newUser );
+    } catch (error) {
+        done(error, null);
+    }
+}));
+
+// Estrategia de GitHub
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.GITHUB_CALLBACK_URL,
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        let existingUser  = await Usuario.findOne({ githubId: profile.id });
+
+        if (existingUser ) {
+            return done(null, existingUser );
+        }
+
+        const existingUserName = await Usuario.findOne({ userName: profile.username || profile.displayName });
+        if (existingUserName) {
+            return done(null, existingUserName);
+        }
+
+        const newUser  = new Usuario({
+            userName: profile.username || profile.displayName || "",
+            nombre: profile.displayName || "Usuario Sin Nombre",
+            correo: (profile.emails && profile.emails.length > 0) ? profile.emails[0].value : `${profile.username}@github.com`,
+            contraseña: "",
+            fotoPerfil: (profile.photos && profile.photos.length > 0) ? profile.photos[0].value : "",
+            direccion: "",
+            telefono: "",
+            sexo: "otro",
+            fechaNacimiento: null,
+            tipo: "comprador",
+            favoritos: [],
+            compras: [],
+            talleresInscritos: [],
+            cupones: [],
+            githubId: profile.id || "",
+            avatar: (profile.photos && profile.photos.length > 0) ? profile.photos[0].value : ""
         });
 
         await newUser .save();

@@ -32,6 +32,7 @@
     "mongoose": "^8.8.0",
     "passport": "^0.7.0",
     "passport-discord": "^0.1.4",
+    "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "semver": "^7.6.3",
     "vue": "^3.5.10",

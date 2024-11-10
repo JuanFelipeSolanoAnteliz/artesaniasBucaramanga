@@ -12,6 +12,7 @@ npm i passport-discord
 npm i express-session
 npm i cookie-parser 
 npm install passport-google-oauth20
+npm install passport-github2
 
 # APIs:
 
@@ -183,3 +184,11 @@ redirecciona para autenticar google, de ahi toma la data la transforma al
 formato de usuarios y sube la data, si se hace otro login igual no crea un
 nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
 que se puede editar para rellenar valores que no da google predeterminadamente)
+
+# authenticate Github
+http://localhost:5001/users/auth/github
+
+redirecciona para autenticar github, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da github predeterminadamente)
