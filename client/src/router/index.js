@@ -8,7 +8,7 @@ import comprasR from '../views/comprasR.vue'
 import talleres from '../views/talleres.vue'
 import canjear from '../views/canjear.vue'
 import ajustes from '../views/ajustes.vue'
-
+import comentarios from '../views/comentarios.vue'
 
 
 
@@ -20,8 +20,8 @@ const routes = [
   { path: '/comprasR', component: comprasR },
   { path: '/talleres', component: talleres },
   { path: '/canjear', component: canjear },
-  { path: '/ajustes', component: ajustes }
-
+  { path: '/ajustes', component: ajustes },
+  { path: '/comentarios', component: comentarios }
 
 
 
