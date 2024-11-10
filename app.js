@@ -6,6 +6,7 @@ const userRouter = require('./server/router/userRouter');
 const productRouter = require('./server/router/productRouter');
 const voucherRouter = require('./server/router/voucherRouter');
 const workshopsRouter = require('./server/router/workshopRouter');
+const orderRouter = require('./server/router/paymentsRouter');
 const session = require('express-session');
 const passport = require('passport');
 const sessionConfig = require('./server/middleware/sessionConfig');
@@ -24,6 +25,7 @@ app.use('/users',userRouter);
 app.use('/products', productRouter);
 app.use('/vouchers',voucherRouter);
 app.use('/workshops',workshopsRouter);
+app.use('/orders',orderRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'client/dist/index.html'));
