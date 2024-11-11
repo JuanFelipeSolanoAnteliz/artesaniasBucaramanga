@@ -11,7 +11,7 @@ import ajustes from '../views/ajustes.vue'
 import comentarios from '../views/comentarios.vue'
 import atencion from '../views/atencion.vue'
 import chat from '../views/chat.vue'
-
+import qr from '../views/qr.vue'
 
 
 
@@ -27,9 +27,8 @@ const routes = [
   { path: '/ajustes', component: ajustes },
   { path: '/comentarios', component: comentarios },
   { path: '/atencion', component: atencion },
-  { path: '/chat', component: chat }
-
-
+  { path: '/chat', component: chat },
+  { path: '/qr', component: qr }
 
 
 
