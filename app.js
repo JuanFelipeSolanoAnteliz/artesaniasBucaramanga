@@ -5,16 +5,19 @@ const passport = require('passport');
 const userRouter = require('./server/router/userRouter'); 
 const connectDB = require('./server/helper/connect'); 
 require('./server/middleware/passportSetup');
+const http = require('http');
+const socketIo = require('socket.io');
+const Chat = require('./server/model/chatModel');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Conectar a la base de datos
 connectDB();
 
-// Configuración de la sesión
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
@@ -25,24 +28,46 @@ app.use(session({
     }
 }));
 
-// Inicializar Passport
 app.use(passport.initialize());
-app.use(passport.session()); // Asegúrate de que esta línea esté habilitada
+app.use(passport.session());
 
-// Rutas de la API
 app.use('/users', userRouter); 
 
-// Manejo de rutas no encontradas
+io.on('connection', (socket) => {
+    console.log('Nuevo usuario conectado');
+
+    socket.on('sendMessage', async (data) => {
+        const { sender, receiver, message } = data;
+
+        // Buscar el chat existente o crear uno nuevo
+        let chat = await Chat.findOne({ sender, receiver });
+        if (!chat) {
+            chat = new Chat({ sender, receiver, messages: [] });
+        }
+
+        // Agregar el mensaje al array de mensajes
+        chat.messages.push({ text: message, timestamp: new Date() });
+        await chat.save();
+
+        // Emitir el mensaje a ambos usuarios
+        socket.emit('receiveMessage', { sender, message });
+        socket.to(receiver).emit('receiveMessage', { sender, message });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Usuario desconectado');
+    });
+});
+
 app.use((req, res) => {
     res.status(404).json({ message: 'Not Found' });
 });
 
-// Configuración del servidor
 const config = {
     port: process.env.EXPRESS_PORT || 5001,
     host: process.env.EXPRESS_HOST_NAME || 'localhost'
 };
 
-app.listen(config.port, () => {
+server.listen(config.port, () => {
     console.log(`Server running at http://${config.host}:${config.port}`);
 });

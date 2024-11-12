@@ -13,6 +13,8 @@ npm i express-session
 npm i cookie-parser 
 npm install passport-google-oauth20
 npm install passport-github2
+npm i socket.io 
+npm i socket.io-client
 
 # APIs:
 
