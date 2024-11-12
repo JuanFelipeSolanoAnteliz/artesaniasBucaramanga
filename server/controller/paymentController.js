@@ -21,6 +21,10 @@ exports.addOrder = async(req, res) => {
                 if(voucher.length > 0 || voucher.usuarioId === null || voucher.usuarioId === req.data.id){
                     let discount = (result*voucher.descuento) / 100;
                     let finalPrice = result - discount;
+                    let updateDate = await Vouchers.findOneAndUpdate(
+                        { _id: voucher._id }, 
+                        { $set: { fechaExpiracion: new Date()} }
+                      );
                     return finalPrice;
                 }
             }
