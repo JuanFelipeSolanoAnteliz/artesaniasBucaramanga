@@ -1,6 +1,37 @@
 const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Products = require('../model/productsModel');
+const Users= require('../model/userModel');
+
+exports.markProductAsfav= async ( req, res) =>{
+    try{
+        let productFav = req.params.productId;
+        let user = req.data.id;
+        let updateUserInfo = await Users.updateOne(
+            { _id: user },
+            { $push: { favoritos: new ObjectId(productFav)} }
+        )
+        return res.status(214).json({ status: 214, message: 'Product added to favorites successfully', data:updateUserInfo});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({ status: 500, message: 'There was an error while adding the product to favorites'});
+    }
+}
+
+exports.unMarkProductAsfav= async ( req, res) =>{
+    try{
+        let productFav = req.params.productId;
+        let user = req.data.id;
+        let updateUserInfo = await Users.updateOne(
+            { _id: user },
+            { $pull: { favoritos: new ObjectId(productFav)} }
+        )
+        return res.status(214).json({ status: 214, message: 'Product removed from favorites successfully', data:updateUserInfo});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({ status: 500, message: 'There was an error while removing the product from favorites'});
+    }
+}
 
 exports.getAllProducts = async (req, res) =>{
     try{
@@ -60,6 +91,18 @@ exports.getByCategory = async (req, res, ) => {
     }catch(error){
         console.log(error)
         res.status(500).send({'message':'Error at fetch products', 'error':error});
+    }
+}
+
+exports.getDiscountsBycategory = async (req, res)=>{
+    try{
+        let category = req.params.category
+        let result = await Products.find({ descuento: { $ne: null }, categoria:category });
+        if(result.length === 0){return res.status(404).json({status:404, message:'There is not discounts to fetch'})}
+        return res.status(200).json({status:200, message:'discounts fetched correctly', data:result})
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({status:500, message:'something went wrong while fetching discounts'});
     }
 }
 
