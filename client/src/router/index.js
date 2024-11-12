@@ -12,6 +12,8 @@ import comentarios from '../views/comentarios.vue'
 import atencion from '../views/atencion.vue'
 import chat from '../views/chat.vue'
 import qr from '../views/qr.vue'
+import ceramica from '../views/ceramica.vue'
+
 
 
 
@@ -28,7 +30,9 @@ const routes = [
   { path: '/comentarios', component: comentarios },
   { path: '/atencion', component: atencion },
   { path: '/chat', component: chat },
-  { path: '/qr', component: qr }
+  { path: '/qr', component: qr },
+  { path: '/ceramica', component: ceramica}
+
 
 
 
