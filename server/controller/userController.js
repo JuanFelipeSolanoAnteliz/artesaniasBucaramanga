@@ -1,15 +1,24 @@
-const connectDB = require('../helper/connect');
 const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const passport = require('passport'); 
-const DiscordUser  = require('../model/discordModel');
+const passport = require('passport');
 
 require('dotenv').config();
 
-connectDB();
+class UserController {
 
-module.exports = class UserController {
+
+    static async getAllUsers(req, res) {
+        try {
+            const result = await Users.find();
+            res.status(200).json(result);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error retrieving users' });
+        }
+    }
+
+
 
     static async getUserById(req, res) {
         try {
@@ -200,56 +209,187 @@ module.exports = class UserController {
 
     static async loginWithDiscord(req, res) {
         try {
-            // Aquí puedes acceder a la información del usuario de Discord desde req.user
-            const { id, username, avatar } = req.user; // Asegúrate de que estos campos estén disponibles
+            const { id, username, avatar, email } = req.user;
 
-            // Verificar si el usuario ya existe en la base de datos
-            let discordUser  = await DiscordUser .findOne({ discordId: id });
+            if (!username) {
+                console.error("Username is undefined", req.user);
+                return res.status(400).json({ message: "Username is required" });
+            }
 
-            if (!discordUser ) {
-                // Si no existe, crear un nuevo usuario
-                discordUser  = new DiscordUser ({
-                    userName: username, // O cualquier otro campo que desees usar
-                    nombre: username, // Puedes cambiar esto según lo que necesites
-                    correo: `${username}@discord.com`, // Genera un correo temporal o pide uno al usuario
-                    contraseña: '', // No necesitas contraseña para usuarios de Discord
-                    fotoPerfil: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`, // URL del avatar de Discord
-                    direccion: '', // Puedes dejarlo vacío o pedirlo al usuario
-                    telefono: '', // Puedes dejarlo vacío o pedirlo al usuario
-                    sexo: 'otro', // Puedes dejarlo vacío o pedirlo al usuario
-                    fechaNacimiento: new Date(), // Puedes dejarlo vacío o pedirlo al usuario
-                    tipo: 'comprador',
-                    favoritos: [],
-                    compras: [],
-                    talleresInscritos: [],
-                    cupones: [],
-                    discordId: id,
-                    avatar: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`
-                });
+            let usuario = await Usuario.findOne({ discordId: id });
 
-                // Guardar el nuevo usuario en MongoDB
-                await discordUser .save();
+            if (!usuario) {
+                if (!email || !username) {
+                    return res.status(400).json({ message: "Email and username are required to create a new user." });
+                }
+
+                const existingUser = await Usuario.findOne({ userName: username });
+                if (existingUser) {
+                    console.log("Username already exists, using existing user.");
+                    usuario = existingUser; // Usar el usuario existente
+                } else {
+                    usuario = new Usuario({
+                        userName: username,
+                        nombre: "",
+                        correo: email || `${username}@discord.com`,
+                        contraseña: "",
+                        fotoPerfil: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png` : '',
+                        direccion: '',
+                        telefono: '',
+                        sexo: 'otro',
+                        fechaNacimiento: null,
+                        favoritos: [],
+                        compras: [],
+                        talleresInscritos: [],
+                        cupones: [],
+                        discordId: id,
+                        avatar: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png` : '',
+                        tipo: 'comprador'
+                    });
+
+                    await usuario.save();
+                }
             }
 
             // Crear el token JWT
-            const token = jwt.sign({ id: discordUser ._id, correo: discordUser .correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ id: usuario._id, correo: usuario.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
 
             // Configurar la cookie de sesión
             res.cookie('login', token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 3600000
+                secure: process.env.NODE_ENV === 'production', // Solo en producción
+                maxAge: 3600000 // 1 hora
             });
 
-            return res.status(200).json({ message: 'Successfully logged in with Discord', jwt: token });
+            // Responder con el token y el usuario
+            return res.status(200).json({ token, user: usuario });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error logging in with Discord' });
+            console.error("Error al iniciar sesión con Discord:", error);
+            return res.status(500).json({ message: 'Error al iniciar sesión con Discord' });
         }
     }
 
 
 
-}   
+    static async loginWithGoogle(req, res) {
+        try {
+            const { id, displayName, email, photos } = req.user;
+    
+            if (!displayName) {
+                console.error("Display name is undefined", req.user);
+                return res.status(400).json({ message: "Display name is required" });
+            }
+    
+            let usuario = await Usuario.findOne({ googleId: id });
+    
+            if (!usuario) {
+                if (!email || !displayName) {
+                    return res.status(400).json({ message: "Email and display name are required to create a new user." });
+                }
+    
+                const existingUser  = await Usuario.findOne({ userName: displayName });
+                if (existingUser ) {
+                    console.log("Username already exists, using existing user.");
+                    usuario = existingUser ; // Usar el usuario existente
+                } else {
+                    usuario = new Usuario({
+                        userName: displayName,
+                        nombre: "",
+                        correo: email || `${displayName}@google.com`,
+                        contraseña: "",
+                        fotoPerfil: photos && photos.length > 0 ? photos[0].value : '',
+                        direccion: '',
+                        telefono: '',
+                        sexo: 'otro',
+                        fechaNacimiento: null,
+                        favoritos: [],
+                        compras: [],
+                        talleresInscritos: [],
+                        cupones: [],
+                        googleId: id,
+                        tipo: 'comprador'
+                    });
+    
+                    await usuario.save();
+                }
+            }
+    
+            const token = jwt.sign({ id: usuario._id, correo: usuario.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    
+            res.cookie('login', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 3600000 // 1 hora
+            });
+    
+            return res.status(200).json({ token, user: usuario });
+        } catch (error) {
+            console.error("Error al iniciar sesión con Google:", error);
+            return res.status(500).json({ message: 'Error al iniciar sesión con Google' });
+        }
+    }
 
 
+
+    static async loginWithGitHub(req, res) {
+        try {
+            const { id, displayName, email, photos } = req.user;
+
+            if (!displayName) {
+                console.error("Display name is undefined", req.user);
+                return res.status(400).json({ message: "Display name is required" });
+            }
+
+            let usuario = await Usuario.findOne({ githubId: id });
+
+            if (!usuario) {
+                if (!email || !displayName) {
+                    return res.status(400).json({ message: "Email and display name are required to create a new user." });
+                }
+
+                const existingUser  = await Usuario.findOne({ userName: displayName });
+                if (existingUser ) {
+                    console.log("Username already exists, using existing user.");
+                    usuario = existingUser ; // Usar el usuario existente
+                } else {
+                    usuario = new Usuario({
+                        userName: displayName,
+                        nombre: "",
+                        correo: email || `${displayName}@github.com`,
+                        contraseña: "",
+                        fotoPerfil: photos && photos.length > 0 ? photos[0].value : '',
+                        direccion: '',
+                        telefono: '',
+                        sexo: 'otro',
+                        fechaNacimiento: null,
+                        favoritos: [],
+                        compras: [],
+                        talleresInscritos: [],
+                        cupones: [],
+                        githubId: id,
+                        tipo: 'comprador'
+                    });
+
+                    await usuario.save();
+                }
+            }
+
+            const token = jwt.sign({ id: usuario._id, correo: usuario.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+
+            res.cookie('login', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 3600000 // 1 hora
+            });
+
+            return res.status(200).json({ token, user: usuario });
+        } catch (error) {
+            console.error("Error al iniciar sesión con GitHub:", error);
+            return res.status(500).json({ message: 'Error al iniciar sesión con GitHub' });
+        }
+    }
+
+
+}
+
+module.exports = UserController;

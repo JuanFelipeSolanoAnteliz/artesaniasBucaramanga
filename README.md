@@ -1,8 +1,18 @@
+# .env:
 MONGODB_URI= URI valentina
 MONGODB_DB_NAME= nombre db
+SECRET_KEY=729e97f2f54e6a1edb3cfe3d7b1b96516458312623d8757bb1cbb4245a8a4d1eb5d3111961baeb8227a6ba6971c15f54da447862813a07d391a02de5447814031cca4ab6921f44d57fb7b2d3e9aa3d8e07987071ede00d3ff13b70ad05134c5162cdd27bb7f58cfd0620548ca45946d16af151f3b4c50965ae44f5cf690cdccb
 
 # instalar:
-npm i 
+npm i mongoose
+npm i dotenv
+npm i jsonwebtoken
+npm i passport
+npm i passport-discord
+npm i express-session
+npm i cookie-parser 
+npm install passport-google-oauth20
+npm install passport-github2
 
 # APIs:
 
@@ -154,3 +164,31 @@ Status: 201 Created
   "message": "Successfully created and authenticated",
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNhZGJhY2Q4ZWMzZTQ3OGIzYzUxMyIsImNvcnJlbyI6Imp1YW4ucGVyZXNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA5ODEzMDcsImV4cCI6MTczMDk4NDkwN30.R64yiD9LMKiL_YlHkKkEx9iGEcvVSXYidx_u05bCACA"
 }
+
+
+
+
+# authenticate discord
+http://localhost:5001/users/auth/discord
+
+redirecciona para autenticar discord, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da discord predeterminadamente)
+
+
+# authenticate Google
+http://localhost:5001/users/auth/google
+
+redirecciona para autenticar google, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da google predeterminadamente)
+
+# authenticate Github
+http://localhost:5001/users/auth/github
+
+redirecciona para autenticar github, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da github predeterminadamente)
