@@ -11,6 +11,7 @@ const session = require('express-session');
 const passport = require('passport');
 const sessionConfig = require('./server/middleware/sessionConfig');
 require('./server/middleware/passportSetup');
+const connectDB = require('./server/helper/connect');
 
 const app = express();
 
