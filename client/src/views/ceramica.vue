@@ -2,14 +2,26 @@
   <div class="bg-white h-screen flex flex-col">
     <!-- Workshop Image and Title -->
     <div class="relative h-2/5">
-      
-      <img 
-            src="../assets/img/flecha.svg" 
-            alt="Volver"
-            class="w-5 h-5" 
-          />
-      <div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3">
-        <h1 class="text-left text-xl font-semibold">Taller de cerámica artesanal</h1>
+      <div class="triangle"></div>
+
+      <div class="absolute top-0 left-[-1px] mt-4"> <!-- Move left more with negative value -->
+        <img 
+          src="../assets/img/flecha.svg" 
+          alt="Volver"
+          class="w-5 h-5" 
+        />
+      </div>
+    
+      <!-- Barra con el título de Taller de cerámica artesanal (fondo gris más oscuro) -->
+      <div class="absolute bottom-0 left-0 right-0 bg-[#2D2D2D] text-white p-2">
+        <img 
+          src="../assets/img/RectangleS.svg" 
+          alt="rentangleS"
+          class="absolute top-0 left-0 w-5 h-15" 
+        />
+
+        <!-- Título del Taller con la fuente Bellota-Bold -->
+        <h1 class="text-left text-white text-lg ml-4 font-semibold">Taller de cerámica artesanal</h1>
       </div>
     </div>
 
@@ -56,9 +68,9 @@
 
     <!-- Registration Button -->
     <div class="p-4">
-      <button class="w-full bg-gray-200 rounded-lg py-3 px-4 flex items-center justify-between text-sm">
+      <button class="w-full bg-[#D9D9D9] rounded-lg py-3 px-4 flex items-center justify-between text-sm">
         <div class="flex items-center">
-          <img  src="../assets/img/page.svg"          alt="" class="w-6 h-6 mr-2" />
+          <img src="../assets/img/page.svg" alt="" class="w-6 h-6 mr-2" />
           <span class="font-medium text-base">Inscribirse al taller</span>
         </div>
         <span class="text-gray-500 text-xs">*Cupos limitados</span>
@@ -74,5 +86,29 @@
 <style scoped>
 .overflow-y-auto {
   -webkit-overflow-scrolling: touch;
+}
+
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 28px solid #2D2D2D; /* Color gris más oscuro */
+  border-bottom: 28px solid transparent;
+  border-top: 28px solid transparent;
+}
+
+/* Aplicar la fuente Bellota-Bold desde la carpeta assets */
+@font-face {
+  font-family: 'Bellota-Bold';
+  src: url('@assets/fonts/Bellota-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Aplica la fuente Bellota-Bold solo al título del taller */
+h1 {
+  font-family: 'Bellota-Bold', sans-serif;
 }
 </style>

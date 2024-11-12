@@ -91,9 +91,9 @@
     left: 0;
     width: 0;
     height: 0;
-    border-left: 30px solid #2d3748; /* Smaller size and gray color */
-    border-bottom: 30px solid transparent; /* Smaller size */
-    border-top: 30px solid transparent;  /* Smaller size */
+    border-left: 28px solid #2d3748; /* Smaller size and gray color */
+    border-bottom: 28px solid transparent; /* Smaller size */
+    border-top: 28px solid transparent;  /* Smaller size */
   }
   
   /* Additional styles for the header */
