@@ -201,6 +201,16 @@ que se puede editar para rellenar valores que no da github predeterminadamente)
 
 
 
-PUT http://localhost:5001/users/uploadProfileImage/{id}
+# change image profile user
 
-http://localhost:5001/users/uploadProfileImage/6730348ef39c6117a094b829
+PUT http://localhost:5001/users/profile-image/{idUsuario}
+
+ejemplo:
+http://localhost:5001/users/profile-image/6730348ef39c6117a094b829
+
+Esta API permite a un usuario subir su imagen de perfil enviando un archivo 
+mediante Form-data a un endpoint específico que incluye su ID de usuario. El 
+servidor recibe la imagen, la procesa, la almacena en un servicio de cloud 
+(como Cloudinary), genera una URL pública y actualiza el perfil del usuario 
+con esta nueva imagen, reemplazando cualquier imagen anterior. La operación es 
+segura, válida solo para el usuario autenticado, y devuelve la URL de la nueva imagen de perfil.
