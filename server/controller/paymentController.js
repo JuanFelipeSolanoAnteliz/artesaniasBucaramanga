@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Pedidos = require('../model/paymentsModel');
+const Vouchers = require('../model/voucherModel');
 
 exports.addOrder = async(req, res) => {
     try{
@@ -11,8 +12,21 @@ exports.addOrder = async(req, res) => {
                 let operation = element.precio * element.cantidad;
                 result += operation;
             });
-            return result; 
+            if(req.body.voucher){
+                let voucher = await Vouchers.findOne({_id: new ObjectId(req.body.voucher)});
+                let now = new Date();
+                if(voucher.fechaExpiracion < now ){
+                    return result;
+                }
+                if(voucher.length > 0 || voucher.usuarioId === null || voucher.usuarioId === req.data.id){
+                    let discount = (result*voucher.descuento) / 100;
+                    let finalPrice = result - discount;
+                    return finalPrice;
+                }
+            }
+            return result;
         }
+
         let totalPrice = await getPrice();
         let newPedido = new Pedidos({
             usuarioId: new ObjectId(req.data.id),
