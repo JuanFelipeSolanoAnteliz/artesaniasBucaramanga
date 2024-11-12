@@ -2,6 +2,17 @@ const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Workshop = require('../model/workshopsModel');
 
+exports.getAll = async (req, res) =>{
+    try{
+        let result = await Workshop.find();
+        if(result.length < 0){return res.status(404).json({ status:404, message:'there are not workshops to fetch'})};
+        return res.status(200).json({ status: 200, message:'workshops fetched sucessfully', data:result});
+    }catch(error){
+        console.log(error)
+        res.status(500).send({ message: 'Error while fetching workshops', error: error });     
+    }
+}
+
 exports.search = async (req, res) =>{
     try{
         const searchTerm = req.query.searchTerm;
