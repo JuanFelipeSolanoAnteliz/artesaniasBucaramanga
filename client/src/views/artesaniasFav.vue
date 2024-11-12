@@ -1,24 +1,21 @@
 <template>
   <div class="min-h-screen bg-white p-4">
     
-    <div class="relative w-9 h-17">
-      <img 
-        src="../assets/img/Rectangle.svg" 
-        alt="rectangle"
-        class="absolute top-0 left-0 w-10 h-15" 
-      />
-      <img 
-        src="../assets/img/flecha.svg" 
-        alt="back"
-        class="absolute top-6 left-1 w-5 h-5" 
-      />
-    </div>
+      <div class="triangle"></div>
+
+      <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+        <img 
+          src="../assets/img/flechaB.svg" 
+          alt="Volver"
+          class="w-4 h-4" 
+        />
+      </div>
 
     <div class="relative mb-8">
       <img 
         src="../assets/img/RectangleA.svg" 
         alt="back"
-        class="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-30 z-0" 
+        class="absolute top-[-10px] left-1/2 transform -translate-x-1/2 w-20 h-30 z-0" 
       />
       <div class="relative z-10 text-center">
         <h3 class="text-2xl font-medium">Tus artesanías</h3>
@@ -41,7 +38,7 @@
             class="flex flex-col items-center gap-3 relative flex-shrink-0 category-button"
             @click="scrollToCategory(index)"
           >
-            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+            <div class="w-16 h-16 bg-[#D9D9D9] rounded-full flex items-center justify-center">
               <img :src="category.icon" alt="category icon" class="w-8 h-8" />
             </div>
             <span class="text-xs text-center">{{ category.name }}</span>
@@ -67,9 +64,9 @@
       >
         <button 
           @click="removeFromFavorites(product.id)"
-          class="absolute top-2 right-2 z-10 p-1 bg-black/50 rounded-full"
+          class="absolute top-2 right-2 z-10 p-1 rounded-full"
         >
-          <X class="w-4 h-4 text-white" />
+          <img src="../assets/img/x.svg" alt="Eliminar" class="w-4 h-4 text-white" />
         </button>
         
         <img 
@@ -92,7 +89,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { X } from 'lucide-vue-next'
 
 // Importación de imágenes
 import textIcon from '../assets/img/text.svg'
@@ -200,7 +196,16 @@ onBeforeUnmount(() => {
   white-space: nowrap;
   position: relative;
 }
-
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
+}
 .category-button {
   cursor: pointer;
   user-select: none;

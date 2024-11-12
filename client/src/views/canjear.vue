@@ -3,29 +3,25 @@
     <!-- Header with diamond background -->
     <div class="relative py-4">
       <!-- Back button with diamond background -->
-      <div class="absolute left-4 top-1/2 -translate-y-1/2">
-        <img 
-          src="../assets/img/Rectangle.svg" 
-          alt="Background"
-          class="w-14 h-10" 
-        />
-        <button @click="goBack" class="absolute left-2 top-1/2 -translate-y-1/2">
-          <img 
-            src="../assets/img/flecha.svg" 
-            alt="Volver"
-            class="w-6 h-6" 
-          />
-        </button>
-      </div>
+      <div class="triangle"></div>
+
+<div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+  <img 
+    src="../assets/img/flechaB.svg" 
+    alt="Volver"
+    class="w-4 h-4" 
+  />
+</div>
+
       
       <!-- Title with diamond background -->
       <div class="relative text-center">
         <img 
           src="../assets/img/RectangleA.svg" 
           alt="Background"
-          class="absolute left-1/2 top-9 -translate-x-1/2 -translate-y-1/2 w-20 h-20" 
+          class="absolute left-1/2 top-6 -translate-x-1/2 -translate-y-1/2 w-20 h-20" 
         />
-        <h1 class="text-xl top-2 font-medium relative z-10">
+        <h1 class="text-xl top-[-1px] font-medium relative z-10">
           Canjear
           <br />
           cupón
@@ -53,22 +49,22 @@
           placeholder="Ingresa tu cupón"
           class="flex-1 bg-transparent px-3 py-2 outline-none"
         />
-        <button class="bg-gray-800 text-white px-4 py-2 rounded-md text-sm">
+        <button class="bg-gray-800 text-white px-4 py-2 rounded-md text-sm ml-[-20px]">
           Validar
         </button>
       </div>
-
+      <br>
       <!-- Valid coupons section -->
       <div>
         <h2 class="text-left text-base font-medium ml-1.5 text-lg font-medium mb-2">Cupones vigentes</h2>
         <p class="text-left text-base font-medium ml-1.5 text-gray-500 text-sm mb-6">*Usar antes de la fecha de vencimiento</p>
 
         <!-- Coupon card -->
-        <div class="bg-gray-100 rounded-lg overflow-hidden flex h-[150px]">
+        <div class="bg-gray-100 rounded-lg overflow-hidden flex h-[140px]">
           <img
-            src="https://via.placeholder.com/150x150"
+            src="https://via.placeholder.com/150x140"
             alt="Taller Awaq Ayllus"
-            class="w-[150px] h-[150px] object-cover"
+            class="w-[150px] h-[140px] object-cover"
           />
           <div class="p-3 flex-1 flex flex-col justify-between">
             <div>
@@ -99,5 +95,15 @@ const goBack = () => {
 <style scoped>
 input::placeholder {
   color: #666;
+}
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
 }
 </style>

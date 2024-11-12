@@ -54,7 +54,7 @@
     <div class="p-4 space-y-4">
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-2">
-          <span class="text-gray-400 line-through text-sm">S/.100</span>
+          <span class="text-gray-400 line-through text-sm ml-1.5">S/.100</span>
           <span class="text-2xl font-semibold">S/.65</span>
         </div>
         
@@ -75,7 +75,7 @@
           <p class="text-gray-600">18 x 200 cm</p>
         </div>
 
-        <div class="text-gray-600 text-base text-justify leading-relaxed ml-2">
+        <div class="text-gray-600 text-base text-justify leading-relaxed ml-1.5">
           <span class="font-medium">Descripción:</span>
           <p class="indent inline">
             Tapiz tridimensional con diseños de la tradición textil andina prehispánica. Elaborado con lana de ovino y tejido en telar a pedal.
@@ -86,14 +86,14 @@
           <img 
             src="../assets/img/check.svg"
             alt="check"
-            class="w-5 h-5" />
+            class="ml-1.5 w-5 h-5" />
           <span class="text-sm">Cuenta con envío hacia tu ubicación</span>
         </div>
       </div>
 
       <!-- Add to cart button -->
       <button 
-        class="w-full bg-gray-100 text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6"
+        class="bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6"
         @click="addToCart"
       >
         <img 

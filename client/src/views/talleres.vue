@@ -3,21 +3,16 @@
     <!-- Header with diamond background -->
     <div class="relative py-4">
       <!-- Back button with diamond background -->
-      <div class="absolute left-4 top-1/2 -translate-y-1/2">
+      <div class="triangle"></div>
+
+      <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
         <img 
-          src="../assets/img/Rectangle.svg" 
-          alt="Background"
-          class="w-14 h-10" 
+          src="../assets/img/flechaB.svg" 
+          alt="Volver"
+          class="w-4 h-4" 
         />
-        <button @click="goBack" class="absolute left-2 top-1/2 -translate-y-1/2">
-          <img 
-            src="../assets/img/flecha.svg" 
-            alt="Volver"
-            class="w-6 h-6" 
-          />
-        </button>
       </div>
-      
+
       <!-- Title with diamond background -->
       <div class="relative text-center">
         <img 
@@ -36,7 +31,12 @@
     <!-- Search Bar -->
     <div class="p-4 bg-white">
       <div class="relative">
-        <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <!-- Imagen de búsqueda en lugar de icono de Search -->
+        <img 
+          src="../assets/img/search.svg" 
+          alt="Buscar"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" 
+        />
         <input
           type="text"
           placeholder="Buscar taller, por categoría o artesanos"
@@ -56,9 +56,9 @@
         />
         <div class="p-2 flex-1 flex flex-col justify-between">
           <div>
-            <h2 class="text-sm font-semibold leading-tight">Taller de bordado ayacuchano</h2>
-            <p class="text-xs text-gray-600 mt-0.5">Para el público en general</p>
-            <p class="text-xs text-gray-600">Taller dado por los artesanos de Taller Awaq Ayllus</p>
+            <h2 class="text-left text-sm font-semibold leading-tight">Taller de bordado ayacuchano</h2>
+            <p class="text-left text-xs text-gray-600 mt-0.5">Para el público en general</p>
+            <p class="text-left text-xs text-gray-600">Taller dado por los artesanos de Taller Awaq Ayllus</p>
           </div>
           <button class="mt-1 bg-gray-800 text-white text-xs px-2 py-0.5 rounded self-start">
             Entérate más sobre el taller aquí
@@ -75,9 +75,9 @@
         />
         <div class="p-2 flex-1 flex flex-col justify-between">
           <div>
-            <h2 class="text-sm font-semibold leading-tight">Taller de cerámica artesanal</h2>
-            <p class="text-xs text-gray-600 mt-0.5">Para el público en general</p>
-            <p class="text-xs text-gray-600">Taller dado por los artesanos de Cerámicas Tater Vera</p>
+            <h2 class="text-left text-sm font-semibold leading-tight">Taller de cerámica artesanal</h2>
+            <p class="text-left text-xs text-gray-600 mt-0.5">Para el público en general</p>
+            <p class="text-left text-xs text-gray-600">Taller dado por los artesanos de Cerámicas Tater Vera</p>
           </div>
           <button class="mt-1 bg-gray-800 text-white text-xs px-2 py-0.5 rounded self-start">
             Entérate más sobre el taller aquí
@@ -94,9 +94,9 @@
         />
         <div class="p-2 flex-1 flex flex-col justify-between">
           <div>
-            <h2 class="text-sm font-semibold leading-tight">Taller de alfarería infantil</h2>
-            <p class="text-xs text-gray-600 mt-0.5">Para niños de 4 a 12 años</p>
-            <p class="text-xs text-gray-600">Taller dado por la artesana María Santos Minchán</p>
+            <h2 class="text-left text-sm font-semibold leading-tight">Taller de alfarería infantil</h2>
+            <p class="text-left text-xs text-gray-600 mt-0.5">Para niños de 4 a 12 años</p>
+            <p class="text-left text-xs text-gray-600">Taller dado por la artesana María Santos Minchán</p>
           </div>
           <button class="mt-1 bg-gray-800 text-white text-xs px-2 py-0.5 rounded self-start">
             Entérate más sobre el taller aquí
@@ -113,9 +113,9 @@
         />
         <div class="p-2 flex-1 flex flex-col justify-between">
           <div>
-            <h2 class="text-sm font-semibold leading-tight">Taller de pintura tradicional</h2>
-            <p class="text-xs text-gray-600 mt-0.5">Para adultos mayores</p>
-            <p class="text-xs text-gray-600">Taller dado por los artesanos Roldán y Harry Pinedo</p>
+            <h2 class="text-left text-sm font-semibold leading-tight">Taller de pintura tradicional</h2>
+            <p class="text-left text-xs text-gray-600 mt-0.5">Para adultos mayores</p>
+            <p class="text-left text-xs text-gray-600">Taller dado por los artesanos Roldán y Harry Pinedo</p>
           </div>
           <button class="mt-1 bg-gray-800 text-white text-xs px-2 py-0.5 rounded self-start">
             Entérate más sobre el taller aquí
@@ -127,10 +127,23 @@
 </template>
 
 <script setup>
-import { ChevronLeft, Search } from 'lucide-vue-next'
+import { ChevronLeft } from 'lucide-vue-next'
 
 const goBack = () => {
   // Add your navigation logic here
   console.log('Go back clicked')
 }
 </script>
+
+<style scoped>
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
+}
+</style>

@@ -1,26 +1,24 @@
 <template>
-  <div class="min-h-screen bg-white p-4 flex flex-col overflow-hidden">
-    
-    <!-- Header con imagen y flecha -->
-    <div class="relative w-9 h-17">
+  <div class="min-h-screen bg-white p-4 flex flex-col">
+    <!-- Header con flecha -->
+    <!-- Triángulo -->
+    <div class="triangle"></div>
+
+    <!-- Flecha (debe estar encima del triángulo) -->
+    <div class="absolute top-1 left-[3px] mt-4 z-20">
       <img 
-        src="../assets/img/Rectangle.svg" 
-        alt="rectangle"
-        class="absolute top-0 left-0 w-10 h-15" 
-      />
-      <img 
-        src="../assets/img/flecha.svg" 
-        alt="back"
-        class="absolute top-6 left-1 w-5 h-5" 
+        src="../assets/img/flechaB.svg" 
+        alt="Volver"
+        class="w-4 h-4" 
       />
     </div>
 
     <!-- Título de la página -->
-    <div class="relative mb-8">
+    <div class="relative mb-4">
       <img 
         src="../assets/img/RectangleA.svg" 
         alt="back"
-        class="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-30 z-0" 
+        class="absolute top-[-14px] left-1/2 transform -translate-x-1/2 w-20 h-30 z-0" 
       />
       <div class="relative z-10 text-center">
         <h3 class="text-2xl font-medium">Compras</h3>
@@ -29,38 +27,15 @@
     </div>
     
     <!-- Purchased Items -->
-    <div class="flex-1 p-4 mb-4"> <!-- Añadido margen para separar de la sección de productos -->
-      <!-- Item Card 1 - Igual al segundo cuadro gris -->
-      <div class="bg-gray-100 rounded-lg p-3 flex mb-4 h-32 w-full"> <!-- Ajustado tamaño con h-32 y w-full -->
-        <img src="../assets/placeholder.svg?height=60&width=60" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" /> <!-- Imagen de 60x60px -->
-        <div class="flex-1 ml-3 flex flex-col">
+    <div class="flex-1 p-2 mb-4">
+      <!-- Item Card 1 -->
+      <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
+        <img src="../assets/placeholder.svg?height=60&width=60" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" />
+        <div class="flex-1 ml-3 flex flex-col justify-between">
           <div class="flex justify-between items-start">
             <div>
-              <p class="text-left text-base font-medium text-sm">Vasija pequeña con diseño de flor</p>
-              <p class="text-left text-base font-medium text-xs text-gray-500">13x10 cm, 2 KG</p>
-              <p class="text-left text-base font-medium text-xs text-gray-500">Asoc. de artesanos productores de Chazuta</p>
-            </div>
-            <img 
-              src="../assets/img/comentario.svg" 
-              alt="comentario"
-              class="h-5 w-5 text-gray-500"
-            />
-          </div>
-          <div class="flex flex-col items-start mt-2 flex-grow">
-            <button class="text-left font-medium bg-black text-white text-xs py-1.5 px-3 rounded-full ml-0 mt-auto">
-              Ver seguimiento del producto
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item Card 2 - Mantener igual -->
-      <div class="bg-gray-100 rounded-lg p-3 flex mb-4 h-32 w-full"> <!-- Ajustado tamaño con h-32 y w-full -->
-        <img src="../assets/placeholder.svg?height=60&width=60" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" />
-        <div class="flex-1 ml-3 flex flex-col">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-left text-base font-medium ml-1.5 text-sm">Bolso negro con diseño de flores</p>
+              <p class="text-left text-base font-medium ml-1.5 text-sm">Vasija pequeña con diseño de flor</p>
+              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">S/.50</p>
               <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">40x40 cm</p>
               <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">Asoc. Pequeña Roma</p>
             </div>
@@ -70,8 +45,33 @@
               class="h-5 w-5 text-gray-500"
             />
           </div>
-          <div class="flex flex-col items-start mt-2 flex-grow">
-            <button class="text-left font-medium bg-black text-white text-xs py-1.5 px-3 rounded-full ml-0 mt-auto">
+          <div class="flex flex-col items-start mt-1">
+            <button class="text-left font-medium bg-black text-white text-xs py-1 px-3 rounded-full ml-0">
+              Ver seguimiento del producto
+            </button>
+          </div>
+        </div>
+      </div>
+   
+      <!-- Item Card 2 -->
+      <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
+        <img src="../assets/placeholder.svg?height=60&width=60" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" />
+        <div class="flex-1 ml-3 flex flex-col justify-between">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-left text-base font-medium ml-1.5 text-sm">Bolso negro con diseño de flores</p>
+              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">S/.50</p>
+              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">40x40 cm</p>
+              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">Asoc. Pequeña Roma</p>
+            </div>
+            <img 
+              src="../assets/img/comentario.svg" 
+              alt="comentario"
+              class="h-5 w-5 text-gray-500"
+            />
+          </div>
+          <div class="flex flex-col items-start mt-1">
+            <button class="text-left font-medium bg-black text-white text-xs py-1 px-3 rounded-full ml-0">
               Ver seguimiento del producto
             </button>
           </div>
@@ -80,10 +80,10 @@
     </div>
 
     <!-- Título "Sigue viendo más artesanías" ajustado más arriba -->
-    <h2 class="text-left text-base font-medium ml-1.5 mt-0 mb-1">Sigue viendo más artesanías</h2> <!-- Título subido más cerca -->
+    <h2 class="text-left text-base font-medium ml-1.5 mt-2 mb-1">Sigue viendo más artesanías</h2>
 
     <!-- More Products Section with Scroll -->
-    <div class="p-4 overflow-y-auto max-h-80">
+    <div class="p-4 overflow-y-auto max-h-80 flex-1">
       <div class="grid grid-cols-2 gap-4">
         <div v-for="(item, index) in moreProducts" :key="index" class="relative">
           <img :src="`@/assets/${item.image}`" :alt="item.name" class="w-full h-40 object-cover rounded-lg" />
@@ -142,75 +142,53 @@ const moreProducts = [
 </script>
 
 <style scoped>
-/* Contenedor principal sin desbordes */
-.min-h-screen {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Hace que el contenedor principal ocupe el 100% de la altura de la pantalla */
-  overflow: hidden; /* Evita el scroll global */
+/* Definición única del triángulo */
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
+  z-index: 10; /* Aseguramos que el triángulo esté debajo de la flecha */
 }
 
-/* Flex para que los elementos crezcan y ocupen espacio disponible */
+/* Ajustes en los cuadros de productos */
+.bg-gray-100 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 9rem; /* Aumento la altura a 9rem (h-36) */
+}
+
 .flex-1 {
   flex: 1;
-  margin-bottom: 16px; /* Espacio para evitar que se desborden y se vean demasiado juntos */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 12px;
 }
 
-/* Estilo para la sección de productos */
-.grid {
-  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
-  grid-template-rows: repeat(4, auto); /* 4 filas de productos */
+.flex {
+  display: flex;
 }
 
-.relative {
-  position: relative;
-}
-
-/* Estilo para la imagen */
-img {
+.object-cover {
   object-fit: cover;
-}
-
-/* Estilo para el contenedor del botón y la descripción del producto */
-.bg-black {
-  background-color: rgba(0, 0, 0, 0.6); /* Si Tailwind no lo resuelve, usa la propiedad directamente */
-}
-
-.bg-opacity-60 {
-  opacity: 0.6;
-}
-
-.text-white {
-  color: white;
 }
 
 .text-xs {
   font-size: 0.75rem;
 }
 
-.ml-0 {
-  margin-left: 0 !important;
-}
-
-.mt-2 {
-  margin-top: 0.5rem !important;
-}
-
-/* Scroll solo en la sección de más productos */
 .max-h-80 {
-  max-height: 20rem; /* Limita la altura de la sección de artesanías a 20rem (puedes ajustar este valor) */
+  max-height: 20rem;
 }
 
 .overflow-y-auto {
-  overflow-y: auto; /* Agrega scroll solo en el eje Y */
-}
-
-/* Asegura que el primer cuadro tenga el mismo tamaño que el segundo */
-.bg-gray-100 {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  height: 8rem; /* Ajusta la altura para que sea igual al segundo cuadro */
+  overflow-y: auto;
 }
 </style>
