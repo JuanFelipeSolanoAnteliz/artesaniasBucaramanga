@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     userName: { type: String, required: true, unique: true }, // Obligatorio y único
     nombre: { type: String, required: false }, // No obligatorio
-    correo: { type: String, required: true, unique: true }, // Obligatorio y único
+    correo: { type: String, required: false, unique: true }, // Obligatorio y único
     contraseña: { type: String, required: false }, // No obligatorio
-    fotoPerfil: { type: String },
-    direccion: { type: String },
-    telefono: { type: String },
+    fotoPerfil: { type: String, required: false },
+    direccion: { type: String, required: false },
+    telefono: { type: String, required: false },
     sexo: { type: String, enum: ['femenino', 'masculino', 'otro'], required: false }, // Obligatorio
     fechaNacimiento: { type: Date, required: false }, // No obligatorio
     favoritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'productos' }],

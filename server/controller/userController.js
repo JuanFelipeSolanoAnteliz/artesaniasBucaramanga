@@ -2,6 +2,7 @@ const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const { uploadToCloudinary } = require('../middleware/cloudinaryConfig');
 
 require('dotenv').config();
 
@@ -68,39 +69,47 @@ class UserController {
 
 
 
-    static async updateUser(req, res) {
+    static async updateUser (req, res) {
         try {
             const { id } = req.params;
             const updates = req.body;
-
+    
+            // Verifica si se está actualizando el correo
             if (updates.correo) {
-                const existingUser = await Users.findOne({ correo: updates.correo });
-                if (existingUser && existingUser._id.toString() !== id) {
+                const existingUser  = await Users.findOne({ correo: updates.correo });
+                if (existingUser  && existingUser ._id.toString() !== id) {
                     return res.status(400).json({ message: 'Email is already in use by another user' });
                 }
             }
-
+    
+            // Verifica si se está actualizando el nombre de usuario
             if (updates.userName) {
                 const existingUserName = await Users.findOne({ userName: updates.userName });
                 if (existingUserName && existingUserName._id.toString() !== id) {
                     return res.status(400).json({ message: 'Username is already in use by another user' });
                 }
             }
-
+    
+            // Eliminar el campo 'tipo' si existe en la actualización
             delete updates.tipo;
-
+    
+            // Actualiza el usuario en la base de datos
             const result = await Users.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
-
+    
+            // Verifica si el usuario fue encontrado
             if (!result) {
                 return res.status(404).json({ message: 'User  not found' });
             }
-
+    
+            // Responde con el usuario actualizado
             res.status(200).json(result);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error updating user' });
         }
     }
+
+
 
 
     static async loginAndAuth(req, res) {
@@ -389,6 +398,48 @@ class UserController {
         }
     }
 
+
+    static async uploadProfileImage(req, res) {
+        try {
+            const { userId } = req.params;
+    
+            if (!req.file) {
+                return res.status(400).json({ 
+                    message: 'No se ha subido ninguna imagen' 
+                });
+            }
+    
+            console.log('Archivo recibido:', req.file); // Debug log
+    
+            // Subir a Cloudinary
+            const imageUrl = await uploadToCloudinary(req.file.path, userId);
+    
+            // Actualizar usuario
+            const updatedUser = await Users.findByIdAndUpdate(
+                userId, 
+                { fotoPerfil: imageUrl }, 
+                { new: true }
+            );
+    
+            if (!updatedUser) {
+                return res.status(404).json({ 
+                    message: 'Usuario no encontrado' 
+                });
+            }
+    
+            res.status(200).json({
+                message: 'Imagen de perfil actualizada',
+                imageUrl: imageUrl
+            });
+    
+        } catch (error) {
+            console.error('Error completo al actualizar imagen:', error);
+            res.status(500).json({ 
+                message: 'Error al procesar la imagen',
+                error: error.message 
+            });
+        }
+    }
 
 }
 

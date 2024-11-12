@@ -15,6 +15,10 @@ npm install passport-google-oauth20
 npm install passport-github2
 npm i socket.io 
 npm i socket.io-client
+npm i cloudinary
+npm install cloudinary
+npm install multer
+
 
 # APIs:
 
@@ -194,3 +198,9 @@ redirecciona para autenticar github, de ahi toma la data la transforma al
 formato de usuarios y sube la data, si se hace otro login igual no crea un
 nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
 que se puede editar para rellenar valores que no da github predeterminadamente)
+
+
+
+PUT http://localhost:5001/users/uploadProfileImage/{id}
+
+http://localhost:5001/users/uploadProfileImage/6730348ef39c6117a094b829

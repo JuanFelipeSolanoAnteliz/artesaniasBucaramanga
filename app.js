@@ -9,10 +9,22 @@ const http = require('http');
 const socketIo = require('socket.io');
 const Chat = require('./server/model/chatModel');
 
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+
+// Middleware para manejar JSON y formularios
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
