@@ -26,7 +26,7 @@ onMounted(() => {
   // Configurar el temporizador para la redirección
   setTimeout(() => {
     router.push('/registro');
-  }, 5000); // 5000 milisegundos = 5 segundos
+  }, 2000); // 5000 milisegundos = 5 segundos
 });
 </script>
 

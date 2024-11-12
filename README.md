@@ -25,35 +25,10 @@ npm run dev:server
 # APIS PARA USERS:
 
 
-## get all users:
-GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
-
-
 ## get one user:
 GET http://localhost:5001/users/{id} (se puede dar click y ver la info pero especifica una ID antes)
 ejemplo:
-http://localhost:5001/users/getUser/672cb5e790cb620ef1ae1e88
-
-
-## create one user(no bcrypt):
-POST http://localhost:5001/users/newUser (user body en thunderClient)
-
-esta API crea un usuario nuevo normal, pero no encripta contraseña ojo
-
-body:
-´´´
-{
-    "userName": "juanperez",
-    "nombre": "Juan Pérez",
-    "correo": "juan.perez@example.com",
-    "contraseña": "miContraseñaSegura",
-    "fotoPerfil": "url_a_la_foto",
-    "direccion": "Calle Falsa 123",
-    "telefono": "1234567890",
-    "sexo": "masculino",
-    "fechaNacimiento": "1990-01-01"
-}
-´´´
+http://localhost:5001/users/getUser/672f90df27c7f5c1af3590ee
 
 
 

@@ -9,7 +9,7 @@ router.get('/getUser/:id', UserController.getUserById);
 router.post('/newUser', UserController.createUser );
 router.put('/updateUser/:id', UserController.updateUser );
 router.post('/loginAndAuth', UserController.loginAndAuth);
-router.post('/createAndAuth', UserController.createAndAuth);
+router.post('/createAndAuth', UserController.createUser);
 
 router.get('/auth/discord', passport.authenticate('discord'));
 router.get('/auth/discord/callback', 

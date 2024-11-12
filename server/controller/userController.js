@@ -2,11 +2,9 @@ const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-
 require('dotenv').config();
 
-class UserController {
-
+class UserController{
 
     static async getAllUsers(req, res) {
         try {
@@ -33,38 +31,6 @@ class UserController {
             res.status(500).json({ message: 'Error retrieving user' });
         }
     }
-
-
-
-
-    static async createUser(req, res) {
-        try {
-            const { userName, nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
-            const newUser = new Users({
-                userName,
-                nombre,
-                correo,
-                contraseña,
-                fotoPerfil,
-                direccion,
-                telefono,
-                sexo,
-                fechaNacimiento,
-                tipo: 'comprador',
-                favoritos: [],
-                compras: [],
-                talleresInscritos: [],
-                cupones: [],
-            });
-
-            const result = await newUser.save();
-            res.status(201).json(result);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error creating user' });
-        }
-    }
-
 
 
 
@@ -153,27 +119,15 @@ class UserController {
 
 
 
-    static async createAndAuth(req, res) {
+    
+    static async createUser(req, res) {
         try {
             const { userName, nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
-
-            const existingUser = await Users.findOne({ correo });
-            if (existingUser) {
-                return res.status(400).json({ message: 'User  already exists, change the email' });
-            }
-
-            const existingUserName = await Users.findOne({ userName });
-            if (existingUserName) {
-                return res.status(400).json({ message: 'Username already exists, choose another one' });
-            }
-
-            const hashedPassword = await bcrypt.hash(contraseña, 10);
-
             const newUser = new Users({
                 userName,
                 nombre,
                 correo,
-                contraseña: hashedPassword,
+                contraseña,
                 fotoPerfil,
                 direccion,
                 telefono,
@@ -187,21 +141,10 @@ class UserController {
             });
 
             const result = await newUser.save();
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            const token = jwt.sign({ id: result._id, correo: result.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
-
-            res.cookie('login', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 3600000
-            });
-
-            return res.status(201).json({ message: 'Successfully created and authenticated', jwt: token });
-
+            res.status(201).json(result);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error creating and authenticating user' });
+            res.status(500).json({ message: 'Error creating user' });
         }
     }
 
