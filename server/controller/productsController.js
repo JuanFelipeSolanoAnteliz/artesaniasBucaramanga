@@ -94,6 +94,18 @@ exports.getByCategory = async (req, res, ) => {
     }
 }
 
+exports.getDiscountsBycategory = async (req, res)=>{
+    try{
+        let category = req.params.category
+        let result = await Products.find({ descuento: { $ne: null }, categoria:category });
+        if(result.length === 0){return res.status(404).json({status:404, message:'There is not discounts to fetch'})}
+        return res.status(200).json({status:200, message:'discounts fetched correctly', data:result})
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({status:500, message:'something went wrong while fetching discounts'});
+    }
+}
+
 exports.getDiscounts = async (req, res)=>{
     try{
         let result = await Products.find({ descuento: { $ne: null } });
