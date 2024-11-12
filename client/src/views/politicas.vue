@@ -63,7 +63,7 @@
           </label>
         </div>
   
-        <button type="submit" class="register-button">
+        <button @click="goToHome" type="submit" class="register-button">
           Registrarse
         </button>
       </form>
@@ -75,7 +75,13 @@
   <script setup>
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
+
+  
   const router = useRouter()
+  
+  const goToHome = () => {
+    router.push("/tallerMes")
+  }
 
 
 const goBack = () => {

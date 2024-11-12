@@ -10,6 +10,7 @@
           <div class="relative">
             <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             <input
+              v-model="searchQuery"
               type="search"
               placeholder="Buscar productos o tienda..."
               class="w-full bg-[#3D3D3D] rounded-10 py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gray-700"
@@ -43,10 +44,11 @@
         </div>
 
         <nav class="space-y-4">
-          <a v-for="(item, index) in menuItems" :key="index" 
-             class="flex items-center space-x-3 p-2 rounded-lg">
-            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full justify-center" />
-            <span class="">{{ item.label }}</span>
+          <a v-for="(item, index) in menuItems" 
+             :key="index" 
+             class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800">
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
+            <span>{{ item.label }}</span>
           </a>
         </nav>
 
@@ -63,28 +65,57 @@
 
     <!-- Main Content -->
     <main class="pt-16 pb-20 px-4 min-h-screen">
-      <div class="py-6">
+      <div v-if="isLoading" class="flex justify-center items-center h-64">
+        <div class="text-black">Cargando talleres...</div>
+      </div>
+
+      <div v-else-if="error" class="flex justify-center items-center h-64">
+        <div class="text-red-500">{{ error }}</div>
+      </div>
+
+      <div v-else class="py-6">
         <p class="text-sm text-gray-500 mb-4">Tiendas de artesanías de todas partes de Bucaramanga</p>
         <div class="flex items-center space-x-2 mb-6">
           <h1 class="text-xl font-semibold text-black">Talleres y tiendas artesanales</h1>
           <button class="flex flex-col h-15 w-15 rounded-full justify-center">
             <Settings2 class="h-6 w-6 text-black" />
-            <span class="text-xs mt-1"></span>
           </button>
         </div>
 
+        <!-- Categories Scroll -->
+        <div class="overflow-x-auto mb-6 no-scrollbar">
+          <div class="flex space-x-4">
+            <button
+              v-for="category in categories"
+              :key="category.nombre"
+              @click="selectCategory(category.nombre)"
+              class="flex flex-col items-center min-w-[80px]"
+              :class="{'opacity-100': selectedCategory === category.nombre, 'opacity-50': selectedCategory && selectedCategory !== category.nombre}"
+            >
+              <img :src="category.imagen" :alt="category.nombre" class="w-12 h-12 mb-2" />
+              <span class="text-xs text-black text-center">{{ category.nombre }}</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Products Grid -->
-        <div @click="goDetalleTaller" class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4">
           <div
-            v-for="product in filteredProducts"
-            :key="product.id"
-            class="bg-white rounded-lg overflow-hidden shadow"
+            v-for="workshop in filteredProducts"
+            :key="workshop.id"
+            @click="goDetalleTaller(workshop.id)"
+            class="bg-white rounded-lg overflow-hidden shadow cursor-pointer"
           >
             <div class="p-3 mt-2 bg-black rounded-lg">
-              <h3 class="text-sm font-medium text-white">{{ product.name }}</h3>
-              <p class="text-xs text-gray-300">{{ product.artisan }}</p>
+              <h3 class="text-sm font-medium text-white">{{ workshop.name }}</h3>
+              <p class="text-xs text-gray-300">{{ workshop.artisan }}</p>
             </div>
-            <img :src="product.image" :alt="product.name" class="w-full h-40 object-cover rounded-lg" />
+            <img 
+              :src="workshop.image" 
+              :alt="workshop.name" 
+              class="w-full h-40 object-cover rounded-lg"
+              @error="handleImageError"
+            />
           </div>
         </div>
       </div>
@@ -95,22 +126,18 @@
       <div class="flex justify-around p-3">
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <Store class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <BadgePercent @click="goToDescuentos" class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
+        <button @click="goToDescuentos" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <BadgePercent class="h-6 w-6" />
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <HomeIcon @click="goToHome" class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
+        <button @click="goToHome" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <HomeIcon class="h-6 w-6" />
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
+        <button @click="goToCarritoCompras" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <ShoppingCart class="h-6 w-6" />
         </button>
         <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <UserIcon class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
         </button>
       </div>
     </nav>
@@ -118,13 +145,55 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
+// Icon imports
+import {
+  MenuIcon,
+  SearchIcon,
+  HomeIcon,
+  UserIcon,
+  HeartIcon,
+  SettingsIcon,
+  MessageSquareIcon,
+  Store,
+  BadgePercent,
+  ShoppingCart,
+  Briefcase,
+  NotepadText,
+  TicketPercent,
+  Headset,
+  Settings2
+} from 'lucide-vue-next'
+
+// Image imports
+import joyeria from "../assets/img/jewelryCategory.svg"
+import textileria from "../assets/img/textileria2.svg"
+import orfebreria from "../assets/img/goldsmithCategory.svg"
+import tallaPiedra from "../assets/img/stoneWorkshopCategory.svg"
+import tallaMadera from "../assets/img/woodWorkshopCategory.svg"
+import estampado from "../assets/img/stampedCategory.svg"
+import Hojalateria from "../assets/img/sheetMetalCategory.svg"
+import bordado from "../assets/img/embroideryCategory.svg"
+import ceramica from "../assets/img/ceramicCategory.svg"
+import pinturaTradicional from "../assets/img/paintingTraditionalCategory.svg"
+
+// Router setup
 const router = useRouter()
 
-const goDetalleTaller = () => {
-  router.push("/detalleTaller")
+// State management
+const isDrawerOpen = ref(false)
+const selectedCategory = ref(null)
+const workshops = ref([])
+const searchQuery = ref('')
+const isLoading = ref(false)
+const error = ref(null)
+
+// Navigation functions
+const goDetalleTaller = (id) => {
+  router.push(`/detalleTaller/${id}`)
 }
 
 const goToHome = () => {
@@ -143,44 +212,6 @@ const goToUser = () => {
   router.push("/user")
 }
 
-import {
-  MenuIcon,
-  SearchIcon,
-  MapPinIcon,
-  HomeIcon,
-  UserIcon,
-  HeartIcon,
-  GiftIcon,
-  BookOpenIcon,
-  SettingsIcon,
-  MessageSquareIcon,
-  HelpCircleIcon,
-  Store,
-  BadgePercent,
-  ShoppingCart,
-  Briefcase,
-  NotepadText,
-  TicketPercent,
-  Headset,
-  Settings2Icon,
-  Settings2
-} from 'lucide-vue-next'
-
-import joyeria from "../assets/img/jewelryCategory.svg"
-import textileria from "../assets/img/textileria2.svg"
-import orfebreria from "../assets/img/goldsmithCategory.svg"
-import tallaPiedra from "../assets/img/stoneWorkshopCategory.svg"
-import tallaMadera from "../assets/img/woodWorkshopCategory.svg"
-import estampado from "../assets/img/stampedCategory.svg"
-import Hojalateria from "../assets/img/sheetMetalCategory.svg"
-import bordado from "../assets/img/embroideryCategory.svg"
-import ceramica from "../assets/img/ceramicCategory.svg"
-import pinturaTradicional from "../assets/img/paintingTraditionalCategory.svg"
-import CarritCompras from './carritCompras.vue';
-
-const isDrawerOpen = ref(false)
-const selectedCategory = ref(null)
-
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value
 }
@@ -189,6 +220,7 @@ const selectCategory = (categoryName) => {
   selectedCategory.value = selectedCategory.value === categoryName ? null : categoryName
 }
 
+// Categories data
 const categories = [
   { nombre: 'Textileria', imagen: textileria },
   { nombre: 'Ceramica', imagen: ceramica },
@@ -202,6 +234,7 @@ const categories = [
   { nombre: 'Pintura tradicional', imagen: pinturaTradicional }
 ]
 
+// Menu items data
 const menuItems = [
   { label: 'Lista de Favoritos', icon: HeartIcon },
   { label: 'Canjear', icon: Briefcase },
@@ -212,94 +245,62 @@ const menuItems = [
   { label: 'Atención al cliente', icon: Headset }
 ]
 
-// Sample products data
-const products = [
-  {
-    id: 1,
-    name: 'Tapiz Chumpi Andino III',
-    price: '600',
-    artisan: 'Taller Away Ayllus',
-    image: '../assets/img/user.svg',
-    category: 'Textileria'
-  },
-  {
-    id: 2,
-    name: 'Collar de plata',
-    price: '450',
-    artisan: 'Joyería Inca',
-    image: '../assets/img/user.svg',
-    category: 'Joyeria'
-  },
-  {
-    id: 3,
-    name: 'Bandeja de hojalata',
-    price: '80',
-    artisan: 'Taller Metálico',
-    image: '../assets/img/user.svg',
-    category: 'Hojalateria'
-  },
-  {
-    id: 4,
-    name: 'Camiseta estampada',
-    price: '45',
-    artisan: 'Diseños Andinos',
-    image: '../assets/img/user.svg',
-    category: 'Estampado'
-  },
-  {
-    id: 5,
-    name: 'Cuadro tradicional',
-    price: '300',
-    artisan: 'Galería Cusco',
-    image: '../assets/img/user.svg',
-    category: 'Pintura tradicional'
-  },
-  {
-    id: 6,
-    name: 'Escultura en piedra',
-    price: '750',
-    artisan: 'Talladores de los Andes',
-    image: '../assets/img/user.svg',
-    category: 'Talla en piedra'
-  },
-  {
-    id: 7,
-    name: 'Figura de madera',
-    price: '120',
-    artisan: 'Artesanías del Bosque',
-    image: '../assets/img/user.svg',
-    category: 'Talla en madera'
-  },
-  {
-    id: 8,
-    name: 'Chal bordado',
-    price: '200',
-    artisan: 'Bordadoras de Ayacucho',
-    image: '../assets/img/user.svg',
-    category: 'Bordado'
-  },
-  {
-    id: 9,
-    name: 'Vasija decorativa',
-    price: '85',
-    artisan: 'Alfareros del Valle',
-    image: '../assets/img/user.svg',
-    category: 'Ceramica'
-  },
-  {
-    id: 10,
-    name: 'Brazalete de oro',
-    price: '1200',
-    artisan: 'Orfebres del Sol',
-    image: '../assets/img/user.svg',
-    category: 'Orfebreria'
+// API functions
+const fetchWorkshops = async () => {
+  isLoading.value = true
+  error.value = null
+  try {
+    const response = await axios.get('http://localhost:5001/workshops/all', {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+    workshops.value = response.data.map(workshop => ({
+      id: workshop.id,
+      name: workshop.name,
+      artisan: workshop.artisan_name,
+      image: workshop.image_url || '../assets/img/user.svg',
+      category: workshop.category
+    }))
+  } catch (err) {
+    error.value = 'Error al cargar los talleres: ' + err.message
+    console.error('Error fetching workshops:', err)
+  } finally {
+    isLoading.value = false
   }
-]
+}
 
-// Computed property for filtered products
+// Computed properties
 const filteredProducts = computed(() => {
-  if (!selectedCategory.value) return products
-  return products.filter(product => product.category === selectedCategory.value)
+  let filtered = workshops.value
+
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    filtered = filtered.filter(workshop => 
+      workshop.name.toLowerCase().includes(query) ||
+      workshop.artisan.toLowerCase().includes(query) ||
+      workshop.category.toLowerCase().includes(query)
+    )
+  }
+
+  if (selectedCategory.value) {
+    filtered = filtered.filter(workshop => 
+      workshop.category === selectedCategory.value
+    )
+  }
+
+  return filtered
+})
+
+// Image error handling
+const handleImageError = (event) => {
+  event.target.src = '../assets/img/user.svg'
+}
+
+// Lifecycle hooks
+onMounted(() => {
+  fetchWorkshops()
 })
 </script>
 
@@ -318,22 +319,13 @@ const filteredProducts = computed(() => {
   font-style: italic;
 }
 
-/* Estilos para el scroll horizontal en categorías cuando hay una seleccionada */
-.grid-cols-10 {
-  grid-auto-flow: column;
-  gap: 70px;
-  grid-auto-columns: min-content;
-  overflow-x: auto;
-  scrollbar-width: none; /* Para Firefox */
-  -ms-overflow-style: none;  /* Para Internet Explorer y Edge */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.grid-cols-10::-webkit-scrollbar {
-  display: none; /* Para Chrome, Safari y Opera */
-}
-
-.hr {
-  color: black;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 #main-container {

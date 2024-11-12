@@ -9,9 +9,7 @@
         />
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20 ">
           <div class="flex ">
-            <button @click="goBack" class="p-4  bg-[#3D3D3D]">
-          <ArrowLeft class="h-6 w-6 text-white" />
-        </button>
+            <img src="../assets/img/backNofondo.png" alt="">
 
 
             <h1 class=" text-white  text-center bg-[#3D3D3D] h-8 w-52 justify-between ml-14 rounded-lg">{{ product.artisan }}</h1>

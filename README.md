@@ -35,9 +35,9 @@ http://localhost:5001/users/getUser/672f90df27c7f5c1af3590ee
 ## edit one user(email cant be same than other):
 PUT http://localhost:5001/users/updateUser/:id (user body en thunderClient)
 
-el editar puede editar cualquier campo del dato desde uno solo, hasta todo, las unicas condiciones son no se puede modificar el tipo, el email no se puede poner uno existente y se debe poner el _id del usuario, id ejemplo:
+el editar puede editar cualquier campo del dato desde uno solo, hasta todo, Cy se debe poner el _id del usuario, id ejemplo:
 
-http://localhost:5001/users/updateUser/672b784954bc940d9200e06f
+http://localhost:5001/users/updateUser/672f90df27c7f5c1af3590ee
 
 y en body:
 
