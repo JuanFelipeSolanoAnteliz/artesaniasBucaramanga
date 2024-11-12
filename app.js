@@ -6,23 +6,15 @@ const userRouter = require('./server/router/userRouter');
 const productRouter = require('./server/router/productRouter');
 const voucherRouter = require('./server/router/voucherRouter');
 const workshopsRouter = require('./server/router/workshopRouter');
+const orderRouter = require('./server/router/paymentsRouter');
 const session = require('express-session');
 const passport = require('passport');
-const connectDB = require('./server/helper/connect');
-const middlewarePassport = require('./server/middleware/passportSetup');
+const sessionConfig = require('./server/middleware/sessionConfig');
+require('./server/middleware/passportSetup');
 
 const app = express();
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 3600000
-    }
-}));
-
+app.use(sessionConfig);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,6 +24,7 @@ app.use('/users',userRouter);
 app.use('/products', productRouter);
 app.use('/vouchers',voucherRouter);
 app.use('/workshops',workshopsRouter);
+app.use('/orders',orderRouter);
 
 app.use(express.static(join(__dirname, 'client/dist')));
 

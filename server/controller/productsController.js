@@ -23,7 +23,8 @@ exports.addProduct = async (req, res)=>{
             categoria: req.body.categoria,
             fotos: req.body.fotos,
             stock: req.body.stock,
-            artesanoId: new ObjectId('5f3e5f4c2c0e4a1d4c8b4572')
+            artesanoId: new ObjectId('5f3e5f4c2c0e4a1d4c8b4572'),
+            descuento:null
         },
         {
             versionKey: false 
@@ -59,5 +60,16 @@ exports.getByCategory = async (req, res, ) => {
     }catch(error){
         console.log(error)
         res.status(500).send({'message':'Error at fetch products', 'error':error});
+    }
+}
+
+exports.getDiscounts = async (req, res)=>{
+    try{
+        let result = await Products.find({ descuento: { $ne: null } });
+        if(result.length === 0){return res.status(404).json({status:404, message:'There is not discounts to fetch'})}
+        return res.status(200).json({status:200, message:'discounts fetched correctly', data:result})
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({status:500, message:'something went wrong while fetching discounts'});
     }
 }

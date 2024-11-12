@@ -20,6 +20,7 @@ class UserController{
 
     static async getUserById(req, res) {
         try {
+           
             const { id } = req.params;
             const user = await Users.findById(id);
             if (!user) {
@@ -101,19 +102,13 @@ class UserController{
 
             // Crear el token JWT
             const token = jwt.sign({ id: user._id, correo: user.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            req.session.auth = token;
 
-            // Configurar la cookie de sesión
-            res.cookie('login', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 3600000
-            });
-
-            return res.status(200).json({ message: 'Successfully logged in', jwt: token });
-
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error logging in' });
+            return res.status(202).json({ message: 'User logged in successfully', token });
+            
+        }catch(error){
+            console.log(error);
+            return error;
         }
     }
 

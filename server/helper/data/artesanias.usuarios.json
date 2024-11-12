@@ -1,0 +1,187 @@
+[{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4571"
+  },
+  "nombre": "Daniela Pérez",
+  "correo": "daniela.perez@example.com",
+  "contraseña": "$2a$10$LkjdFhjLdjkSdfkgF1.dlhfghj1ekrLpojUbgVk.uhkjdlAkj9C",
+  "fotoPerfil": "https://example.com/foto/daniela.jpg",
+  "direccion": "Calle 22, Bucaramanga",
+  "telefono": "3122349870",
+  "tipo": "comprador",
+  "favoritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000006"
+    }
+  ],
+  "compras": [],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000029"
+    }
+  ],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b2300001a"
+    }
+  ],
+  "fechaNacimiento": {
+    "$date": "1990-01-01T00:00:00.000Z"
+  },
+  "sexo": "femenino",
+  "userName": "daniP"
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4569"
+  },
+  "nombre": "Sofía Martínez",
+  "correo": "sofia.martinez@example.com",
+  "contraseña": "$2a$10$AwerQpljOtyghDfhA6dvBnVbJhg0F4klR7flwKopPlUkDjW3r4.kF",
+  "fotoPerfil": "https://example.com/foto/sofia.jpg",
+  "direccion": "Carrera 789, Cali",
+  "telefono": "3146549871",
+  "tipo": "comprador",
+  "favoritos": [
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12c3"
+    }
+  ],
+  "compras": [],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000028"
+    }
+  ],
+  "cupones": [],
+  "fechaNacimiento": {
+    "$date": "1990-01-01T00:00:00.000Z"
+  },
+  "sexo": "femenino",
+  "userName": "lasofi"
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4567"
+  },
+  "nombre": "Camila López",
+  "correo": "camila.lopez@example.com",
+  "contraseña": "$2a$10$GfhjXwLxUoD8nfyTbZKkgu4Yb5.HjklLmnop4tRl7rfWzTmjeHoRG",
+  "fotoPerfil": "https://example.com/foto/camila.jpg",
+  "direccion": "Calle 123, Bogotá",
+  "telefono": "3214567890",
+  "tipo": "comprador",
+  "favoritos": [
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12a3"
+    },
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12a4"
+    }
+  ],
+  "compras": [
+    {
+      "$oid": "64f2c111fc13ae1b23000009"
+    }
+  ],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000027"
+    }
+  ],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b23000013"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  },
+  "nombre": "Javier Rodríguez",
+  "correo": "javier.rodriguez@example.com",
+  "contraseña": "$2a$10$LkjfhgdfghjlgLjkHgfhjXhyfujklgjhnjkweqBhUg1j56U88cV.w5",
+  "fotoPerfil": "https://example.com/foto/javier.jpg",
+  "direccion": "Avenida 456, Medellín",
+  "telefono": "3119876543",
+  "tipo": "artesano",
+  "favoritos": [
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12b3"
+    },
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12b4"
+    }
+  ],
+  "compras": [
+    {
+      "$oid": "5f5e5c4a2c9e4b1d4f8c23a2"
+    }
+  ],
+  "talleresInscritos": [],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b23000014"
+    }
+  ],
+  "fechaNacimiento": {
+    "$date": "1990-01-01T00:00:00.000Z"
+  },
+  "sexo": "masculino",
+  "userName": "Xavi"
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4573"
+  },
+  "nombre": "Laura García",
+  "correo": "laura.garcia@example.com",
+  "contraseña": "$2a$10$JklPlmnhj9dfKljbvfpjkglFhLljkhbjklHvgg4PvdsjUkBhF",
+  "fotoPerfil": "https://example.com/foto/laura.jpg",
+  "direccion": "Carrera 202, Manizales",
+  "telefono": "3133459870",
+  "tipo": "comprador",
+  "favoritos": [],
+  "compras": [
+    {
+      "$oid": "64f2c111fc13ae1b23000007"
+    }
+  ],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000019"
+    }
+  ],
+  "cupones": [
+    {
+      "$oid": "5f6e5c4a2c9e4b1d4f8c56e4"
+    }
+  ],
+  "fechaNacimiento": {
+    "$date": "1990-01-01T00:00:00.000Z"
+  },
+  "userName": "lauGarcia",
+  "sexo": "femenino"
+},
+{
+  "_id": {
+    "$oid": "672dfa9cb1658c280012bee6"
+  },
+  "userName": "si",
+  "nombre": "Juan Pérez",
+  "correo": "juan.perez@example.com",
+  "contraseña": "$2b$10$rE5YGXIkx0Va13O3PolYXuMUMpP49z1WyzNtrJxSOOvld/oWdA7Hi",
+  "fotoPerfil": "http://ejemplo.com/miFoto.jpg",
+  "direccion": "Calle Falsa 123",
+  "telefono": "123456789",
+  "sexo": "masculino",
+  "fechaNacimiento": {
+    "$date": "1990-01-01T00:00:00.000Z"
+  },
+  "favoritos": [],
+  "compras": [],
+  "talleresInscritos": [],
+  "cupones": [],
+  "tipo": "comprador"
+}]
