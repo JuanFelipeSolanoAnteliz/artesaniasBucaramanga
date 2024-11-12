@@ -9,7 +9,7 @@ exports.markProductAsfav= async ( req, res) =>{
         let user = req.data.id;
         let updateUserInfo = await Users.updateOne(
             { _id: user },
-            { $push: { favoritos: productFav} }
+            { $push: { favoritos: new ObjectId(productFav)} }
         )
         return res.status(214).json({ status: 214, message: 'Product added to favorites successfully', data:updateUserInfo});
     }catch(error){
@@ -24,12 +24,12 @@ exports.unMarkProductAsfav= async ( req, res) =>{
         let user = req.data.id;
         let updateUserInfo = await Users.updateOne(
             { _id: user },
-            { $pull: { favoritos: productFav} }
+            { $pull: { favoritos: new ObjectId(productFav)} }
         )
-        return res.status(214).json({ status: 214, message: 'Product added to favorites successfully', data:updateUserInfo});
+        return res.status(214).json({ status: 214, message: 'Product removed from favorites successfully', data:updateUserInfo});
     }catch(error){
         console.log(error);
-        return res.status(500).json({ status: 500, message: 'There was an error while adding the product to favorites'});
+        return res.status(500).json({ status: 500, message: 'There was an error while removing the product from favorites'});
     }
 }
 
