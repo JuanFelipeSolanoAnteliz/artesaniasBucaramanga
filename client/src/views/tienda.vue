@@ -82,21 +82,6 @@
           </button>
         </div>
 
-        <!-- Categories Scroll -->
-        <div class="overflow-x-auto mb-6 no-scrollbar">
-          <div class="flex space-x-4">
-            <button
-              v-for="category in categories"
-              :key="category.nombre"
-              @click="selectCategory(category.nombre)"
-              class="flex flex-col items-center min-w-[80px]"
-              :class="{'opacity-100': selectedCategory === category.nombre, 'opacity-50': selectedCategory && selectedCategory !== category.nombre}"
-            >
-              <img :src="category.imagen" :alt="category.nombre" class="w-12 h-12 mb-2" />
-              <span class="text-xs text-black text-center">{{ category.nombre }}</span>
-            </button>
-          </div>
-        </div>
 
         <!-- Products Grid -->
         <div class="grid grid-cols-2 gap-4">
@@ -220,19 +205,7 @@ const selectCategory = (categoryName) => {
   selectedCategory.value = selectedCategory.value === categoryName ? null : categoryName
 }
 
-// Categories data
-const categories = [
-  { nombre: 'Textileria', imagen: textileria },
-  { nombre: 'Ceramica', imagen: ceramica },
-  { nombre: 'Orfebreria', imagen: orfebreria },
-  { nombre: 'Talla en piedra', imagen: tallaPiedra },
-  { nombre: 'Talla en madera', imagen: tallaMadera },
-  { nombre: 'Bordado', imagen: bordado },
-  { nombre: 'Joyeria', imagen: joyeria },
-  { nombre: 'Hojalateria', imagen: Hojalateria },
-  { nombre: 'Estampado', imagen: estampado },
-  { nombre: 'Pintura tradicional', imagen: pinturaTradicional }
-]
+
 
 // Menu items data
 const menuItems = [
@@ -256,12 +229,23 @@ const fetchWorkshops = async () => {
         'x-version': '1.0.0'
       }
     })
-    workshops.value = response.data.map(workshop => ({
-      id: workshop.id,
-      name: workshop.name,
-      artisan: workshop.artisan_name,
-      image: workshop.image_url || '../assets/img/user.svg',
-      category: workshop.category
+    
+    // Access the data array from the response structure
+    const workshopsData = response.data.data
+
+    workshops.value = workshopsData.map(workshop => ({
+      id: workshop._id,
+      name: workshop.nombre,
+      artisan: workshop.artesanoId, // You might want to fetch artisan name separately
+      image: workshop.documental || '../assets/img/user.svg',
+      category: workshop.modalidad,
+      description: workshop.descripcion,
+      startDate: new Date(workshop.fechaInicio).toLocaleDateString(),
+      endDate: new Date(workshop.fechaFin).toLocaleDateString(),
+      duration: workshop.duracion,
+      location: workshop.ubicacion,
+      materialsProvided: workshop.materialesProporcionados,
+      materialsRequired: workshop.materialesRequeridos
     }))
   } catch (err) {
     error.value = 'Error al cargar los talleres: ' + err.message
@@ -271,7 +255,7 @@ const fetchWorkshops = async () => {
   }
 }
 
-// Computed properties
+// Update the filtered products computed property to match new data structure
 const filteredProducts = computed(() => {
   let filtered = workshops.value
 
@@ -279,8 +263,8 @@ const filteredProducts = computed(() => {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(workshop => 
       workshop.name.toLowerCase().includes(query) ||
-      workshop.artisan.toLowerCase().includes(query) ||
-      workshop.category.toLowerCase().includes(query)
+      workshop.location.toLowerCase().includes(query) ||
+      workshop.description.toLowerCase().includes(query)
     )
   }
 

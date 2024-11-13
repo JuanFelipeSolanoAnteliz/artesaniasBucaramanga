@@ -71,50 +71,59 @@
           </div>
         </div>
   
-        <!-- Categories -->
         <div class="overflow-x-auto scrollbar-hide mb-4">
-          <div class="flex">
-            <button
-              v-for="category in categories"
-              :key="category"
-              @click="selectCategory(category)"
-              :class="[
-                'px-3 text-xs w-24',
-                selectedCategory === category
-                  ? 'bg-black text-white'
-                  : 'bg-gray-200 text-gray-800'
-              ]"
-            >
-              {{ category }}
-            </button>
-          </div>
-          <hr class="bg-black h-1">
-        </div>
-  
-        <!-- Products Grid -->
-        <div class="grid grid-cols-2 gap-4 px-4">
-          <div
-            v-for="product in filteredProducts"
-            :key="product.id"
-            class="relative bg-white rounded-lg shadow"
+        <div class="flex">
+          <button
+            v-for="category in categories"
+            :key="category"
+            @click="selectCategory(category)"
+            :class="[
+              'px-3 text-xs w-24',
+              selectedCategory === category
+                ? 'bg-black text-white'
+                : 'bg-gray-200 text-gray-800'
+            ]"
           >
-            <div class="relative h-40 w-full">
-              <img
-                :src="product.image"
-                :alt="product.title"
-                class="absolute inset-0 w-full h-full object-cover rounded-t-lg"
-              />
-              <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs rounded">
-                {{ product.discount }}
-              </div>
-            </div>
-            <div class="p-3 bg-black rounded-b-lg">
-              <h3 class="text-white text-xs font-medium truncate">{{ product.title }}</h3>
-              <p class="text-gray-400 text-xs mt-1">{{ product.price }}</p>
-              <p class="text-gray-500 text-[10px] mt-1 truncate">{{ product.artisan }}</p>
+            {{ category }}
+          </button>
+        </div>
+        <hr class="bg-black h-1">
+      </div>
+
+      <!-- Loading State -->
+      <div v-if="isLoading" class="flex justify-center items-center py-8">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="text-red-500 text-center py-8">
+        {{ error }}
+      </div>
+
+      <!-- Products Grid -->
+      <div v-else class="grid grid-cols-2 gap-4 px-4">
+        <div
+          v-for="product in filteredProducts"
+          :key="product.id"
+          class="relative bg-white rounded-lg shadow"
+        >
+          <div class="relative h-40 w-full">
+            <img
+              :src="product.image"
+              :alt="product.title"
+              class="absolute inset-0 w-full h-full object-cover rounded-t-lg"
+            />
+            <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs rounded">
+              {{ product.discount }}
             </div>
           </div>
+          <div class="p-3 bg-black rounded-b-lg">
+            <h3 class="text-white text-xs font-medium truncate">{{ product.title }}</h3>
+            <p class="text-gray-400 text-xs mt-1">{{ product.price }}</p>
+            <p class="text-gray-500 text-[10px] mt-1 truncate">{{ product.artisan }}</p>
+          </div>
         </div>
+      </div>
       </main>
   
       <!-- Bottom Navigation -->
@@ -141,121 +150,132 @@
   </template>
   
   <script setup>
-  import { ref, computed } from 'vue'
-  import { useRouter } from 'vue-router'
-  
-  const router = useRouter()
-  
-  const goToHome = () => {
-    router.push("/tallerMes")
-  }
-  
-  const goToTienda = () => {
-    router.push("/tallerYtiendas")
-  }
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-  const goToCarritoCompras = () => {
-    router.push("/carritoCompras")
-  }
+const router = useRouter()
+const isDrawerOpen = ref(false)
+const selectedCategory = ref(null)
+const products = ref([])
+const isLoading = ref(false)
+const error = ref(null)
 
-  const goToUser = () => {
-    router.push("/user")
-  }
+const goToHome = () => {
+  router.push("/tallerMes")
+}
+
+const goToTienda = () => {
+  router.push("/tallerYtiendas")
+}
+
+const goToCarritoCompras = () => {
+  router.push("/carritoCompras")
+}
+
+const goToUser = () => {
+  router.push("/user")
+}
+
+import {
+  MenuIcon,
+  SearchIcon,
+  HomeIcon,
+  UserIcon,
+  HeartIcon,
+  Store,
+  BadgePercent,
+  ShoppingCart,
+  Briefcase,
+  NotepadText,
+  TicketPercent,
+  Headset,
+  Settings2,
+  MessageSquare
+} from 'lucide-vue-next'
+
+const toggleDrawer = () => {
+  isDrawerOpen.value = !isDrawerOpen.value
+}
+
+// API configuration
+const API_BASE_URL = 'http://localhost:5001'
+const headers = {
+  'Content-Type': 'application/json',
+  'x-version': '1.0.0'
+}
+
+// Function to fetch products by category
+const fetchProductsByCategory = async (category) => {
+  isLoading.value = true
+  error.value = null
   
-  import {
-    MenuIcon,
-    SearchIcon,
-    HomeIcon,
-    UserIcon,
-    HeartIcon,
-    Store,
-    BadgePercent,
-    ShoppingCart,
-    Briefcase,
-    NotepadText,
-    TicketPercent,
-    Headset,
-    Settings2,
-    MessageSquare
-  } from 'lucide-vue-next'
-  
-  const isDrawerOpen = ref(false)
-  const selectedCategory = ref(null)
-  
-  const toggleDrawer = () => {
-    isDrawerOpen.value = !isDrawerOpen.value
-  }
-  
-  const selectCategory = (categoryName) => {
-    selectedCategory.value = selectedCategory.value === categoryName ? null : categoryName
-  }
-  
-  const categories = [
-    'Textileria',
-    'Cerámica',
-    'Joyeria',
-    'Talla en piedra',
-    'Talla en madera',
-    'Bordado',
-    'Hojalateria',
-    'Estampado',
-    'Pintura tradicional'
-  ]
-  
-  const menuItems = [
-    { label: 'Lista de Favoritos', icon: HeartIcon },
-    { label: 'Canjear', icon: Briefcase },
-    { label: 'Talleres', icon: NotepadText },
-    { label: 'Canjear cupón', icon: TicketPercent },
-    { label: 'Ajustes', icon: Settings2 },
-    { label: 'Comentarios', icon: MessageSquare },
-    { label: 'Atención al cliente', icon: Headset }
-  ]
-  
-  const products = [
-    {
-      id: 1,
-      title: 'Chalina Beige con flecos',
-      price: 'S/. 37.00',
-      artisan: 'Asoc. de artesanos Tinkuy',
-      discount: '-35%',
-      image: '/placeholder.svg?height=150&width=150',
-      category: 'Textileria'
-    },
-    {
-      id: 2,
-      title: 'Caminos de mesa',
-      price: 'S/. 55.00',
-      artisan: 'Cooperativa originarias OII',
-      discount: '2x1',
-      image: '/placeholder.svg?height=150&width=150',
-      category: 'Textileria'
-    },
-    {
-      id: 3,
-      title: 'Dueño de la malva',
-      price: 'S/. 205.00',
-      artisan: 'Ludwina Camayu',
-      discount: '-15%',
-      image: '/placeholder.svg?height=150&width=150',
-      category: 'Pintura tradicional'
-    },
-    {
-      id: 4,
-      title: 'Chullo II',
-      price: 'S/. 250.00',
-      artisan: 'Natalia Q\'ero',
-      discount: '2x1',
-      image: '/placeholder.svg?height=150&width=150',
-      category: 'Textileria'
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/products/discounts/${category || 'all'}`,
+      {
+        method: 'GET',
+        headers
+      }
+    )
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
-  ]
-  
-  const filteredProducts = computed(() => {
-    if (!selectedCategory.value) return products
-    return products.filter(product => product.category === selectedCategory.value)
-  })
-  </script>
+    
+    const data = await response.json()
+    products.value = data
+  } catch (e) {
+    console.error('Error fetching products:', e)
+    error.value = 'Error al cargar los productos. Por favor, intente nuevamente.'
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// Modified selectCategory function to fetch products
+const selectCategory = async (categoryName) => {
+  if (selectedCategory.value === categoryName) {
+    selectedCategory.value = null
+    await fetchProductsByCategory() // Fetch all products
+  } else {
+    selectedCategory.value = categoryName
+    await fetchProductsByCategory(categoryName)
+  }
+}
+
+// Computed property for filtered products
+const filteredProducts = computed(() => {
+  return products.value
+})
+
+// Categories array
+const categories = [
+  'Textileria',
+  'Cerámica',
+  'Joyeria',
+  'Talla en piedra',
+  'Talla en madera',
+  'Bordado',
+  'Hojalateria',
+  'Estampado',
+  'Pintura tradicional'
+]
+
+const menuItems = [
+  { label: 'Lista de Favoritos', icon: HeartIcon },
+  { label: 'Canjear', icon: Briefcase },
+  { label: 'Talleres', icon: NotepadText },
+  { label: 'Canjear cupón', icon: TicketPercent },
+  { label: 'Ajustes', icon: Settings2 },
+  { label: 'Comentarios', icon: MessageSquare },
+  { label: 'Atención al cliente', icon: Headset }
+]
+
+// Fetch all products when component mounts
+onMounted(async () => {
+  await fetchProductsByCategory()
+})
+</script>
   
   <style scoped>
   .scrollbar-hide::-webkit-scrollbar {
