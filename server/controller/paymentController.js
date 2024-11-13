@@ -4,6 +4,22 @@ const Pedidos = require('../model/paymentsModel');
 const Vouchers = require('../model/voucherModel');
 const Users = require('../model/userModel');
 
+exports.getCart = async (req, res)=> {
+    try{
+        let user = req.data.id;
+        let result = await Users.findOne(
+            { _id: new ObjectId(user) }, 
+            { carrito: 1 },
+            { _id: 0 }
+          );
+        if( !result ){return res.status(404).json({ status:404, message:' there is not a product with this id'})}
+        return res.status(200).json({ status:200, message:'product fetched successfully', data:result});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({ status:500, message:'error while fetching the product', error:error});
+    }
+}
+
 exports.addToCart = async (req, res) => {
     try {
         let product = req.params.id;

@@ -36,7 +36,6 @@ router.get('/auth/discord/callback',
     }
 );
 
-
 router.get('/profile', (req, res) => {
     if (req.isAuthenticated()) {
         res.json(req.user);
@@ -47,10 +46,22 @@ router.get('/profile', (req, res) => {
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', 
-    passport.authenticate('google', { 
-        failureRedirect: '/registro',
-        successRedirect: '/tallerMes' 
-    }), 
+    passport.authenticate('google', { failureRedirect: '/registro' }),
+    (req, res, next) => {
+        const user = req.user;
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        req.session.auth = token;
+        req.session.save((err) => {
+            if (err) {
+                console.error("Error al guardar la sesión", err);
+                return res.status(500).json({ message: 'Error al guardar la sesión' });
+            }
+            return res.redirect('/tallerMes');
+        });
+    }
 );
 
 router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
