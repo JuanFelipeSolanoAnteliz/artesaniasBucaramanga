@@ -29,6 +29,11 @@ app.use('/orders',orderRouter);
 
 app.use(express.static(join(__dirname, 'client/dist')));
 
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, 'client', 'dist', 'index.html'));
+  });
+  
+
 // Inicializar Passport
 app.use(passport.initialize());
 app.use(passport.session()); // Asegúrate de que esta línea esté habilitada
