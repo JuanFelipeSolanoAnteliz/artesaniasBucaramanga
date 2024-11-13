@@ -1,7 +1,6 @@
 <template>
-  <div class="min-h-screen bg-white p-4 flex flex-col overflow-hidden"> <!-- Eliminar scroll global -->
+  <div class="h-screen bg-white p-4 flex flex-col">
     <!-- Header con flecha -->
-    <!-- Triángulo -->
     <div class="triangle"></div>
 
     <!-- Flecha (debe estar encima del triángulo) -->
@@ -27,7 +26,7 @@
     </div>
     
     <!-- Purchased Items -->
-    <div class="flex-1 overflow-y-auto mb-4"> <!-- Se asegura que esta sección tiene scroll en Y -->
+    <div class="flex-1 overflow-y-auto mb-4 "> 
       <!-- Item Card 1 -->
       <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
         <img src="../assets/placeholder.svg?height=60&width=60" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" />
@@ -83,7 +82,7 @@
     <h2 class="text-left text-base font-medium ml-1.5 mt-2 mb-1">Sigue viendo más artesanías</h2>
 
     <!-- More Products Section with Scroll -->
-    <div class="p-4 overflow-y-auto max-h-[calc(100vh-300px)] flex-1"> <!-- Se asegura que solo esta sección tenga scroll -->
+    <div class="flex-1 overflow-y-auto max-h-products"> <!-- Clase corregida -->
       <div class="grid grid-cols-2 gap-4">
         <div v-for="(item, index) in moreProducts" :key="index" class="relative">
           <img :src="`@/assets/${item.image}`" :alt="item.name" class="w-full h-40 object-cover rounded-lg" />
@@ -184,12 +183,9 @@ const moreProducts = [
   font-size: 0.75rem;
 }
 
-.max-h-80 {
-  max-height: 20rem;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Mejor experiencia de scroll en dispositivos móviles */
+/* Corregir la clase max-height para usar una clase estándar */
+.max-h-products {
+  max-height: calc(100vh - 300px); /* Altura dinámica para limitar la sección */
+  overflow-y: auto; /* Permite el scroll vertical */
 }
 </style>
