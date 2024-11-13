@@ -205,6 +205,11 @@ const goToUser = () => {
 };
 
 
+const goToDetalleTaller= () => {
+  router.push("/detalleTallerr");
+};
+
+
 
 
 

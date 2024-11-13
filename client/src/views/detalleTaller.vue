@@ -3,7 +3,7 @@
       <!-- Header with back button -->
       <div class="relative h-64  inset-x-0 top-0">
         <img 
-          :src="product.bannerImage || '/placeholder.svg?height=256&width=384'" 
+          :src="product.bannerImage" 
           alt="Banner"
           class="w-full h-full object-cover"
         />
@@ -72,6 +72,7 @@
   import { ref } from 'vue'
   import { ArrowLeft, SearchIcon, SlidersHorizontal } from 'lucide-vue-next'
   import { useRouter } from 'vue-router'
+  import img from "../assets/img/fondoTaller.png"
 
     const router = useRouter()
 
@@ -91,7 +92,7 @@
     id: 1,
     name: 'Tapiz Chumpi Andino III',
     artisan: 'Taller Awaq Ayllus',
-    bannerImage: '../assets/img/perfile.png',
+    bannerImage:img,
     description: 'Conoce la historia detrás de este taller artesanal y conoce como producen sus textiles'
   })
   
@@ -102,56 +103,56 @@
       name: 'Tapiz Chumpi Andino III',
       price: '600',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image:img
     },
     {
       id: 2,
       name: 'Cartuchera Flores I',
       price: '30',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image: img
     },
     {
       id: 3,
       name: 'Tapiz Floral',
       price: '450',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image: img
     },
     {
       id: 4,
       name: 'Tapiz Geométrico',
       price: '500',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image:img
     },
     {
       id: 1,
       name: 'Tapiz Chumpi Andino III',
       price: '600',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image: img
     },
     {
       id: 2,
       name: 'Cartuchera Flores I',
       price: '30',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image:img
     },
     {
       id: 3,
       name: 'Tapiz Floral',
       price: '450',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image: img
     },
     {
       id: 4,
       name: 'Tapiz Geométrico',
       price: '500',
       artisan: 'Taller Awaq Ayllus',
-      image: '../assets/img/perfile.png'
+      image: img
     }
   ])
   
