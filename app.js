@@ -29,6 +29,11 @@ app.use('/orders',orderRouter);
 
 app.use(express.static(join(__dirname, 'client/dist')));
 
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, 'client', 'dist', 'index.html'));
+  });
+  
+
 // Inicializar Passport
 app.use(passport.initialize());
 app.use(passport.session()); // Asegúrate de que esta línea esté habilitada
@@ -39,19 +44,13 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Not Found' });
 });
 
-app.use("/", indexRouter);
-
-
-app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, 'client/dist/index.html'));
-});
-
-let config = {
-    port: process.env.EXPRESS_PORT || 5000,
-    host: process.env.EXPRESS_HOST_NAME || 'localhost'
-};
-
-
+const config = {
+    port:process.env.EXPRESS_PORT,
+    host:process.env.EXPRESS_HOST_NAME,
+} 
+ 
 app.listen(config, () => {
     console.log(`Server running at http://${config.host}:${config.port}`);
 });
+
+ 
