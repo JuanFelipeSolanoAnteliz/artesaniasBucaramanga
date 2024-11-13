@@ -1,0 +1,238 @@
+[{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4567"
+  },
+  "nombre": "Camila López",
+  "correo": "camila.lopez@example.com",
+  "contraseña": "$2a$10$GfhjXwLxUoD8nfyTbZKkgu4Yb5.HjklLmnop4tRl7rfWzTmjeHoRG",
+  "fotoPerfil": "https://example.com/foto/camila.jpg",
+  "direccion": "Calle 123, Bogotá",
+  "telefono": "3214567890",
+  "tipo": "comprador",
+  "favoritos": [
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12a3"
+    },
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12a4"
+    }
+  ],
+  "compras": [
+    {
+      "$oid": "64f2c111fc13ae1b23000009"
+    }
+  ],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000027"
+    }
+  ],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b23000013"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4569"
+  },
+  "nombre": "Sofía Martínez",
+  "correo": "sofia.martinez@example.com",
+  "contraseña": "$2a$10$AwerQpljOtyghDfhA6dvBnVbJhg0F4klR7flwKopPlUkDjW3r4.kF",
+  "fotoPerfil": "https://example.com/foto/sofia.jpg",
+  "direccion": "Carrera 789, Cali",
+  "telefono": "3146549871",
+  "tipo": "comprador",
+  "favoritos": [
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12c3"
+    }
+  ],
+  "compras": [],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000028"
+    }
+  ],
+  "cupones": []
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  },
+  "nombre": "Javier Rodríguez",
+  "correo": "javier.rodriguez@example.com",
+  "contraseña": "$2a$10$LkjfhgdfghjlgLjkHgfhjXhyfujklgjhnjkweqBhUg1j56U88cV.w5",
+  "fotoPerfil": "https://example.com/foto/javier.jpg",
+  "direccion": "Avenida 456, Medellín",
+  "telefono": "3119876543",
+  "tipo": "artesano",
+  "favoritos": [
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12b3"
+    },
+    {
+      "$oid": "5f4e5c4a2c9e4b1d4f8c12b4"
+    }
+  ],
+  "compras": [
+    {
+      "$oid": "5f5e5c4a2c9e4b1d4f8c23a2"
+    }
+  ],
+  "talleresInscritos": [],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b23000014"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4572"
+  },
+  "nombre": "Mario Álvarez",
+  "correo": "mario.alvarez@example.com",
+  "contraseña": "$2a$10$MjkgfhKgHnfKjbPOghjkljgfuiUhj56cvRfdHpl.KHFhiGNhH0",
+  "fotoPerfil": "https://example.com/foto/mario.jpg",
+  "direccion": "Avenida 55, Cartagena",
+  "telefono": "3198765432",
+  "tipo": "artesano",
+  "favoritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000007"
+    }
+  ],
+  "compras": [
+    {
+      "$oid": "64f2c111fc13ae1b23000010"
+    }
+  ],
+  "talleresInscritos": [],
+  "cupones": []
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4573"
+  },
+  "nombre": "Laura García",
+  "correo": "laura.garcia@example.com",
+  "contraseña": "$2a$10$JklPlmnhj9dfKljbvfpjkglFhLljkhbjklHvgg4PvdsjUkBhF",
+  "fotoPerfil": "https://example.com/foto/laura.jpg",
+  "direccion": "Carrera 202, Manizales",
+  "telefono": "3133459870",
+  "tipo": "comprador",
+  "favoritos": [],
+  "compras": [
+    {
+      "$oid": "64f2c111fc13ae1b23000007"
+    }
+  ],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000019"
+    }
+  ],
+  "cupones": [
+    {
+      "$oid": "5f6e5c4a2c9e4b1d4f8c56e4"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4571"
+  },
+  "nombre": "Daniela Pérez",
+  "correo": "daniela.perez@example.com",
+  "contraseña": "$2a$10$LkjdFhjLdjkSdfkgF1.dlhfghj1ekrLpojUbgVk.uhkjdlAkj9C",
+  "fotoPerfil": "https://example.com/foto/daniela.jpg",
+  "direccion": "Calle 22, Bucaramanga",
+  "telefono": "3122349870",
+  "tipo": "comprador",
+  "favoritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000006"
+    }
+  ],
+  "compras": [],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000029"
+    }
+  ],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b2300001a"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4574"
+  },
+  "nombre": "Juan Ramírez",
+  "correo": "juan.ramirez@example.com",
+  "contraseña": "$2a$10$OgkhfbfNVkJUgh9BjhgTyLhuMkgfgHlvQFGxPj.LpdLUhP",
+  "fotoPerfil": "https://example.com/foto/juan.jpg",
+  "direccion": "Calle 78, Cali",
+  "telefono": "3106543219",
+  "tipo": "comprador",
+  "favoritos": [],
+  "compras": [],
+  "talleresInscritos": [],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b23000016"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4570"
+  },
+  "nombre": "Luis Torres",
+  "correo": "luis.torres@example.com",
+  "contraseña": "$2a$10$EpoLkJkgfiuNjhyc.vfgtPLeghj0.f9D3qY78vNgg4.v5xjkLe1",
+  "fotoPerfil": "https://example.com/foto/luis.jpg",
+  "direccion": "Calle 101, Barranquilla",
+  "telefono": "3223456789",
+  "tipo": "artesano",
+  "favoritos": [],
+  "compras": [
+    {
+      "$oid": "64f2c111fc13ae1b23000010"
+    }
+  ],
+  "talleresInscritos": [],
+  "cupones": [
+    {
+      "$oid": "64f2c111fc13ae1b23000015"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
+  },
+  "nombre": "Carlos Méndez",
+  "correo": "carlos.mendez@example.com",
+  "contraseña": "$2a$10$PmfVghukfkgkfbdhfhPhU3rdKhHvghgkj45j.PgghH5yH",
+  "fotoPerfil": "https://example.com/foto/carlos.jpg",
+  "direccion": "Avenida 45, Armenia",
+  "telefono": "3201234567",
+  "tipo": "artesano",
+  "favoritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000009"
+    }
+  ],
+  "compras": [],
+  "talleresInscritos": [
+    {
+      "$oid": "64f2c111fc13ae1b23000030"
+    }
+  ],
+  "cupones": []
+}]

@@ -1,0 +1,289 @@
+[{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000022"
+  },
+  "nombre": "Taller de Cerámica",
+  "descripcion": "Aprende a crear piezas de cerámica desde cero, incluyendo técnicas de modelado y esmaltado.",
+  "modalidad": "presencial",
+  "fechaInicio": {
+    "$date": "2024-11-10T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-24T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Arcilla",
+    "Esmalte",
+    "Herramientas de modelado"
+  ],
+  "materialesRequeridos": [
+    "Delantal",
+    "Esponja",
+    "Cuchillo"
+  ],
+  "documental": "https://ejemplo.com/documental-ceramica",
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  },
+  "ubicacion": "Cll-26 #3-83"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000026"
+  },
+  "nombre": "Taller de Pintura",
+  "descripcion": "Explora técnicas de pintura acrílica y acuarela para expresar tu creatividad.",
+  "modalidad": "presencial",
+  "fechaInicio": {
+    "$date": "2024-11-05T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-19T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Pinturas acrílicas",
+    "Pinceles",
+    "Lienzos"
+  ],
+  "materialesRequeridos": [
+    "Paleta",
+    "Agua",
+    "Trapo"
+  ],
+  "documental": "https://ejemplo.com/documental-pintura",
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  },
+  "ubicacion": "Crr 37 - 34 #1-33"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000024"
+  },
+  "nombre": "Taller de Joyería",
+  "descripcion": "Diseña y crea tus propias joyas utilizando técnicas de orfebrería.",
+  "modalidad": "presencial",
+  "fechaInicio": {
+    "$date": "2024-12-01T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-12-15T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Alambre",
+    "Cuentas",
+    "Herramientas básicas"
+  ],
+  "materialesRequeridos": [
+    "Pinzas",
+    "Lupa",
+    "Superglue"
+  ],
+  "documental": "https://ejemplo.com/documental-joyeria",
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4572"
+  },
+  "ubicacion": "Crr 27 - 43 #1-2"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000023"
+  },
+  "nombre": "Taller de Bordado",
+  "descripcion": "Técnicas de bordado a mano para crear hermosos diseños en telas.",
+  "modalidad": "virtual",
+  "fechaInicio": {
+    "$date": "2024-11-15T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-29T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Hilo de bordar",
+    "Telas",
+    "Agujas"
+  ],
+  "materialesRequeridos": [
+    "Tijeras",
+    "Regla",
+    "Marcador de tela"
+  ],
+  "documental": "https://ejemplo.com/documental-bordado",
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4570"
+  },
+  "ubicacion": "Crr 33 - 31 #4-78"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000031"
+  },
+  "nombre": "Taller de Galletas Decoradas",
+  "descripcion": "Crea deliciosas galletas decoradas utilizando técnicas de repostería.",
+  "modalidad": "presencial",
+  "fechaInicio": {
+    "$date": "2024-12-05T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-12-19T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Masa para galletas",
+    "Glaseado",
+    "Moldes"
+  ],
+  "materialesRequeridos": [
+    "Rodillo",
+    "Cortadores"
+  ],
+  "documental": "https://ejemplo.com/documental-galletas",
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4573"
+  },
+  "ubicacion": "Crr 27 - 41 #1-23"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000029"
+  },
+  "nombre": "Taller de Aromaterapia",
+  "descripcion": "Aprende sobre el uso de aceites esenciales y sus beneficios para la salud.",
+  "modalidad": "virtual",
+  "fechaInicio": {
+    "$date": "2024-11-10T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-24T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Muestras de aceites",
+    "Guía de uso"
+  ],
+  "materialesRequeridos": [
+    "Botellas",
+    "Etiquetas"
+  ],
+  "documental": null,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
+  },
+  "ubicacion": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000025"
+  },
+  "nombre": "Taller de Fotografía",
+  "descripcion": "Captura la belleza a través de la fotografía digital con técnicas profesionales.",
+  "modalidad": "virtual",
+  "fechaInicio": {
+    "$date": "2024-11-20T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-12-04T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Guía de fotografía",
+    "Ejercicios prácticos"
+  ],
+  "materialesRequeridos": [
+    "Cámara",
+    "Ordenador"
+  ],
+  "documental": "https://ejemplo.com/documental-fotografia",
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
+  },
+  "ubicacion": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000027"
+  },
+  "nombre": "Taller de Cestería",
+  "descripcion": "Aprende a tejer cestas de mimbre utilizando técnicas tradicionales.",
+  "modalidad": "presencial",
+  "fechaInicio": {
+    "$date": "2024-11-12T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-26T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Mimbre",
+    "Cortadores"
+  ],
+  "materialesRequeridos": [
+    "Guantes",
+    "Cinta métrica"
+  ],
+  "documental": null,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4570"
+  },
+  "ubicacion": ""
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000030"
+  },
+  "nombre": "Taller de Escritura Creativa",
+  "descripcion": "Desarrolla tus habilidades de escritura a través de ejercicios prácticos.",
+  "modalidad": "virtual",
+  "fechaInicio": {
+    "$date": "2024-11-15T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-29T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Ejercicios de escritura",
+    "Feedback personalizado"
+  ],
+  "materialesRequeridos": [
+    "Laptop",
+    "Cuaderno"
+  ],
+  "documental": null,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4568"
+  },
+  "ubicacion": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000028"
+  },
+  "nombre": "Taller de Scrapbooking",
+  "descripcion": "Crea álbumes de recortes personalizados con tus recuerdos más preciados.",
+  "modalidad": "virtual",
+  "fechaInicio": {
+    "$date": "2024-11-01T00:00:00.000Z"
+  },
+  "fechaFin": {
+    "$date": "2024-11-15T00:00:00.000Z"
+  },
+  "duracion": "2 semanas",
+  "materialesProporcionados": [
+    "Papeles decorativos",
+    "Pegamento"
+  ],
+  "materialesRequeridos": [
+    "Tijeras",
+    "Cinta adhesiva"
+  ],
+  "documental": null,
+  "artesanoId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4572"
+  },
+  "ubicacion": null
+}]

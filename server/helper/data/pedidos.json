@@ -1,0 +1,263 @@
+[{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000013"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4571"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000009"
+      },
+      "cantidad": 2,
+      "precio": 18.5
+    },
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000010"
+      },
+      "cantidad": 1,
+      "precio": 22
+    }
+  ],
+  "total": 59,
+  "fecha": {
+    "$date": "2024-11-02T00:00:00.000Z"
+  },
+  "estado": "entregado"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000018"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4571"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000006"
+      },
+      "cantidad": 3,
+      "precio": 20
+    }
+  ],
+  "total": 60,
+  "fecha": {
+    "$date": "2024-11-03T00:00:00.000Z"
+  },
+  "estado": "pendiente"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000020"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4574"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000008"
+      },
+      "cantidad": 4,
+      "precio": 15
+    }
+  ],
+  "total": 60,
+  "fecha": {
+    "$date": "2024-11-01T00:00:00.000Z"
+  },
+  "estado": "pendiente"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000021"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4567"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000010"
+      },
+      "cantidad": 1,
+      "precio": 22
+    }
+  ],
+  "total": 22,
+  "fecha": {
+    "$date": "2024-11-02T00:00:00.000Z"
+  },
+  "estado": "enviado"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000017"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4569"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000005"
+      },
+      "cantidad": 1,
+      "precio": 150
+    }
+  ],
+  "total": 150,
+  "fecha": {
+    "$date": "2024-11-02T00:00:00.000Z"
+  },
+  "estado": "entregado"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000012"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4569"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000007"
+      },
+      "cantidad": 1,
+      "precio": 35
+    },
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000008"
+      },
+      "cantidad": 3,
+      "precio": 15
+    }
+  ],
+  "total": 80,
+  "fecha": {
+    "$date": "2024-11-02T00:00:00.000Z"
+  },
+  "estado": "enviado"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000019"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4573"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000007"
+      },
+      "cantidad": 1,
+      "precio": 35
+    }
+  ],
+  "total": 35,
+  "fecha": {
+    "$date": "2024-11-04T00:00:00.000Z"
+  },
+  "estado": "pendiente"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000014"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4573"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000001"
+      },
+      "cantidad": 1,
+      "precio": 45.5
+    }
+  ],
+  "total": 45.5,
+  "fecha": {
+    "$date": "2024-11-03T00:00:00.000Z"
+  },
+  "estado": "pendiente"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000015"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4574"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000002"
+      },
+      "cantidad": 1,
+      "precio": 30
+    },
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000003"
+      },
+      "cantidad": 2,
+      "precio": 25
+    }
+  ],
+  "total": 80,
+  "fecha": {
+    "$date": "2024-11-04T00:00:00.000Z"
+  },
+  "estado": "pendiente"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000011"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4567"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000006"
+      },
+      "cantidad": 2,
+      "precio": 20
+    }
+  ],
+  "total": 40,
+  "fecha": {
+    "$date": "2024-11-01T00:00:00.000Z"
+  },
+  "estado": "pendiente"
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000016"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4567"
+  },
+  "productos": [
+    {
+      "productoId": {
+        "$oid": "64f2c111fc13ae1b23000004"
+      },
+      "cantidad": 1,
+      "precio": 55
+    }
+  ],
+  "total": 55,
+  "fecha": {
+    "$date": "2024-11-01T00:00:00.000Z"
+  },
+  "estado": "enviado"
+}]
