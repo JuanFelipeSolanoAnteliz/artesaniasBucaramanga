@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   build: {
     outDir: join(__dirname, 'client/dist'), // Carpeta de salida del build
-    emptyOutDir: true
+    emptyOutDir: false
   },
   resolve: {
     alias: {

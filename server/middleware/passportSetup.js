@@ -69,8 +69,8 @@ passport.use(new GoogleStrategy({
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        let existingUser  = await Usuario.findOne({ googleId: profile.id });
-
+        console.log(profile)
+        let existingUser  = await Usuario.findOne({ correo: profile.emails[0].value });
         if (existingUser ) {
             return done(null, existingUser );
         }
@@ -99,7 +99,7 @@ passport.use(new GoogleStrategy({
             avatar: profile.photos[0].value || ""
         });
 
-        await newUser .save();
+        await newUser.save();
         done(null, newUser );
     } catch (error) {
         done(error, null);
