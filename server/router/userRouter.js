@@ -13,7 +13,7 @@ router.post('/loginAndAuth', UserController.loginAndAuth);
 router.post('/createAndAuth', UserController.createAndAuth);
 
 router.put('/profile-image/:userId', 
-    upload.single('profileImage'), 
+    upload.single('fotoPerfil'), 
     UserController.uploadProfileImage
 );
 
