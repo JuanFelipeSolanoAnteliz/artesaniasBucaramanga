@@ -15,21 +15,22 @@ passport.use(new DiscordStrategy({
     scope: ['identify', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        let existingUser  = await Usuario.findOne({ discordId: profile.id });
+        console.log(profile.id)
+        let existingUser  = await Usuario.findOne({ correo: profile.email });
 
         if (existingUser ) {
             return done(null, existingUser );
         }
 
-        const existingUserName = await Usuario.findOne({ userName: profile.username });
+        const existingUserName = await Usuario.findOne({ username: profile.userName });
         if (existingUserName) {
             return done(null, existingUserName);
         }
 
         const newUser  = new Usuario({
-            userName: profile.username || "",
-            nombre: profile.username || "Usuario Sin Nombre",
-            correo: profile.email || `${profile.username}@discord.com`,
+            userName: profile.userName || "",
+            nombre: profile.userName || "Usuario Sin Nombre",
+            correo: profile.email || `${profile.userName}@discord.com`,
             contraseña: "",
             fotoPerfil: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : "",
             direccion: "",

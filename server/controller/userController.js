@@ -2,6 +2,7 @@ const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+
 require('dotenv').config();
 
 class UserController{
@@ -147,29 +148,27 @@ class UserController{
 
     static async loginWithDiscord(req, res) {
         try {
-            const { id, username, avatar, email } = req.user;
-
-            if (!username) {
+            const { id, userName, avatar, correo } = req.user;
+            if (!userName) {
                 console.error("Username is undefined", req.user);
                 return res.status(400).json({ message: "Username is required" });
             }
 
-            let usuario = await Usuario.findOne({ discordId: id });
-
+            let usuario = await Users.findOne({ correo: correo });
             if (!usuario) {
-                if (!email || !username) {
+                if (!correo || !userName) {
                     return res.status(400).json({ message: "Email and username are required to create a new user." });
                 }
 
-                const existingUser = await Usuario.findOne({ userName: username });
+                const existingUser = await Users.findOne({ username: userName });
                 if (existingUser) {
                     console.log("Username already exists, using existing user.");
                     usuario = existingUser; // Usar el usuario existente
                 } else {
-                    usuario = new Usuario({
-                        userName: username,
+                    usuario = new Users({
+                        userName: userName,
                         nombre: "",
-                        correo: email || `${username}@discord.com`,
+                        correo: email || `${userName}@discord.com`,
                         contraseña: "",
                         fotoPerfil: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png` : '',
                         direccion: '',
@@ -191,15 +190,7 @@ class UserController{
 
             // Crear el token JWT
             const token = jwt.sign({ id: usuario._id, correo: usuario.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
-
-            // Configurar la cookie de sesión
-            res.cookie('login', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // Solo en producción
-                maxAge: 3600000 // 1 hora
-            });
-
-            // Responder con el token y el usuario
+            req.session.auth = token;
             return res.status(200).json({ token, user: usuario });
         } catch (error) {
             console.error("Error al iniciar sesión con Discord:", error);
