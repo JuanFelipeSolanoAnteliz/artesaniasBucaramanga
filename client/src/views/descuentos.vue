@@ -111,7 +111,7 @@
             <img
               :src="product.image"
               :alt="product.title"
-              class="absolute inset-0 w-full h-full object-cover rounded-t-lg"
+              class="absolute inset-0 w-full h-full object-cover rounded-t-lg text-white"
             />
             <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs rounded">
               {{ product.discount }}
@@ -197,60 +197,55 @@ const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value
 }
 
-// API configuration
 const API_BASE_URL = 'http://localhost:5001'
-const headers = {
-  'Content-Type': 'application/json',
-  'x-version': '1.0.0'
-}
 
-// Function to fetch products by category
+
 const fetchProductsByCategory = async (category) => {
   isLoading.value = true
   error.value = null
-  
+
   try {
     const response = await fetch(
-      `${API_BASE_URL}/products/discounts/${category || 'all'}`,
+      `${API_BASE_URL}/products/discounts/${category}`,
       {
         method: 'GET',
-        headers
+        headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
       }
     )
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    
+
     const data = await response.json()
     products.value = data
   } catch (e) {
     console.error('Error fetching products:', e)
-    error.value = 'Error al cargar los productos. Por favor, intente nuevamente.'
+    error.value = 'No hay descuentos en esta categoria :().'
   } finally {
     isLoading.value = false
   }
 }
 
-// Modified selectCategory function to fetch products
 const selectCategory = async (categoryName) => {
   if (selectedCategory.value === categoryName) {
     selectedCategory.value = null
-    await fetchProductsByCategory() // Fetch all products
+    await fetchProductsByCategory() 
   } else {
     selectedCategory.value = categoryName
     await fetchProductsByCategory(categoryName)
   }
 }
 
-// Computed property for filtered products
 const filteredProducts = computed(() => {
   return products.value
 })
 
-// Categories array
 const categories = [
-  'Textileria',
+  'Hogar',
   'Cerámica',
   'Joyeria',
   'Talla en piedra',
@@ -258,20 +253,9 @@ const categories = [
   'Bordado',
   'Hojalateria',
   'Estampado',
-  'Pintura tradicional'
+  'Textileria'
 ]
 
-const menuItems = [
-  { label: 'Lista de Favoritos', icon: HeartIcon },
-  { label: 'Canjear', icon: Briefcase },
-  { label: 'Talleres', icon: NotepadText },
-  { label: 'Canjear cupón', icon: TicketPercent },
-  { label: 'Ajustes', icon: Settings2 },
-  { label: 'Comentarios', icon: MessageSquare },
-  { label: 'Atención al cliente', icon: Headset }
-]
-
-// Fetch all products when component mounts
 onMounted(async () => {
   await fetchProductsByCategory()
 })
