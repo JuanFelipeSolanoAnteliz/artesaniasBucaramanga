@@ -5,6 +5,7 @@ const {auth} = require('../middleware/JWTdecoded');
 
 router.use(auth);
 
+
 router.get('/', version('1.0.0'), controller.getAllProducts);
 router.get('/discounts', version('1.0.0'), controller.getDiscounts);
 router.get('/search', version('1.0.0'), controller.searchProduct);

@@ -1,8 +1,18 @@
+# .env:
 MONGODB_URI= URI valentina
 MONGODB_DB_NAME= nombre db
+SECRET_KEY=729e97f2f54e6a1edb3cfe3d7b1b96516458312623d8757bb1cbb4245a8a4d1eb5d3111961baeb8227a6ba6971c15f54da447862813a07d391a02de5447814031cca4ab6921f44d57fb7b2d3e9aa3d8e07987071ede00d3ff13b70ad05134c5162cdd27bb7f58cfd0620548ca45946d16af151f3b4c50965ae44f5cf690cdccb
 
 # instalar:
-npm i 
+npm i mongoose
+npm i dotenv
+npm i jsonwebtoken
+npm i passport
+npm i passport-discord
+npm i express-session
+npm i cookie-parser 
+npm install passport-google-oauth20
+npm install passport-github2
 
 # APIs:
 
@@ -15,44 +25,19 @@ npm run dev:server
 # APIS PARA USERS:
 
 
-## get all users:
-GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
-
-
 ## get one user:
 GET http://localhost:5001/users/{id} (se puede dar click y ver la info pero especifica una ID antes)
 ejemplo:
-http://localhost:5001/users/getUser/672cb5e790cb620ef1ae1e88
-
-
-## create one user(no bcrypt):
-POST http://localhost:5001/users/newUser (user body en thunderClient)
-
-esta API crea un usuario nuevo normal, pero no encripta contraseña ojo
-
-body:
-´´´
-{
-    "userName": "juanperez",
-    "nombre": "Juan Pérez",
-    "correo": "juan.perez@example.com",
-    "contraseña": "miContraseñaSegura",
-    "fotoPerfil": "url_a_la_foto",
-    "direccion": "Calle Falsa 123",
-    "telefono": "1234567890",
-    "sexo": "masculino",
-    "fechaNacimiento": "1990-01-01"
-}
-´´´
+http://localhost:5001/users/getUser/672f90df27c7f5c1af3590ee
 
 
 
 ## edit one user(email cant be same than other):
 PUT http://localhost:5001/users/updateUser/:id (user body en thunderClient)
 
-el editar puede editar cualquier campo del dato desde uno solo, hasta todo, las unicas condiciones son no se puede modificar el tipo, el email no se puede poner uno existente y se debe poner el _id del usuario, id ejemplo:
+el editar puede editar cualquier campo del dato desde uno solo, hasta todo, Cy se debe poner el _id del usuario, id ejemplo:
 
-http://localhost:5001/users/updateUser/672b784954bc940d9200e06f
+http://localhost:5001/users/updateUser/672f90df27c7f5c1af3590ee
 
 y en body:
 
@@ -154,3 +139,31 @@ Status: 201 Created
   "message": "Successfully created and authenticated",
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNhZGJhY2Q4ZWMzZTQ3OGIzYzUxMyIsImNvcnJlbyI6Imp1YW4ucGVyZXNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA5ODEzMDcsImV4cCI6MTczMDk4NDkwN30.R64yiD9LMKiL_YlHkKkEx9iGEcvVSXYidx_u05bCACA"
 }
+
+
+
+
+# authenticate discord
+http://localhost:5001/users/auth/discord
+
+redirecciona para autenticar discord, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da discord predeterminadamente)
+
+
+# authenticate Google
+http://localhost:5001/users/auth/google
+
+redirecciona para autenticar google, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da google predeterminadamente)
+
+# authenticate Github
+http://localhost:5001/users/auth/github
+
+redirecciona para autenticar github, de ahi toma la data la transforma al 
+formato de usuarios y sube la data, si se hace otro login igual no crea un
+nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
+que se puede editar para rellenar valores que no da github predeterminadamente)

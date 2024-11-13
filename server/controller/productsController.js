@@ -40,7 +40,7 @@ exports.getAllProducts = async (req, res) =>{
         res.status(200).send({'status':200,'message':'products fetched correctly', 'data':result});
     }catch(error){
         console.log(error)
-        res.status(500).send({'message':'Error al obtener los productos', 'error':error});
+        res.status(500).json({message:'Error al obtener los productos', error:error});
     }
 }
 
