@@ -161,27 +161,27 @@ class UserController {
     }
 
 
-
     static async createAndAuth(req, res) {
         try {
             const { userName, nombre, correo, contraseña, fotoPerfil, direccion, telefono, sexo, fechaNacimiento } = req.body;
 
-            const existingUser = await Users.findOne({ correo });
-            if (existingUser) {
-                return res.status(400).json({ message: 'User  already exists, change the email' });
-            }
+            // Generar correo aleatorio si no se proporciona uno
+            const emailToUse = correo && correo.trim() !== "" ? correo : await UserController.generateRandomEmail();
 
+            // Validar el nombre de usuario
             const existingUserName = await Users.findOne({ userName });
             if (existingUserName) {
-                return res.status(400).json({ message: 'Username already exists, choose another one' });
+                return res.status(400).json({ message: 'El nombre de usuario ya está en uso, elige otro.' });
             }
 
+            // Hash de la contraseña
             const hashedPassword = await bcrypt.hash(contraseña, 10);
 
-            const newUser = new Users({
+            // Crear el nuevo usuario
+            const newUser   = new Users({
                 userName,
                 nombre,
-                correo,
+                correo: emailToUse, // Usar el correo elegido
                 contraseña: hashedPassword,
                 fotoPerfil,
                 direccion,
@@ -195,25 +195,43 @@ class UserController {
                 cupones: [],
             });
 
-            const result = await newUser.save();
+            // Guardar el nuevo usuario
+            await newUser .save();
+
+            // Esperar 1 segundo (1000 ms)
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            const token = jwt.sign({ id: result._id, correo: result.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            // Construir el payload del token
+            const tokenPayload = {};
+            if (emailToUse) {
+                tokenPayload.correo = emailToUse;
+            } else if (telefono) {
+                tokenPayload.telefono = telefono;
+            }
 
+            // Generar el token
+            const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1h' });
+
+            // Configurar la cookie
             res.cookie('login', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 3600000
             });
 
-            return res.status(201).json({ message: 'Successfully created and authenticated', jwt: token });
+            return res.status(201).json({ message: 'Usuario creado y autenticado con éxito', jwt: token });
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error creating and authenticating user' });
+            res.status(500).json({ message: 'Error al crear y autenticar al usuario' });
         }
     }
 
+    // Función para generar un correo electrónico aleatorio
+    static async generateRandomEmail() {
+        const randomString = Math.random().toString(36).substring(2, 15); // Genera una secuencia aleatoria de letras y números
+        return `${randomString}@random.com`; // Puedes cambiar "random.com" por cualquier otro nombre ficticio
+    }
 
 
     static async loginWithDiscord(req, res) {

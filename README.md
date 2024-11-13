@@ -148,7 +148,7 @@ esta funcion funciona de forma que crea una cuenta nueva al igual que la logea o
 
 condiciones: el email debe ser unico, todo es string y todo debe estar lleno
 
-ejemplo de body:
+ejemplo de body CON CORREO:
 ´´´
 {
     "userName": "juanperez",
@@ -160,6 +160,20 @@ ejemplo de body:
     "telefono": "123456789",
     "sexo": "masculino",
     "fechaNacimiento": "1990-01-01"
+}
+´´´
+
+ejemplo de body CON TELEFONO Y NO CORREO:
+´´´
+{
+    "userName": "sofiahernandez",
+    "nombre": "Sofía Hernández",
+    "contraseña": "mypassword456",
+    "fotoPerfil": "http://ejemplo.com/sofia.jpg",
+    "direccion": "Avenida 45, Bucaramanga",
+    "telefono": "3209876543",
+    "sexo": "femenino",
+    "fechaNacimiento": "1988-12-25"
 }
 ´´´
 
