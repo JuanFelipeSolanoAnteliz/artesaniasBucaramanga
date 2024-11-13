@@ -43,7 +43,8 @@ passport.use(new DiscordStrategy({
             talleresInscritos: [],
             cupones: [],
             discordId: profile.id || "",
-            avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : ""
+            avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : "",
+            carrito:[]
         });
         
         try {

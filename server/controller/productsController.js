@@ -3,6 +3,22 @@ const connectDB = require('../helper/connect');
 const Products = require('../model/productsModel');
 const Users= require('../model/userModel');
 
+
+exports.getOneById = async ( req, res )=>{
+    try{
+        let product = req.params.id;
+        let updateUserInfo = await Users.find(
+            { _id: new ObjectId(product) }
+        )
+        if(updateUserInfo.length === 0){ return res.status(404).json({status:200, message:'product not found'})}
+        return res.status(200).json({ status: 200, message: 'Product fetched successfully', data:updateUserInfo});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({ status: 500, message: 'There was an error while fetching the product'});
+    }
+}
+
+
 exports.markProductAsfav= async ( req, res) =>{
     try{
         let productFav = req.params.productId;
