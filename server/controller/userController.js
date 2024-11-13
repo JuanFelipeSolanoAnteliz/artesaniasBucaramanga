@@ -1,6 +1,5 @@
 const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 require('dotenv').config();
@@ -191,7 +190,13 @@ class UserController{
             // Crear el token JWT
             const token = jwt.sign({ id: usuario._id, correo: usuario.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
             req.session.auth = token;
-            return res.status(200).json({ status:200, message:'users logged in successfully'})
+            req.session.save((err) => {
+                if (err) {
+                  console.error("Error al guardar la sesión", err);
+                  return res.status(500).json({ message: 'Error al guardar la sesión' });
+                }
+                return res.status(200).json({ status: 200, message: 'User logged in successfully' });
+              });
         } catch (error) {
             console.error("Error al iniciar sesión con Discord:", error);
             return res.status(500).json({ message: 'Error al iniciar sesión con Discord' });
