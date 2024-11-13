@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const UserController = require('../controller/userController');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -13,11 +14,27 @@ router.post('/createAndAuth', UserController.createUser);
 
 router.get('/auth/discord', passport.authenticate('discord'));
 router.get('/auth/discord/callback', 
-    passport.authenticate('discord', { 
-        failureRedirect: '/registro',
-        successRedirect: '/tallerMes' 
-    }), 
+    passport.authenticate('discord', { failureRedirect: '/registro' }),
+    (req, res, next) => {
+        const user = req.user; 
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        req.session.auth = token;
+        req.session.save((err) => {
+            if (err) {
+                console.error("Error al guardar la sesión", err);
+                return res.status(500).json({ message: 'Error al guardar la sesión' });
+            }
+            next();
+        });
+    },
+    (req, res) => {
+        return res.redirect('/tallerMes');  
+    }
 );
+
 
 router.get('/profile', (req, res) => {
     if (req.isAuthenticated()) {

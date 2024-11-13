@@ -4,6 +4,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy; // Importa la estrategia de GitHub
 const Usuario = require('../model/userModel');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken')
 
 dotenv.config();
 
@@ -15,9 +16,7 @@ passport.use(new DiscordStrategy({
     scope: ['identify', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        console.log(profile.id)
         let existingUser  = await Usuario.findOne({ correo: profile.email });
-
         if (existingUser ) {
             return done(null, existingUser );
         }
@@ -45,8 +44,8 @@ passport.use(new DiscordStrategy({
             discordId: profile.id || "",
             avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : ""
         });
-
-        await newUser .save();
+        
+        newUser.save();
         done(null, newUser );
     } catch (error) {
         done(error, null);
