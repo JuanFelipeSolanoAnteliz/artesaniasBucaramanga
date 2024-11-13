@@ -6,5 +6,6 @@ const {auth} = require('../middleware/JWTdecoded');
 router.use(auth);
 
 router.post('/', version('1.0.0'), controller.addOrder);
+router.put('/addtoCart/:id', version('1.0.0'), controller.addToCart)
 
 module.exports = router;
