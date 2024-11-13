@@ -24,7 +24,7 @@ const routes = [
   { path: '/crearGmail', component: crearGmail},
   { path: '/tallerMes', component:tallerMes},
   { path: '/tallerYtiendas', component:tallresytiendas},
-  { path: '/detalleTaller', component:detalleTaller},
+  { path: '/detalleTaller/:id', component:detalleTaller},
   { path: '/descuentos', component:descuentos},
   { path: '/carritoCompras', component:carritoCompras},
   { path: '/user', component:user}

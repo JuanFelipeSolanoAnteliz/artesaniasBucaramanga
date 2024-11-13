@@ -93,7 +93,7 @@
           >
             <div class="p-3 mt-2 bg-black rounded-lg">
               <h3 class="text-sm font-medium text-white">{{ workshop.name }}</h3>
-              <p class="text-xs text-gray-300">{{ workshop.artisan }}</p>
+              <p class="text-xs text-gray-300">{{ workshop.category }}</p>
             </div>
             <img 
               :src="workshop.image" 
@@ -237,7 +237,7 @@ const fetchWorkshops = async () => {
       id: workshop._id,
       name: workshop.nombre,
       artisan: workshop.artesanoId, // You might want to fetch artisan name separately
-      image: workshop.documental || '../assets/img/user.svg',
+      image: workshop.documental ,
       category: workshop.modalidad,
       description: workshop.descripcion,
       startDate: new Date(workshop.fechaInicio).toLocaleDateString(),
