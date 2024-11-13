@@ -2,21 +2,16 @@
     <div class="min-h-screen bg-white flex flex-col">
       <!-- Header with diamond background -->
       <div class="relative py-4">
-        <!-- Back button with diamond background -->
-        <div class="absolute left-4 top-1/2 -translate-y-1/2">
-          <img 
-            src="../assets/img/Rectangle.svg" 
-            alt="Background"
-            class="w-14 h-10" 
-          />
-          <button @click="goBack" class="absolute left-2 top-1/2 -translate-y-1/2">
-            <img 
-              src="../assets/img/flecha.svg" 
-              alt="Volver"
-              class="w-6 h-6" 
-            />
-          </button>
-        </div>
+      <!-- Back button with diamond background -->
+      <div class="triangle"></div>
+
+      <div class="absolute top-5 left-[3px] mt-4"> <!-- Move left more with negative value -->
+        <img 
+          src="../assets/img/flechaB.svg" 
+          alt="Volver"
+          class="w-4 h-4" 
+        />
+      </div>
         
         <!-- Title with diamond background -->
         <div class="relative text-center">
@@ -121,5 +116,15 @@
   .bg-gray-200 {
     background-color: #E5E7EB;
   }
+  .triangle {
+  position: absolute;
+  top: 1;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
+}
   </style>
   

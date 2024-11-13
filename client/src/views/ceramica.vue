@@ -13,9 +13,9 @@
       </div>
     
       <!-- Barra con el título de Taller de cerámica artesanal (fondo gris más oscuro) -->
-      <div class="absolute bottom-0 left-0 right-0 bg-[#2D2D2D] text-white p-2">
+      <div class="absolute bottom-0 left-0 right-0 bg-[#3D3D3D] text-white p-2">
         <img 
-          src="../assets/img/RectangleS.svg" 
+          src="../assets/img/RB.svg" 
           alt="rentangleS"
           class="absolute top-0 left-0 w-5 h-15" 
         />
@@ -94,7 +94,7 @@
   left: 0;
   width: 0;
   height: 0;
-  border-left: 28px solid #2D2D2D; /* Color gris más oscuro */
+  border-left: 28px solid #3D3D3D; /* Color gris más oscuro */
   border-bottom: 28px solid transparent;
   border-top: 28px solid transparent;
 }

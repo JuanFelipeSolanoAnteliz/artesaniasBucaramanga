@@ -1,5 +1,14 @@
 <template>
     <div class="bg-white min-h-screen">
+      <div class="triangle"></div>
+
+<div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+  <img 
+    src="../assets/img/flechaB.svg" 
+    alt="Volver"
+    class="w-4 h-4" 
+  />
+</div>
       <!-- Diamond Pattern Header -->
       <div class="py-6 flex justify-center">
         <div class="flex gap-2">
@@ -23,14 +32,13 @@
   
       <!-- Video Section -->
       <div class="relative aspect-video bg-gray-100 overflow-hidden rounded-md mx-4 sm:mx-6">
-        <h2 class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4 text-xs sm:text-sm">
-          Taller de arte Awaq Ayllus - Documental
-        </h2>
+        <div class="p-4 bg-[#D9D9D9]"> 
         <img 
           src="https://via.placeholder.com/150x150" 
           alt="Workshop Video"
           class="w-full h-full object-cover"
         />
+      </div>
         <button class="absolute inset-0 m-auto w-16 h-16 bg-white/80 rounded-full flex items-center justify-center">
           <img src="https://via.placeholder.com/150x150" alt="Play" class="w-8 h-8" />
         </button>
@@ -42,12 +50,14 @@
         <p class="text-gray-500 mb-6 text-xs sm:text-sm text-center">
           Escanea el código QR con tu celular y disfruta de la experiencia
         </p>
+   
         <div class="flex justify-center">
           <!-- Increased QR size -->
           <img src="https://via.placeholder.com/150x150" alt="QR Code" class="w-48 h-48 sm:w-56 sm:h-56" />
         </div>
       </div>
     </div>
+
   </template>
   
   <script setup>
@@ -55,6 +65,16 @@
   </script>
   
   <style scoped>
+  .triangle {
+  position: absolute;
+  top: 3;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
+}
   /* Prevent content overflow on smaller screens */
   @media (max-width: 390px) {
     .bg-gray-100 {
@@ -96,4 +116,3 @@
     }
   }
   </style>
-  

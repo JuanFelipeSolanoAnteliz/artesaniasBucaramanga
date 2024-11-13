@@ -5,7 +5,7 @@
       <!-- Back button with diamond background -->
       <div class="triangle"></div>
 
-      <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+      <div class="absolute top-5 left-[3px] mt-4"> <!-- Move left more with negative value -->
         <img 
           src="../assets/img/flechaB.svg" 
           alt="Volver"
@@ -18,9 +18,9 @@
         <img 
           src="../assets/img/RectangleA.svg" 
           alt="Background"
-          class="absolute left-1/2 top-9 -translate-x-1/2 -translate-y-1/2 w-20 h-20" 
+          class="absolute left-1/2 top-6 -translate-x-1/2 -translate-y-1/2 w-20 h-20" 
         />
-        <h1 class="text-xl top-2 font-medium relative z-10">
+        <h1 class="text-xl top-1 font-medium relative z-10">
           Talleres
           <br />
           educativos
@@ -40,7 +40,7 @@
         <input
           type="text"
           placeholder="Buscar taller, por categoría o artesanos"
-          class="w-full pl-10 pr-4 py-2 bg-gray-200 rounded-md text-sm text-gray-600"
+          class="w-full pl-10 pr-4 py-2 bg-[#D9D9D9] rounded-md text-sm text-gray-600"
         />
       </div>
     </div>
@@ -138,7 +138,7 @@ const goBack = () => {
 <style scoped>
 .triangle {
   position: absolute;
-  top: 0;
+  top: 1;
   left: 0;
   width: 0;
   height: 0;

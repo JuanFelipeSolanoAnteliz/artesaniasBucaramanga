@@ -112,7 +112,7 @@ html {
 
 .triangle {
   position: absolute;
-  top: 0;
+  top: 3;
   left: 0;
   width: 0;
   height: 0;

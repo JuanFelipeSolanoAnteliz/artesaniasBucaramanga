@@ -29,7 +29,7 @@
       <div class="p-4 space-y-4 pb-20">
         <div v-for="message in messages" :key="message.id" 
              :class="['max-w-[80%] rounded-lg p-3', 
-                      message.isSender ? 'ml-auto bg-gray-900 text-white' : 'bg-gray-100 text-gray-900']">
+                      message.isSender ? 'ml-auto  bg-[#D9D9D9] text-black' : 'bg-[#3D3D3D]  text-white']">
           {{ message.text }}
         </div>
       </div>
@@ -46,7 +46,7 @@
           />
           <button 
             @click="sendMessage"
-            class="p-2 bg-gray-900 text-white rounded-full hover:bg-gray-800"
+            class="p-2  bg-[#D9D9D9] text-white rounded-full hover:bg-gray-800"
           >
             <SendIcon class="h-5 w-5" />
           </button>
@@ -91,7 +91,7 @@
     left: 0;
     width: 0;
     height: 0;
-    border-left: 28px solid #2d3748; /* Smaller size and gray color */
+    border-left: 28px solid #3D3D3D; /* Smaller size and gray color */
     border-bottom: 28px solid transparent; /* Smaller size */
     border-top: 28px solid transparent;  /* Smaller size */
   }

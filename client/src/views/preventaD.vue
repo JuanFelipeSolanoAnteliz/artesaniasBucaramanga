@@ -93,13 +93,13 @@
 
       <!-- Add to cart button -->
       <button 
-        class="bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6"
+        class="bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6 ml-1"
         @click="addToCart"
       >
         <img 
           src="../assets/img/car.svg" 
           alt="carrito" 
-          class="w-5 h-5" 
+          class="text-left text-base font-medium ml-[-12px] w-5 h-5" 
         />
         <span class="text-sm font-medium">Añadir a mi carrito de compras</span>
       </button>

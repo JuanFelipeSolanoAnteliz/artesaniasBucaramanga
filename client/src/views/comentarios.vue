@@ -3,27 +3,22 @@
       <!-- Header with diamond background -->
       <div class="relative h-20 flex-shrink-0">
         <!-- Back button with diamond background -->
-        <div class="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+        <div class="triangle"></div>
+
+        <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
           <img 
-            src="../assets/img/Rectangle.svg" 
-            alt="Background"
-            class="w-12 h-8" 
+            src="../assets/img/flechaB.svg" 
+            alt="Volver"
+            class="w-4 h-4" 
           />
-          <button @click="goBack" class="absolute left-2 top-1/2 -translate-y-1/2">
-            <img 
-              src="../assets/img/flecha.svg" 
-              alt="Volver"
-              class="w-5 h-5" 
-            />
-          </button>
         </div>
-        
+  
         <!-- Title with diamond background -->
-        <div class="absolute w-full top-7 -translate-y-1/2">
+        <div class="absolute w-full top-8 -translate-y-1/2">
           <img 
             src="../assets/img/RectangleA.svg" 
             alt="Background"
-            class="absolute left-1/2 -translate-x-1/2 w-16 h-16" 
+            class="absolute left-1/2 -translate-x-1/2 w-20 h-16" 
           />
           <h1 class="text-lg top-3 font-medium relative z-10 text-center">
             Comentarios
@@ -113,5 +108,16 @@
   html {
     -webkit-text-size-adjust: 100%;
   }
+
+  .triangle {
+  position: absolute;
+  top: 1;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-bottom: 30px solid transparent;
+  border-top: 28px solid transparent;
+}
   </style>
   

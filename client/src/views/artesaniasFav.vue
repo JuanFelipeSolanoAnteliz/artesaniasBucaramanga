@@ -1,15 +1,15 @@
 <template>
-  <div class="min-h-screen bg-white p-4">
+  <div class="min-h-screen bg-white p-4 relative overflow-hidden"> <!-- Contenedor principal -->
     
-      <div class="triangle"></div>
+    <div class="triangle"></div>
 
-      <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
-        <img 
-          src="../assets/img/flechaB.svg" 
-          alt="Volver"
-          class="w-4 h-4" 
-        />
-      </div>
+    <div class="absolute top-5 left-[3px] mt-4">
+      <img 
+        src="../assets/img/flechaB.svg" 
+        alt="Volver"
+        class="w-4 h-4" 
+      />
+    </div>
 
     <div class="relative mb-8">
       <img 
@@ -26,7 +26,6 @@
     <!-- Scrollable Categories with Independent Line -->
     <div class="relative mb-8 pb-4">
       <div class="relative overflow-hidden">
-        <!-- Contenedor de categorías que se desplaza -->
         <div 
           class="flex items-center space-x-8 overflow-x-auto"
           ref="categoriesWrapper"
@@ -44,7 +43,7 @@
             <span class="text-xs text-center">{{ category.name }}</span>
           </button>
         </div>
-        
+
         <!-- Barra negra de desplazamiento -->
         <div 
           class="h-[3px] bg-black mt-1 absolute bottom-0 left-0 w-full"
@@ -55,32 +54,34 @@
       </div>
     </div>
 
-    <!-- Products Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 mt-8">
-      <div 
-        v-for="product in favorites" 
-        :key="product.id" 
-        class="relative rounded-lg overflow-hidden bg-white shadow"
-      >
-        <button 
-          @click="removeFromFavorites(product.id)"
-          class="absolute top-2 right-2 z-10 p-1 rounded-full"
+    <!-- Products Grid with Scroll in Y -->
+    <div class="overflow-y-auto mt-8 max-h-[calc(100vh-250px)]"> <!-- Ajustar altura y scroll solo en Y -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+        <div 
+          v-for="product in favorites" 
+          :key="product.id" 
+          class="relative rounded-lg overflow-hidden bg-white shadow"
         >
-          <img src="../assets/img/x.svg" alt="Eliminar" class="w-4 h-4 text-white" />
-        </button>
-        
-        <img 
-          :src="product.image" 
-          :alt="product.name"
-          class="w-full h-48 object-cover bg-gray-100"
-        />
-        
-        <div class="absolute bottom-0 left-0 right-0 bg-black text-white p-3 text-left">
-          <h3 class="font-medium text-sm">{{ product.name }}</h3>
-          <div class="flex justify-between items-center mt-1">
-            <span class="text-sm">S/.{{ product.price }}</span>
+          <button 
+            @click="removeFromFavorites(product.id)"
+            class="absolute top-2 right-2 z-10 p-1 rounded-full"
+          >
+            <img src="../assets/img/x.svg" alt="Eliminar" class="w-4 h-4 text-white" />
+          </button>
+
+          <img 
+            :src="product.image" 
+            :alt="product.name"
+            class="w-full h-48 object-cover bg-gray-100"
+          />
+
+          <div class="absolute bottom-0 left-0 right-0 bg-black text-white p-3 text-left">
+            <h3 class="font-medium text-sm">{{ product.name }}</h3>
+            <div class="flex justify-between items-center mt-1">
+              <span class="text-sm">S/.{{ product.price }}</span>
+            </div>
+            <p class="text-xs text-gray-300 mt-1">{{ product.artisan }}</p>
           </div>
-          <p class="text-xs text-gray-300 mt-1">{{ product.artisan }}</p>
         </div>
       </div>
     </div>
@@ -186,9 +187,22 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* Responsiveness for grid */
+/* Estilos para evitar que el contenido se desborde */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Esto evita que se muestre el scroll global */
+}
+
+/* Responsiveness para el grid */
 .grid {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+/* Ajustar la altura de la zona de productos */
+.overflow-y-auto {
+  overflow-y: auto; /* Permitir desplazamiento vertical */
+  -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos móviles */
 }
 
 /* Estilo para el contenedor scrollable */
@@ -196,16 +210,19 @@ onBeforeUnmount(() => {
   white-space: nowrap;
   position: relative;
 }
+
 .triangle {
   position: absolute;
-  top: 0;
+  top: 1;
   left: 0;
   width: 0;
-  height: 0;
+  height
+: 0;
   border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
   border-bottom: 30px solid transparent;
   border-top: 28px solid transparent;
 }
+
 .category-button {
   cursor: pointer;
   user-select: none;
