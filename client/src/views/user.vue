@@ -310,7 +310,6 @@ const menuItems = [
 
 // API Configuration
 const API_URL = 'http://localhost:5001';
-const userId = '672e146bedacd07b9828bef0';
 
 // Navigation Functions
 const toggleDrawer = () => {

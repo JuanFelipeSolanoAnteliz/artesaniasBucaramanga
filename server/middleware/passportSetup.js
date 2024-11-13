@@ -15,19 +15,20 @@ passport.use(new DiscordStrategy({
     callbackURL: process.env.DISCORD_CALLBACK_URL,
     scope: ['identify', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
+    // console.log(profile)
     try {
         let existingUser  = await Usuario.findOne({ correo: profile.email });
         if (existingUser ) {
             return done(null, existingUser );
         }
 
-        const existingUserName = await Usuario.findOne({ username: profile.userName });
+        const existingUserName = await Usuario.findOne({ userName: profile.userName });
         if (existingUserName) {
             return done(null, existingUserName);
         }
 
         const newUser  = new Usuario({
-            userName: profile.userName || "",
+            userName: profile.username || "",
             nombre: profile.userName || "Usuario Sin Nombre",
             correo: profile.email || `${profile.userName}@discord.com`,
             contraseña: "",
@@ -45,9 +46,17 @@ passport.use(new DiscordStrategy({
             avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : ""
         });
         
-        newUser.save();
-        done(null, newUser );
+        try {
+            console.log('hola estoy guardando');
+            await newUser.save();
+            console.log("Nuevo usuario guardado correctamente"); // Para confirmar que se guarda
+            done(null, newUser);
+        } catch (error) {
+            console.error("Error al guardar el nuevo usuario: ", error); // Log del error
+            done(error, null);
+        }
     } catch (error) {
+        console.log(error)
         done(error, null);
     }
 }));
