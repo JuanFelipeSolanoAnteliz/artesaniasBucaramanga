@@ -13,8 +13,10 @@ router.post('/createAndAuth', UserController.createUser);
 
 router.get('/auth/discord', passport.authenticate('discord'));
 router.get('/auth/discord/callback', 
-    passport.authenticate('discord', { failureRedirect: '/login' }), 
-    UserController.loginWithDiscord
+    passport.authenticate('discord', { 
+        failureRedirect: '/registro',
+        successRedirect: '/tallerMes' 
+    }), 
 );
 
 router.get('/profile', (req, res) => {
@@ -27,16 +29,17 @@ router.get('/profile', (req, res) => {
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }), 
-    UserController.loginWithGoogle
+    passport.authenticate('google', { 
+        failureRedirect: '/registro',
+        successRedirect: '/tallerMes' 
+    }), 
 );
 
 router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
-router.get('/auth/github/callback', passport.authenticate('github', {
-    failureRedirect: '/login'
-}), (req, res) => {
-    res.redirect('/dashboard');
-});
+router.get('/auth/github/callback', passport.authenticate('github', { 
+    failureRedirect: '/registro',
+    successRedirect: '/tallerMes' 
+}));
 
 router.get('/logout', (req, res) => {
     req.logout();
