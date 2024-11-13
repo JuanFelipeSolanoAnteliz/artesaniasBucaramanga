@@ -25,6 +25,7 @@
       class="fixed inset-0 bg-black bg-opacity-50 z-50"
       @click="toggleDrawer"
     ></div>
+    
     <div
       class="fixed top-0 left-0 h-full w-64 bg-black transform transition-transform duration-300 ease-in-out z-50"
       :class="isDrawerOpen ? 'translate-x-0' : '-translate-x-full'"
@@ -42,10 +43,14 @@
         </div>
 
         <nav class="space-y-4">
-          <a v-for="(item, index) in menuItems" :key="index"
-             class="flex items-center space-x-3 p-2 rounded-lg">
-            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full justify-center" />
-            <span class="">{{ item.label }}</span>
+          <a 
+            v-for="(item, index) in menuItems" 
+            :key="index" 
+            @click="item.onClick" 
+            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <!-- Render icon dynamically -->
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
+            <span>{{ item.label }}</span>
           </a>
         </nav>
 
@@ -73,7 +78,7 @@
           <img src="../assets/img/categorias1.png" alt="Categorías" class="">
         </div>
         <div v-else class="flex justify-between justify-center relative">
-          <img @click="goToHome" class="relative top-[-10px]" src="../assets/img/back.png" alt="Back">
+          <img @click="goTotallres" class="relative top-[-10px]" src="../assets/img/back.png" alt="Back">
           <img src="../assets/img/titleCategorias.png" class="mr-36" alt="Categorías">
         </div>
 
@@ -88,7 +93,7 @@
           >
             <div v-for="(category, index) in categories" :key="index"
                  @click="selectCategory(category.nombre)"
-                 class="flex flex-col items-center text-center cursor-pointer"
+                 class="flex flex-col items-center text-center cursor-pointer gap-5"
                  :class="{'opacity-100': selectedCategory === category.nombre, 'opacity-60': selectedCategory && selectedCategory !== category.nombre}">
               <div class="w-10 h-10 bg-[#D9D9D9] rounded-full flex items-center justify-center">
                 <img
@@ -150,24 +155,21 @@
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
       <div class="flex justify-around p-3">
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <Store @click="goTotienda" class="h-6 w-6" />
+        <button @click="goTotienda" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <Store  class="h-6 w-6" />
           <span class="text-xs mt-1"></span>
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <BadgePercent @click="goToDescuentos" class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
+          <BadgePercent  @click="goToDescuentos" class="h-6 w-6" />
         </button>
         <button @click="goTotallres" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <HomeIcon class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
+        <button @click="goToCarritoCompras"  class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <ShoppingCart class="h-6 w-6" />
         </button>
-        <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <UserIcon class="h-6 w-6" />
-          <span class="text-xs mt-1"></span>
+        <button  class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <UserIcon @click="goToUser" class="h-6 w-6" />
         </button>
       </div>
     </nav>
@@ -180,6 +182,7 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const router = useRouter();
+
 
 const goTotallres = () => {
   router.push("/tallerMes");
@@ -201,9 +204,41 @@ const goToUser = () => {
   router.push("/user");
 };
 
-const goToHome = () => {
-  router.push("/tallerMes");
-};
+
+
+
+
+
+
+const goToFavoritos = () => {
+  router.push("/artesanias")
+}
+
+const goToCompras = () => {
+  router.push("/comprasR")
+}
+
+const goToTalleres = () => {
+  router.push("/talleres")
+}
+
+const goToCupon= () => {
+  router.push("/canjear")
+}
+
+const goToAjustes= () => {
+  router.push("/ajustes")
+}
+
+const goToComentarios= () => {
+  router.push("/comentarios")
+}
+
+const goToAtencion= () => {
+  router.push("/atencion")
+}
+
+
 
 import {
   MenuIcon,
@@ -215,7 +250,7 @@ import {
   GiftIcon,
   BookOpenIcon,
   SettingsIcon,
-  MessageSquareIcon,
+  MessageSquare,
   HelpCircleIcon,
   Store,
   BadgePercent,
@@ -280,14 +315,43 @@ const categories = [
   { nombre: 'Pintura tradicional', imagen: pinturaTradicional }
 ];
 
+// Menu items data
 const menuItems = [
-  { label: 'Lista de Favoritos', icon: HeartIcon },
-  { label: 'Canjear', icon: Briefcase },
-  { label: 'Talleres', icon: NotepadText },
-  { label: 'Canjear cupón', icon: TicketPercent },
-  { label: 'Ajustes', icon: SettingsIcon },
-  { label: 'Comentarios', icon: MessageSquareIcon },
-  { label: 'Atención al cliente', icon: Headset }
+  { 
+    label: 'Lista de Favoritos', 
+    icon: HeartIcon, 
+    onClick: goToFavoritos 
+  },
+  { 
+    label: 'Compras', 
+    icon: Briefcase, 
+    onClick: goToCompras 
+  },
+  { 
+    label: 'Talleres', 
+    icon: NotepadText, 
+    onClick: goToTalleres 
+  },
+  { 
+    label: 'Canjear cupón', 
+    icon: TicketPercent, 
+    onClick: goToCupon 
+  },
+  { 
+    label: 'Ajustes', 
+    icon: SettingsIcon, 
+    onClick: goToAjustes 
+  },
+  { 
+    label: 'Comentarios', 
+    icon: MessageSquare, 
+    onClick: goToComentarios 
+  },
+  { 
+    label: 'Atención al cliente', 
+    icon: Headset, 
+    onClick: goToAtencion 
+  }
 ];
 
 const toggleDrawer = () => {

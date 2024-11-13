@@ -43,10 +43,14 @@
         </div>
 
         <nav class="space-y-4">
-          <a v-for="(item, index) in menuItems" :key="index" 
-             class="flex items-center space-x-3 p-2 rounded-lg">
-            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1.5" />
-            <span class="text-sm">{{ item.label }}</span>
+          <a 
+            v-for="(item, index) in menuItems" 
+            :key="index" 
+            @click="item.onClick" 
+            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <!-- Render icon dynamically -->
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
+            <span>{{ item.label }}</span>
           </a>
         </nav>
 
@@ -157,16 +161,16 @@
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
       <div class="flex justify-around p-3">
-        <button @click="goTotienda" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <Store  class="h-6 w-6" />
+        <button @click="goToTienda" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <Store class="h-6 w-6" />
         </button>
         <button @click="goToDescuentos" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <BadgePercent class="h-6 w-6" />
         </button>
         <button @click="goToHome" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <HomeIcon  class="h-6 w-6" />
+          <HomeIcon class="h-6 w-6" />
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+        <button @click="goToCarritoCompras" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <ShoppingCart class="h-6 w-6" />
         </button>
         <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
@@ -241,28 +245,69 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Trash2Icon, MenuIcon, SearchIcon, HomeIcon, UserIcon, HeartIcon, Store, BadgePercent, ShoppingCart, Briefcase, NotepadText, TicketPercent, Headset, Settings2, MessageSquare } from 'lucide-vue-next'
+import { Trash2Icon,MessageSquareIcon, MenuIcon, SearchIcon, HomeIcon, UserIcon, HeartIcon, Store, BadgePercent, ShoppingCart, Briefcase, NotepadText, TicketPercent, Headset, Settings2, MessageSquare } from 'lucide-vue-next'
+
+import {
+  MapPinIcon,
+  GiftIcon,
+  BookOpenIcon,
+  SettingsIcon,
+  HelpCircleIcon,
+  Settings2Icon
+} from 'lucide-vue-next';
 
 const router = useRouter()
 
+const goDetalleTaller = (id) => {
+  router.push(`/detalleTaller/${id}`)
+}
+
 const goToHome = () => {
   router.push("/tallerMes")
-}
-
-const goTotallres = () => {
-  router.push("/tallerMes")
-}
-
-const goTotienda = () => {
-  router.push("/tallerYtiendas")
 }
 
 const goToDescuentos = () => {
   router.push("/descuentos")
 }
 
+const goToCarritoCompras = () => {https://discord.com/channels/@me
+  router.push("/carritoCompras")
+}
+
 const goToUser = () => {
   router.push("/user")
+}
+
+const goToFavoritos = () => {
+  router.push("/artesanias")
+}
+
+const goToCompras = () => {
+  router.push("/comprasR")
+}
+
+const goToTalleres = () => {
+  router.push("/talleres")
+}
+
+const goToCupon= () => {
+  router.push("/canjear")
+}
+
+const goToAjustes= () => {
+  router.push("/ajustes")
+}
+
+const goToComentarios= () => {
+  router.push("/comentarios")
+}
+
+const goToAtencion= () => {
+  router.push("/atencion")
+}
+
+const goToTienda= () => {
+  router.push("/tallerYtiendas")
 }
 
 const isDrawerOpen = ref(false)
@@ -288,15 +333,44 @@ const categories = [
   'Pintura tradicional'
 ]
 
+// Menu items data
 const menuItems = [
-  { label: 'Lista de Favoritos', icon: HeartIcon },
-  { label: 'Canjear', icon: Briefcase },
-  { label: 'Talleres', icon: NotepadText },
-  { label: 'Canjear cupón', icon: TicketPercent },
-  { label: 'Ajustes', icon: Settings2 },
-  { label: 'Comentarios', icon: MessageSquare },
-  { label: 'Atención al cliente', icon: Headset }
-]
+  { 
+    label: 'Lista de Favoritos', 
+    icon: HeartIcon, 
+    onClick: goToFavoritos 
+  },
+  { 
+    label: 'Compras', 
+    icon: Briefcase, 
+    onClick: goToCompras 
+  },
+  { 
+    label: 'Talleres', 
+    icon: NotepadText, 
+    onClick: goToTalleres 
+  },
+  { 
+    label: 'Canjear cupón', 
+    icon: TicketPercent, 
+    onClick: goToCupon 
+  },
+  { 
+    label: 'Ajustes', 
+    icon: SettingsIcon, 
+    onClick: goToAjustes 
+  },
+  { 
+    label: 'Comentarios', 
+    icon: MessageSquareIcon, 
+    onClick: goToComentarios 
+  },
+  { 
+    label: 'Atención al cliente', 
+    icon: Headset, 
+    onClick: goToAtencion 
+  }
+];
 
 const cartItems = ref([
   {

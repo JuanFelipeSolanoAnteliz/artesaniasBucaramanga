@@ -20,46 +20,49 @@
       </header>
   
       <!-- Side Drawer -->
-      <div
-        v-if="isDrawerOpen"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50"
-        @click="toggleDrawer"
-      ></div>
-      
-      <div
-        class="fixed top-0 left-0 h-full w-64 bg-black transform transition-transform duration-300 ease-in-out z-50"
-        :class="isDrawerOpen ? 'translate-x-0' : '-translate-x-full'"
-      >
-        <div class="p-4">
-          <div class="flex items-center space-x-3 mb-6">
-            <img
-              src="../assets/img/perfile.png"
-              alt="Profile"
-              class="w-12 h-12 rounded-full"
-            />
-            <div>
-              <h3 class="font-semibold">SaraMartin9</h3>
-            </div>
-          </div>
-  
-          <nav class="space-y-4">
-            <a v-for="(item, index) in menuItems" :key="index" 
-               class="flex items-center space-x-3 p-2 rounded-lg">
-              <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1.5" />
-              <span class="text-sm">{{ item.label }}</span>
-            </a>
-          </nav>
-  
-          <div class="absolute bottom-4 left-4 right-4">
-            <p class="text-xs text-gray-500">Aplicación patrocinada por</p>
-            <img
-              src="../assets/img/campuslands.png"
-              alt="Sponsor"
-              class="h-8 mt-2"
-            />
+    <div
+      v-if="isDrawerOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50"
+      @click="toggleDrawer"
+    ></div>
+    
+    <div
+      class="fixed top-0 left-0 h-full w-64 bg-black transform transition-transform duration-300 ease-in-out z-50"
+      :class="isDrawerOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
+      <div class="p-4">
+        <div class="flex items-center space-x-3 mb-6">
+          <img
+            src="../assets/img/perfile.png"
+            alt="Profile"
+            class="w-12 h-12 rounded-full"
+          />
+          <div>
+            <h3 class="font-semibold">SaraMartin9</h3>
           </div>
         </div>
+
+        <nav class="space-y-4">
+          <a 
+            v-for="(item, index) in menuItems" 
+            :key="index" 
+            @click="item.onClick" 
+            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
+            <span>{{ item.label }}</span>
+          </a>
+        </nav>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <p class="text-xs text-gray-500">Aplicación patrocinada por</p>
+          <img
+            src="../assets/img/campuslands.png"
+            alt="Sponsor"
+            class="h-8 mt-2"
+          />
+        </div>
       </div>
+    </div>
   
       <!-- Main Content -->
       <main class="pt-16 pb-20 min-h-screen">
@@ -127,25 +130,25 @@
       </main>
   
       <!-- Bottom Navigation -->
-      <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
-        <div class="flex justify-around p-3">
-          <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-            <Store @click="goToTienda" class="h-6 w-6" />
-          </button>
-          <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-            <BadgePercent class="h-6 w-6" />
-          </button>
-          <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-            <HomeIcon @click="goToHome" class="h-6 w-6" />
-          </button>
-          <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-            <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
-          </button>
-          <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-            <UserIcon class="h-6 w-6" />
-          </button>
-        </div>
-      </nav>
+    <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
+      <div class="flex justify-around p-3">
+        <button @click="goToTienda" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <Store class="h-6 w-6" />
+        </button>
+        <button @click="goToDescuentos" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <BadgePercent class="h-6 w-6" />
+        </button>
+        <button @click="goToHome" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <HomeIcon class="h-6 w-6" />
+        </button>
+        <button @click="goToCarritoCompras" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <ShoppingCart class="h-6 w-6" />
+        </button>
+        <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <UserIcon class="h-6 w-6" />
+        </button>
+      </div>
+    </nav>
     </div>
   </template>
   
@@ -160,12 +163,16 @@ const products = ref([])
 const isLoading = ref(false)
 const error = ref(null)
 
+const goDetalleTaller = (id) => {
+  router.push(`/detalleTaller/${id}`)
+}
+
 const goToHome = () => {
   router.push("/tallerMes")
 }
 
-const goToTienda = () => {
-  router.push("/tallerYtiendas")
+const goToDescuentos = () => {
+  router.push("/descuentos")
 }
 
 const goToCarritoCompras = () => {
@@ -174,6 +181,38 @@ const goToCarritoCompras = () => {
 
 const goToUser = () => {
   router.push("/user")
+}
+
+const goToFavoritos = () => {
+  router.push("/artesanias")
+}
+
+const goToCompras = () => {
+  router.push("/comprasR")
+}
+
+const goToTalleres = () => {
+  router.push("/talleres")
+}
+
+const goToCupon= () => {
+  router.push("/canjear")
+}
+
+const goToAjustes= () => {
+  router.push("/ajustes")
+}
+
+const goToComentarios= () => {
+  router.push("/comentarios")
+}
+
+const goToAtencion= () => {
+  router.push("/atencion")
+}
+
+const goToTienda= () => {
+  router.push("/tallerYtiendas")
 }
 
 import {
@@ -190,12 +229,52 @@ import {
   TicketPercent,
   Headset,
   Settings2,
-  MessageSquare
+  MessageSquare,
+  SettingsIcon
 } from 'lucide-vue-next'
 
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value
 }
+
+// Menu items data
+const menuItems = [
+  { 
+    label: 'Lista de Favoritos', 
+    icon: HeartIcon, 
+    onClick: goToFavoritos 
+  },
+  { 
+    label: 'Compras', 
+    icon: Briefcase, 
+    onClick: goToCompras 
+  },
+  { 
+    label: 'Talleres', 
+    icon: NotepadText, 
+    onClick: goToTalleres 
+  },
+  { 
+    label: 'Canjear cupón', 
+    icon: TicketPercent, 
+    onClick: goToCupon 
+  },
+  { 
+    label: 'Ajustes', 
+    icon: SettingsIcon, 
+    onClick: goToAjustes 
+  },
+  { 
+    label: 'Comentarios', 
+    icon: MessageSquare, 
+    onClick: goToComentarios 
+  },
+  { 
+    label: 'Atención al cliente', 
+    icon: Headset, 
+    onClick: goToAtencion 
+  }
+]
 
 const API_BASE_URL = 'http://localhost:5001'
 

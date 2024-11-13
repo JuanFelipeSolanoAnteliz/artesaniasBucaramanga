@@ -42,6 +42,7 @@ const routes = [
   { path: '/chat', component: chat },
   { path: '/qr', component: qr },
   { path: '/ceramica', component: ceramica},
+  
   { path: '/', component: explore },
   { path: '/registro', component: registro},
   { path: '/loguin', component: loguin},
