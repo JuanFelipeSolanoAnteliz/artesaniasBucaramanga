@@ -2,6 +2,22 @@ const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Pedidos = require('../model/paymentsModel');
 const Vouchers = require('../model/voucherModel');
+const Users = require('../model/userModel');
+
+exports.addToCart = async (req, res) => {
+    try {
+        let product = req.body.productId;
+        let user = req.data.id;
+        let updateUserInfo = await Users.updateOne(
+            { _id: user },
+            { $push: { carrito: new ObjectId(product)} }
+        );
+        res.status(200).json({ status: 200, message:'Product added to cart', data: updateUserInfo });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'Error while adding to cart', error: error });     
+    }
+}
 
 exports.addOrder = async(req, res) => {
     try{
