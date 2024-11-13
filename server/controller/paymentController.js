@@ -12,11 +12,28 @@ exports.addToCart = async (req, res) => {
             { _id: new ObjectId(user) },
             { $push: { carrito: new ObjectId(product)} }
         );
-        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not add the producto to the cart'}); }
+        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not add the product to the cart'}); }
         res.status(214).json({ status: 214, message:'Product added to cart', data: updateUserInfo });
     } catch (error) {
         console.log(error)
         res.status(500).send({ message: 'Error while adding to cart', error: error });     
+    }
+}
+
+
+exports.removeFromCart = async (req, res) => {
+    try {
+        let product = req.params.id;
+        let user = req.data.id;
+        let updateUserInfo = await Users.updateOne(
+            { _id: new ObjectId(user) },
+            { $pull: { carrito: new ObjectId(product)} }
+        );
+        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not remove the product to the cart'}); }
+        res.status(214).json({ status: 214, message:'Product removed from cart', data: updateUserInfo });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'Error while removing from cart', error: error });     
     }
 }
 
