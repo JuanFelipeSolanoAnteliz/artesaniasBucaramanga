@@ -17,11 +17,7 @@
       </button>
     
       <!-- Imagen de producto -->
-      <img 
-        src="https://via.placeholder.com/200x400"
-        alt="Tapiz Chumpi Andino III"
-        class="w-full h-[290px] object-cover"
-      />
+         <img :src="workshopDetails.fotos || '../assets/img/backNofondo.png'"  class="w-full h-[290px] object-cover" />
 
       <!-- Crazy image with discount badge -->
       <div class="absolute bottom-14 left-3 z-20">
@@ -33,7 +29,7 @@
           />
           <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div class=" text-white text-sm font-medium px-3 py-1 rounded-full">
-              -35%
+              {{ workshopDetails.descuento }}%
             </div>
           </div>
         </div>
@@ -46,7 +42,7 @@
           alt="rentangleS"
           class="absolute top-0 left-0 w-5 h-15" 
         />
-        <h1 class="text-left text-white text-lg font-normal ml-3">Chalina beige con flecos</h1>
+        <h1 class="text-left text-white text-lg font-normal ml-3">{{ product.nombre }}</h1>
       </div>
     </div>
 
@@ -54,7 +50,7 @@
     <div class="p-4 space-y-4">
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-2">
-          <span class="text-gray-400 line-through text-sm ml-1.5">S/.100</span>
+          <span class="text-gray-400 line-through text-sm ml-1.5">S/.{{ product.precio }}</span>
           <span class="text-2xl font-semibold">S/.65</span>
         </div>
         
@@ -68,17 +64,16 @@
       </div>
 
       <div class="space-y-3">
-        <h2 class="text-left text-base font-medium ml-1.5">Asociación de artesanos Tinkuy</h2>
+        <h2 class="text-left text-base font-medium ml-1.5">{{ product.categoria}}</h2>
         
          <div class="flex items-center space-x-2"> 
-          <h3 class="text-left text-base font-medium ml-1.5">Dimensiones:</h3>
-          <p class="text-gray-600">18 x 200 cm</p>
+          <h3 class="text-left text-base font-medium ml-1.5">Stock:</h3>
+          <p class="text-gray-600">{{ product.stock }}</p>
         </div>
 
         <div class="text-gray-600 text-base text-justify leading-relaxed ml-1.5">
-          <span class="font-medium">Descripción:</span>
-          <p class="indent inline">
-            Tapiz tridimensional con diseños de la tradición textil andina prehispánica. Elaborado con lana de ovino y tejido en telar a pedal.
+          <span class="font-medium"> Descripción: </span>
+          <p class="indent inline"> {{ product.descripcion }}
           </p>
         </div>
 
@@ -108,12 +103,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted} from 'vue'
 
 import corazonLleno from '../assets/img/corazonLleno.svg'
 import corazonVacio from '../assets/img/corazonVacio.svg'
 
 const isFavorite = ref(false)
+const product = ref([])
+const workshopDetails = ref(null)
+
+const fetchWorkshopDetails = async () => {
+  try {
+    const response = await axios.get(`http://localhost:5001/products/getOne/${route.params.id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+    workshopDetails.value = response.data.data
+  } catch (err) {
+    console.error('Error fetching workshop details:', err)
+    err.value = 'Error al cargar los detalles del taller'
+  }
+}
+
+onMounted(() => {
+  fetchWorkshopDetails()
+})
+
 
 const toggleFavorite = () => {
   isFavorite.value = !isFavorite.value

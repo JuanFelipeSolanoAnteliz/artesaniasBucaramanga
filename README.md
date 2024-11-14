@@ -1,3 +1,5 @@
+MONGODB_URI= URI valentina
+MONGODB_DB_NAME= nombre db
 # .env:
 MONGODB_URI= URI valentina
 MONGODB_DB_NAME= nombre db

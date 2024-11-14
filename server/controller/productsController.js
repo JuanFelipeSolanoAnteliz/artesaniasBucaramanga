@@ -7,9 +7,11 @@ const Users= require('../model/userModel');
 exports.getOneById = async ( req, res )=>{
     try{
         let product = req.params.id;
-        let updateUserInfo = await Users.find(
+        console.log(product,'hola soy elperrohijueputa producto ')
+        let updateUserInfo = await Products.findOne(
             { _id: new ObjectId(product) }
         )
+        console.log(updateUserInfo,'esto es lo que devuelve la puta query')
         if(updateUserInfo.length === 0){ return res.status(404).json({status:200, message:'product not found'})}
         return res.status(200).json({ status: 200, message: 'Product fetched successfully', data:updateUserInfo});
     }catch(error){

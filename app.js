@@ -28,11 +28,9 @@ app.use('/workshops',workshopsRouter);
 app.use('/orders',orderRouter);
 
 app.use(express.static(join(__dirname, 'client/dist')));
-
 app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, 'client', 'dist', 'index.html'));
-  });
-  
+    res.sendFile(join(__dirname, 'client/dist/index.html'));
+});
 
 // Inicializar Passport
 app.use(passport.initialize());
