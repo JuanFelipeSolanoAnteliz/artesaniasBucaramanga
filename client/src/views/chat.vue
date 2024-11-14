@@ -30,7 +30,7 @@
         <div v-for="message in messages" :key="message.id" 
              :class="['max-w-[80%] rounded-lg p-3', 
                       message.isSender ? 'ml-auto  bg-[#D9D9D9] text-black' : 'bg-[#3D3D3D]  text-white']">
-          {{ message.text }}
+          {{ typeof message.text === 'object' ? message.text.msg : message.text }}
         </div>
       </div>
     
@@ -52,31 +52,49 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> 
   </template>
   
   <script setup>
-  import { ref } from 'vue'
-  import { SendIcon } from 'lucide-vue-next'
-  
-  const messages = ref([
-    { id: 1, text: "Hola, ¿en qué puedo ayudarte?", isSender: false },
-    { id: 2, text: "Hola, quisiera información sobre los talleres", isSender: true },
-  ])
-  
-  const newMessage = ref('')
-  
-  const sendMessage = () => {
-    if (newMessage.value.trim()) {
-      messages.value.push({
-        id: messages.value.length + 1,
-        text: newMessage.value,
-        isSender: true
-      })
-      newMessage.value = ''
-    }
+import { ref, onMounted, onUnmounted } from 'vue'
+import { SendIcon } from 'lucide-vue-next'
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:5001') // Adjust the URL to match your server
+
+const messages = ref([])
+const newMessage = ref('')
+
+onMounted(() => {
+  socket.on('chat message', (msg) => {
+    console.log('Received message:', msg)
+    // Handle both string and object messages
+    const messageText = typeof msg === 'object' ? msg.msg : msg
+    messages.value.push({
+      id: messages.value.length + 1,
+      text: messageText,
+      isSender: false
+    })
+  })
+})
+
+onUnmounted(() => {
+  socket.off('chat message')
+})
+
+const sendMessage = () => {
+  if (newMessage.value.trim()) {
+    const msg = newMessage.value.trim()
+    console.log('Sending message:', msg)
+    socket.emit('chat message', msg)
+    messages.value.push({
+      id: messages.value.length + 1,
+      text: msg,
+      isSender: true
+    })
+    newMessage.value = ''
   }
-  
+}
   const goBack = () => {
     // Implement navigation logic here
     console.log('Navigate back')
