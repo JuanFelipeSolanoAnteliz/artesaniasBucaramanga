@@ -107,23 +107,23 @@
       <div v-else class="grid grid-cols-2 gap-4 px-4">
         <div
           v-for="product in filteredProducts"
-          :key="product.id"
+          :key="product._id"
           class="relative bg-white rounded-lg shadow"
         >
           <div class="relative h-40 w-full">
             <img
-              :src="product.image"
-              :alt="product.title"
+              :src="product.fotos"
+              :alt="product.nombre"
               class="absolute inset-0 w-full h-full object-cover rounded-t-lg text-white"
             />
             <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs rounded">
-              {{ product.discount }}
+              {{ product.descuento }}
             </div>
           </div>
           <div class="p-3 bg-black rounded-b-lg">
-            <h3 class="text-white text-xs font-medium truncate">{{ product.title }}</h3>
-            <p class="text-gray-400 text-xs mt-1">{{ product.price }}</p>
-            <p class="text-gray-500 text-[10px] mt-1 truncate">{{ product.artisan }}</p>
+            <h3 class="text-white text-xs font-medium truncate">{{ product.nombre }}</h3>
+            <p class="text-gray-400 text-xs mt-1">{{ product.precio }}</p>
+            <p class="text-gray-500 text-[10px] mt-1 truncate">{{ product.artesanoId }}</p>
           </div>
         </div>
       </div>
@@ -157,11 +157,10 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const isDrawerOpen = ref(false)
-const selectedCategory = ref(null)
 const products = ref([])
 const isLoading = ref(false)
 const error = ref(null)
+const selectedCategory = ref(null)
 
 const goDetalleTaller = (id) => {
   router.push(`/detalleTaller/${id}`)
@@ -278,32 +277,29 @@ const menuItems = [
 
 const API_BASE_URL = 'http://localhost:5001'
 
-
-const fetchProductsByCategory = async (category) => {
+const fetchProductsByCategory = async (category = '') => {
   isLoading.value = true
   error.value = null
 
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/products/discounts/${category}`,
-      {
-        method: 'GET',
-        headers: {
+    const url = category ? `${API_BASE_URL}/products/discounts/${category}` : `${API_BASE_URL}/products/discounts`
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'
       }
-      }
-    )
+    })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      throw new Error(`HTTP error ${response.status}`)
     }
 
     const data = await response.json()
-    products.value = data
+    products.value = data.data
   } catch (e) {
     console.error('Error fetching products:', e)
-    error.value = 'No hay descuentos en esta categoria :().'
+    error.value = 'No se pudo cargar los productos.'
   } finally {
     isLoading.value = false
   }
@@ -312,7 +308,7 @@ const fetchProductsByCategory = async (category) => {
 const selectCategory = async (categoryName) => {
   if (selectedCategory.value === categoryName) {
     selectedCategory.value = null
-    await fetchProductsByCategory() 
+    await fetchProductsByCategory()
   } else {
     selectedCategory.value = categoryName
     await fetchProductsByCategory(categoryName)

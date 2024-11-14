@@ -3,7 +3,7 @@
     <!-- Header with back button -->
     <div class="relative h-64 inset-x-0 top-0">
       <img 
-        :src="workshopDetails?.documental || '../assets/img/backNofondo.png'" 
+        :src="workshopDetails?.documental || '../assets/img/fondoTaller.png'" 
         alt="Banner"
         class="w-full h-full object-cover"
       />
@@ -85,6 +85,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { SearchIcon, SlidersHorizontal } from 'lucide-vue-next'
 import axios from 'axios'
 
+import banner from "../assets/img/fondoTaller.png"
+
 const router = useRouter()
 const route = useRoute()
 const workshopDetails = ref(null)
@@ -118,7 +120,7 @@ const filteredProducts = computed(() => {
 // Obtener detalles del taller
 const fetchWorkshopDetails = async () => {
   try {
-    const response = await axios.get(`http://localhost:5001/workshops/${route.params.id}`, {
+    const response = await axios.get(`http://localhost:5001/products/getOne/${route.params.id}`, {
       headers: {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'
@@ -129,7 +131,27 @@ const fetchWorkshopDetails = async () => {
     console.error('Error fetching workshop details:', err)
     error.value = 'Error al cargar los detalles del taller'
   }
+  console.log(workshopDetails || "no trajo ni merda");
+  
 }
+
+
+// const fetchWorkshopDetails = async () => {
+//   try {
+//     const response = await axios.get(`http://localhost:5001/products/getOne/64f2c111fc13ae1b23000026`, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'x-version': '1.0.0'
+//       }
+//     })
+//     workshopDetails.value = response.data.data
+//   } catch (err) {
+//     console.error('Error fetching workshop details:', err)
+//     error.value = 'Error al cargar los detalles del taller'
+//   }
+//   console.log(workshopDetails)
+// }
+
 
 // Obtener productos
 const fetchProducts = async () => {

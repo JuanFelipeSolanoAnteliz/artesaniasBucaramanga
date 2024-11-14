@@ -2,6 +2,16 @@ const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Workshop = require('../model/workshopsModel');
 
+exports.getOne = async (req, res) =>{
+    try{
+        let result = await Workshop.findOne({ _id: new ObjectId(req.params.id)});
+        return res.status(200).json({ status: 200, message:'workshops fetched sucessfully', data:result});
+    }catch(error){
+        console.log(error)
+        res.status(500).send({ message: 'Error while fetching workshops', error: error });     
+    }
+}
+
 exports.getAll = async (req, res) =>{
     try{
         let result = await Workshop.find();
