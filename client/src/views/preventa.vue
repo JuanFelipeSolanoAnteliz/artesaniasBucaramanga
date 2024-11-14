@@ -10,6 +10,8 @@
         </div>
       </button>
 
+
+<!-- Rest of the template -->
       <img :src="workshopDetails.fotos && workshopDetails.fotos.length > 0 ? workshopDetails.fotos[0] : '../assets/img/crazy.svg'" class="w-full h-[290px] object-cover" />
 
       <!-- Title overlay -->
@@ -47,7 +49,7 @@
       </div>
 
       <!-- Add to cart button -->
-      <button class="text-left ml-2.5 bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6" @click="addToCart">
+      <button @click="fetchAddToCart" class="text-left ml-2.5 bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6">
         <img src="../assets/img/car.svg" alt="cart" class="text-left text-base font-medium ml-[-12px] w-5 h-5" />
         <span class="text-sm text-left font-medium">Añadir a mi carrito de compras</span>
       </button>
@@ -66,9 +68,11 @@ import corazonVacio from '../assets/img/corazonVacio.svg'
 
 const isFavorite = ref(false)
 const workshopDetails = ref(null)
+const workshopDetailsCart = ref(null)
 const route = useRoute()
 const router = useRouter()
 const productId = computed(() => route.params.id)
+const IDproducto = computed(() => route.params.id)
 
 const fetchWorkshopDetails = async () => {
   try {
@@ -87,8 +91,8 @@ const fetchWorkshopDetails = async () => {
 
 const fetchAddToCart = async () => {
   try {
-    const response = await axios.post(
-      `http://localhost:5001/orders/addtoCart/${productId.value}`, 
+    const response = await axios.put(
+      `http://localhost:5001/orders/addToCart/${IDproducto.value}`, 
       {},  
       {
         headers: {
@@ -97,11 +101,12 @@ const fetchAddToCart = async () => {
         }
       }
     )
-    workshopDetails.value = response.data.data
+    workshopDetailsCart.value = response.data.data
   } catch (err) {
     console.error('Error fetching workshop details:', err)
     err.value = 'Error al sibir producto al carrito'
   }
+  console.log(`${productId.value}`)
 }
 
 
