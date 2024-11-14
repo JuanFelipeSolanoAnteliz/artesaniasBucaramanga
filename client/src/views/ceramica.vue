@@ -99,13 +99,6 @@
   border-top: 28px solid transparent;
 }
 
-/* Aplicar la fuente Bellota-Bold desde la carpeta assets */
-@font-face {
-  font-family: 'Bellota-Bold';
-  src: url('@assets/fonts/Bellota-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-}
 
 /* Aplica la fuente Bellota-Bold solo al título del taller */
 h1 {

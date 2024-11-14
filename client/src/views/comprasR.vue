@@ -29,7 +29,7 @@
     <div class="flex-1 overflow-y-auto mb-4 "> 
       <!-- Item Card 1 -->
       <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
-        <img src="../assets/placeholder.svg?height=60&width=60" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" />
+        <img src="" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" />
         <div class="flex-1 ml-3 flex flex-col justify-between">
           <div class="flex justify-between items-start">
             <div>
@@ -54,7 +54,7 @@
    
       <!-- Item Card 2 -->
       <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
-        <img src="../assets/placeholder.svg?height=60&width=60" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" />
+        <img src="" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" />
         <div class="flex-1 ml-3 flex flex-col justify-between">
           <div class="flex justify-between items-start">
             <div>
@@ -100,41 +100,42 @@
 <script setup>
 import { ChevronLeftIcon, MessageSquareIcon } from 'lucide-vue-next'
 
+import placeholder from "../assets/img/workshop.svg"
 const moreProducts = [
   {
     name: 'Tapiz Chumpi Andino III',
     artist: 'Taller Amay Aqllas',
-    image: 'placeholder.svg?height=160&width=160',
+    image: placeholder,
     price: 'S/. 45.00'
   },
   {
     name: 'Pechera de Chompe René',
     artist: 'Sharon Imako',
-    image: 'placeholder.svg?height=160&width=160',
+    image: placeholder,
     price: 'S/. 30.00'
   },
   {
     name: 'Producto 3',
     artist: 'Artista 3',
-    image: 'placeholder.svg?height=160&width=160',
+    image: placeholder,
     price: 'S/. 50.00'
   },
   {
     name: 'Producto 4',
     artist: 'Artista 4',
-    image: 'placeholder.svg?height=160&width=160',
+    image: placeholder,
     price: 'S/. 60.00'
   },
   {
     name: 'Producto 5',
     artist: 'Artista 5',
-    image: 'placeholder.svg?height=160&width=160',
+    image: placeholder,
     price: 'S/. 70.00'
   },
   {
     name: 'Producto 6',
     artist: 'Artista 6',
-    image: 'placeholder.svg?height=160&width=160',
+    image: placeholder,
     price: 'S/. 80.00'
   }
 ]

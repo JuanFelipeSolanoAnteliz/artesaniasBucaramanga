@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 exports.auth = async(req, res, next)=>{
     try{
 
-        // console.log('Token en sesión:', req.session.auth,'---------------');
+        // console.log('Token en sesión:', req.session,'---------------');
         // const SECRET_KEY =  fs.readFileSync('./certificate.csr');
-        var payload = jwt.verify(req.session.auth, process.env.SECRET_KEY);
+        var payload = jwt.verify(req.session.auth || req.session.passport, process.env.SECRET_KEY);
         req.data = payload;
         // console.log(payload,'este es el payload')
         next(); 

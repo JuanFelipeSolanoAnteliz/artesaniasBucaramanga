@@ -4,6 +4,22 @@ const Pedidos = require('../model/paymentsModel');
 const Vouchers = require('../model/voucherModel');
 const Users = require('../model/userModel');
 
+exports.getCart = async (req, res)=> {
+    try{
+        let user = req.data.id;
+        let result = await Users.findOne(
+            { _id: new ObjectId(user) }, 
+            { carrito: 1 },
+            { _id: 0 }
+          );
+        if( !result ){return res.status(404).json({ status:404, message:' there is not a product with this id'})}
+        return res.status(200).json({ status:200, message:'product fetched successfully', data:result});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({ status:500, message:'error while fetching the product', error:error});
+    }
+}
+
 exports.addToCart = async (req, res) => {
     try {
         let product = req.params.id;
@@ -12,11 +28,28 @@ exports.addToCart = async (req, res) => {
             { _id: new ObjectId(user) },
             { $push: { carrito: new ObjectId(product)} }
         );
-        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not add the producto to the cart'}); }
+        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not add the product to the cart'}); }
         res.status(214).json({ status: 214, message:'Product added to cart', data: updateUserInfo });
     } catch (error) {
         console.log(error)
         res.status(500).send({ message: 'Error while adding to cart', error: error });     
+    }
+}
+
+
+exports.removeFromCart = async (req, res) => {
+    try {
+        let product = req.params.id;
+        let user = req.data.id;
+        let updateUserInfo = await Users.updateOne(
+            { _id: new ObjectId(user) },
+            { $pull: { carrito: new ObjectId(product)} }
+        );
+        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not remove the product to the cart'}); }
+        res.status(214).json({ status: 214, message:'Product removed from cart', data: updateUserInfo });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'Error while removing from cart', error: error });     
     }
 }
 
