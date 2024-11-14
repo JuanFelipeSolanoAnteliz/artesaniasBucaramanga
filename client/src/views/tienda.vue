@@ -291,6 +291,7 @@ const fetchWorkshops = async () => {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'
       }
+      
     })
     
     // Access the data array from the response structure

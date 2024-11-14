@@ -120,7 +120,8 @@ const filteredProducts = computed(() => {
 // Obtener detalles del taller
 const fetchWorkshopDetails = async () => {
   try {
-    const response = await axios.get(`http://localhost:5001/products/getOne/${route.params.id}`, {
+    
+    const response = await axios.get(`http://localhost:5001/workshops/${route.params.id}`, {
       headers: {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'
@@ -132,6 +133,7 @@ const fetchWorkshopDetails = async () => {
     error.value = 'Error al cargar los detalles del taller'
   }
   console.log(workshopDetails || "no trajo ni merda");
+
   
 }
 

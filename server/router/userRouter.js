@@ -31,7 +31,7 @@ router.get('/auth/discord/callback',
         });
     },
     (req, res) => {
-        console.log(req.session)
+        console.log(req.session,'ufydsygshgdhghghghgdhgdhghg')
         return res.redirect('/tallerMes');  
     }
 );
