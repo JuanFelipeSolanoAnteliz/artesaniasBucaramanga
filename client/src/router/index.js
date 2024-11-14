@@ -30,7 +30,7 @@ import user from '../views/user.vue'
 
 
 const routes = [
-  { path: '/preventa', component: preventa },
+  { path: '/preventa/:id', component: preventa },
   { path: '/preventaD', component: preventaD },
   { path: '/artesanias', component: artesanias },
   { path: '/comprasR', component: comprasR },

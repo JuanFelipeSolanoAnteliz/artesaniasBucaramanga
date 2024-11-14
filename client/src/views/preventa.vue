@@ -16,14 +16,14 @@
       <!-- Title overlay -->
       <div class="absolute bottom-0 left-0 right-0 bg-[#3D3D3D] px-4 py-2">
         <img src="../assets/img/RectangleS.svg" alt="rentangleS" class="absolute top-0 left-0 w-5 h-15" />
-        <h1 class="text-left text-white text-lg font-normal ml-3">{{ product.nombre }}</h1>
+        <h1 class="text-left text-white text-lg font-normal ml-3">{{ workshopDetails.nombre || 'Cargando...' }}</h1>
       </div>
     </div>
  
     <!-- Product details section -->
     <div class="p-4 space-y-3">
       <div class="flex justify-between items-center">
-        <div class="text-2xl font-semibold ml-3">S/.{{ product.precio }}</div>
+        <div class="text-2xl font-semibold ml-3">S/.{{ workshopDetails.precio || 'Cargando precio...' }}</div>
         <!-- Favorite button with image -->
         <button class="p-2" @click="toggleFavorite">
           <img :src="isFavorite ? corazonLleno : corazonVacio" alt="heart" class="w-12 h-10" />
@@ -31,14 +31,14 @@
       </div>
  
       <div class="space-y-2">
-        <h2 class="text-left text-base font-medium ml-2.5">{{ product.nombre }}</h2>
+        <h2 class="text-left text-base font-medium ml-2.5">{{ workshopDetails.nombre || 'Cargando...' }}</h2>
         <div class="flex items-center gap-2">
           <h3 class="text-left text-base font-medium ml-2.5">Stock:</h3>
-          <p class="text-gray-600">{{ product.stock }}</p>
+          <p class="text-gray-600">{{ workshopDetails.stock || 'Cargando...' }}</p>
         </div>
         <div class="text-left text-gray-600 text-base text-justify leading-relaxed ml-2.5">
           <span class="font-medium">Descripción: </span>
-          <p class="indent inline"> {{ product.descripcion }}</p>
+          <p class="indent inline"> {{ workshopDetails.descripcion || 'Cargando...' }}</p>
         </div>
         <br>
         <div class="text-left ml-2.5 flex items-center gap-2 text-gray-600 pt-2">
@@ -66,6 +66,7 @@ import { SendToBack } from 'lucide-vue-next';
 
 const isFavorite = ref(false)
 const product = ref([])
+const workshopDetails = ref(null)
 
 onMounted(async () => {
   try {
@@ -82,7 +83,24 @@ onMounted(async () => {
   }
 })
 
+const fetchWorkshopDetails = async () => {
+  try {
+    const response = await axios.get(`http://localhost:5001/products/getOne/${route.params.id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+    workshopDetails.value = response.data.data
+  } catch (err) {
+    console.error('Error fetching workshop details:', err)
+    err.value = 'Error al cargar los detalles del taller'
+  }
+}
 
+onMounted(() => {
+  fetchWorkshopDetails()
+})
 
 const toggleFavorite = async () => {
   isFavorite.value = !isFavorite.value;
