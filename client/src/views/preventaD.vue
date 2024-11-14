@@ -17,7 +17,7 @@
       </button>
     
       <!-- Imagen de producto -->
-         <img :src="product.fotos && product.fotos.length > 0 ? product.fotos[0] : '../assets/img/crazy.svg'" class="w-full h-[290px] object-cover" />
+         <img :src="workshopDetails.fotos || '../assets/img/backNofondo.png'"  class="w-full h-[290px] object-cover" />
 
       <!-- Crazy image with discount badge -->
       <div class="absolute bottom-14 left-3 z-20">
@@ -29,7 +29,7 @@
           />
           <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div class=" text-white text-sm font-medium px-3 py-1 rounded-full">
-              {{ product.descuento }}%
+              {{ workshopDetails.descuento }}%
             </div>
           </div>
         </div>
@@ -110,23 +110,26 @@ import corazonVacio from '../assets/img/corazonVacio.svg'
 
 const isFavorite = ref(false)
 const product = ref([])
+const workshopDetails = ref(null)
 
-onMounted(async () => {
+const fetchWorkshopDetails = async () => {
   try {
-    const response = await fetch('http://localhost:5001/products/getOne/64f2c111fc13ae1b23000005', {
+    const response = await axios.get(`http://localhost:5001/products/getOne/${route.params.id}`, {
       headers: {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'
       }
     })
-    const data = await response.json()
-    product.value = data.data
+    workshopDetails.value = response.data.data
   } catch (err) {
-    console.error('Error fetching product:', err)
+    console.error('Error fetching workshop details:', err)
+    err.value = 'Error al cargar los detalles del taller'
   }
+}
+
+onMounted(() => {
+  fetchWorkshopDetails()
 })
-
-
 
 
 const toggleFavorite = () => {

@@ -69,6 +69,7 @@
           <p class="text-xs text-gray-300">Stock: {{ product.stock }}</p>
         </div>
         <img 
+          @click="goToPreventa(product._id)"
           :src="product.fotos?.[0] || '../assets/img/perfile.png'" 
           :alt="product.nombre"
           class="w-full h-40 object-cover"
@@ -96,6 +97,9 @@ const searchQuery = ref('')
 // Navegación
 const goBack = () => {
   router.back()
+}
+const goToPreventa = (productId) => {
+  router.push(`/preventa/${productId}`);
 }
 
 // Manejo de errores de imagen

@@ -9,17 +9,16 @@
           <img src="../assets/img/flecha.svg" alt="back" class="absolute top-6 left-1 w-5 h-5" />
         </div>
       </button>
- 
-      <img :src="product.fotos && product.fotos.length > 0 ? product.fotos[0] : '../assets/img/crazy.svg'" class="w-full h-[290px] object-cover" />
 
- 
+      <img :src="workshopDetails.fotos && workshopDetails.fotos.length > 0 ? workshopDetails.fotos[0] : '../assets/img/crazy.svg'" class="w-full h-[290px] object-cover" />
+
       <!-- Title overlay -->
       <div class="absolute bottom-0 left-0 right-0 bg-[#3D3D3D] px-4 py-2">
         <img src="../assets/img/RectangleS.svg" alt="rentangleS" class="absolute top-0 left-0 w-5 h-15" />
         <h1 class="text-left text-white text-lg font-normal ml-3">{{ workshopDetails.nombre || 'Cargando...' }}</h1>
       </div>
     </div>
- 
+
     <!-- Product details section -->
     <div class="p-4 space-y-3">
       <div class="flex justify-between items-center">
@@ -29,7 +28,7 @@
           <img :src="isFavorite ? corazonLleno : corazonVacio" alt="heart" class="w-12 h-10" />
         </button>
       </div>
- 
+
       <div class="space-y-2">
         <h2 class="text-left text-base font-medium ml-2.5">{{ workshopDetails.nombre || 'Cargando...' }}</h2>
         <div class="flex items-center gap-2">
@@ -46,7 +45,7 @@
           <span class="text-sm">Cuenta con envío hacia tu ubicación</span>
         </div>
       </div>
- 
+
       <!-- Add to cart button -->
       <button class="text-left ml-2.5 bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6" @click="addToCart">
         <img src="../assets/img/car.svg" alt="cart" class="text-left text-base font-medium ml-[-12px] w-5 h-5" />
@@ -54,38 +53,26 @@
       </button>
     </div>
   </div>
- </template>
+</template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import axios from 'axios'
 
 // Importa las imágenes desde src/assets/img
 import corazonLleno from '../assets/img/corazonLleno.svg'
 import corazonVacio from '../assets/img/corazonVacio.svg'
-import { SendToBack } from 'lucide-vue-next';
 
 const isFavorite = ref(false)
-const product = ref([])
 const workshopDetails = ref(null)
-
-onMounted(async () => {
-  try {
-    const response = await fetch('http://localhost:5001/products/getOne/64f2c111fc13ae1b23000008', {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-version': '1.0.0'
-      }
-    })
-    const data = await response.json()
-    product.value = data.data
-  } catch (err) {
-    console.error('Error fetching product:', err)
-  }
-})
+const route = useRoute()
+const router = useRouter()
+const productId = computed(() => route.params.id)
 
 const fetchWorkshopDetails = async () => {
   try {
-    const response = await axios.get(`http://localhost:5001/products/getOne/${route.params.id}`, {
+    const response = await axios.get(`http://localhost:5001/products/getOne/${productId.value}`, {
       headers: {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'
@@ -98,12 +85,33 @@ const fetchWorkshopDetails = async () => {
   }
 }
 
+const fetchAddToCart = async () => {
+  try {
+    const response = await axios.post(
+      `http://localhost:5001/orders/addtoCart/${productId.value}`, 
+      {},  
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-version': '1.0.0'
+        }
+      }
+    )
+    workshopDetails.value = response.data.data
+  } catch (err) {
+    console.error('Error fetching workshop details:', err)
+    err.value = 'Error al sibir producto al carrito'
+  }
+}
+
+
 onMounted(() => {
-  fetchWorkshopDetails()
+  fetchWorkshopDetails(),
+  fetchAddToCart()
 })
 
 const toggleFavorite = async () => {
-  isFavorite.value = !isFavorite.value;
+  isFavorite.value = !isFavorite.value
 }
 
 const addToCart = () => {
@@ -111,12 +119,11 @@ const addToCart = () => {
   console.log('Añadido al carrito')
 }
 
-// Método para volver atrás en el historial del navegador
 const goBack = () => {
-  // Usamos window.history.back() para navegar hacia atrás
-  window.history.back()
+  router.back()
 }
 </script>
+
 
 <style scoped>
 .indent {
