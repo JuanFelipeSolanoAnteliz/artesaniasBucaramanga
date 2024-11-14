@@ -87,7 +87,8 @@
         {{ error }}
       </div>
       <div v-else class="grid grid-cols-2 gap-4">
-        <div           @click="goToPreventa(workshopDetails._id)"  v-for="item in workshopDetails" :key="item.id" class="relative">
+        <div
+        @click="goToPreventa(item._id)"  v-for="item in workshopDetails" :key="item.id" class="relative">
           <img 
             :src="item.fotos" 
             :alt="item.nombre"
