@@ -44,9 +44,12 @@
         </div>
 
         <nav class="space-y-4">
-          <a v-for="(item, index) in menuItems" 
-             :key="index" 
-             class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800">
+          <a 
+            v-for="(item, index) in menuItems" 
+            :key="index" 
+            @click="item.onClick" 
+            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <!-- Render icon dynamically -->
             <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
             <span>{{ item.label }}</span>
           </a>
@@ -197,6 +200,37 @@ const goToUser = () => {
   router.push("/user")
 }
 
+const goToFavoritos = () => {
+  router.push("/artesanias")
+}
+
+const goToCompras = () => {
+  router.push("/comprasR")
+}
+
+const goToTalleres = () => {
+  router.push("/talleres")
+}
+
+const goToCupon= () => {
+  router.push("/canjear")
+}
+
+const goToAjustes= () => {
+  router.push("/ajustes")
+}
+
+const goToComentarios= () => {
+  router.push("/comentarios")
+}
+
+const goToAtencion= () => {
+  router.push("/atencion")
+}
+
+
+
+
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value
 }
@@ -209,14 +243,43 @@ const selectCategory = (categoryName) => {
 
 // Menu items data
 const menuItems = [
-  { label: 'Lista de Favoritos', icon: HeartIcon },
-  { label: 'Canjear', icon: Briefcase },
-  { label: 'Talleres', icon: NotepadText },
-  { label: 'Canjear cupón', icon: TicketPercent },
-  { label: 'Ajustes', icon: SettingsIcon },
-  { label: 'Comentarios', icon: MessageSquareIcon },
-  { label: 'Atención al cliente', icon: Headset }
+  { 
+    label: 'Lista de Favoritos', 
+    icon: HeartIcon, 
+    onClick: goToFavoritos 
+  },
+  { 
+    label: 'Compras', 
+    icon: Briefcase, 
+    onClick: goToCompras 
+  },
+  { 
+    label: 'Talleres', 
+    icon: NotepadText, 
+    onClick: goToTalleres 
+  },
+  { 
+    label: 'Canjear cupón', 
+    icon: TicketPercent, 
+    onClick: goToCupon 
+  },
+  { 
+    label: 'Ajustes', 
+    icon: SettingsIcon, 
+    onClick: goToAjustes 
+  },
+  { 
+    label: 'Comentarios', 
+    icon: MessageSquareIcon, 
+    onClick: goToComentarios 
+  },
+  { 
+    label: 'Atención al cliente', 
+    icon: Headset, 
+    onClick: goToAtencion 
+  }
 ]
+
 
 // API functions
 const fetchWorkshops = async () => {

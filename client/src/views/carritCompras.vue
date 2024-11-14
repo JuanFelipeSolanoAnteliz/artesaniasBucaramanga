@@ -43,10 +43,14 @@
         </div>
 
         <nav class="space-y-4">
-          <a v-for="(item, index) in menuItems" :key="index" 
-             class="flex items-center space-x-3 p-2 rounded-lg">
-            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1.5" />
-            <span class="text-sm">{{ item.label }}</span>
+          <a 
+            v-for="(item, index) in menuItems" 
+            :key="index" 
+            @click="item.onClick" 
+            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <!-- Render icon dynamically -->
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
+            <span>{{ item.label }}</span>
           </a>
         </nav>
 
@@ -186,7 +190,7 @@
         <button @click="goToHome" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <HomeIcon class="h-6 w-6" />
         </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+        <button @click="goToCarritoCompras" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <ShoppingCart class="h-6 w-6" />
         </button>
         <button @click="goToUser" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">

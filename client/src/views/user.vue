@@ -33,12 +33,12 @@
       <div class="p-4">
         <div class="flex items-center space-x-3 mb-6">
           <img
-            :src="profileImageUrl"
+            src="../assets/img/perfile.png"
             alt="Profile"
             class="w-12 h-12 rounded-full"
           />
           <div>
-            <h3 class="font-semibold">{{ user.username || 'Usuario' }}</h3>
+            <h3 class="font-semibold">SaraMartin9</h3>
           </div>
         </div>
 
@@ -46,10 +46,11 @@
           <a 
             v-for="(item, index) in menuItems" 
             :key="index" 
-            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800"
-          >
-            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1.5" />
-            <span class="text-sm">{{ item.label }}</span>
+            @click="item.onClick" 
+            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <!-- Render icon dynamically -->
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
+            <span>{{ item.label }}</span>
           </a>
         </nav>
 
@@ -214,37 +215,24 @@
           <!-- Payment Methods Section -->
           <div class="space-y-3">
             <h2 class="text-sm text-black">Métodos de pago</h2>
-            <div class="bg-[#D9D9D9] p-2 rounded text-black">
-              <span>Visa Mastercard</span>
+            <div class="bg-[#3D3D3D] p-3 rounded-md">
+              <p class="text-xs text-white">México | MXN</p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                  <img 
+                    src="../assets/img/campuslands.png" 
+                    class="w-8 h-8" 
+                    alt="Visa" 
+                  />
+                  <span class="text-sm text-white">Visa **** 1234</span>
+                </div>
+                <p class="text-xs text-white">Fecha de vencimiento 10/23</p>
+              </div>
             </div>
-            <button class="w-full bg-[#D9D9D9] p-3 rounded text-left text-gray-400">
-              Añadir método de pago
-            </button>
           </div>
         </div>
       </div>
     </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
-      <div class="flex justify-around p-3">
-        <button @click="goToTienda" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <Store class="h-6 w-6" />
-        </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <BadgePercent class="h-6 w-6" />
-        </button>
-        <button @click="goToHome" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <HomeIcon class="h-6 w-6" />
-        </button>
-        <button @click="goToCarritoCompras" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <ShoppingCart class="h-6 w-6" />
-        </button>
-        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <UserIcon class="h-6 w-6" />
-        </button>
-      </div>
-    </nav>
   </div>
 </template>
   
@@ -267,10 +255,64 @@ import {
   Settings2,
   MessageSquare,
   PencilIcon,
+  SettingsIcon
 } from 'lucide-vue-next';
 
 // Router setup
 const router = useRouter();
+
+const goDetalleTaller = (id) => {
+  router.push(`/detalleTaller/${id}`)
+}
+
+const goToHome = () => {
+  router.push("/tallerMes")
+}
+
+const goToDescuentos = () => {
+  router.push("/descuentos")
+}
+
+const goToCarritoCompras = () => {
+  router.push("/carritoCompras")
+}
+
+const goToUser = () => {
+  router.push("/user")
+}
+
+const goToFavoritos = () => {
+  router.push("/artesanias")
+}
+
+const goToCompras = () => {
+  router.push("/comprasR")
+}
+
+const goToTalleres = () => {
+  router.push("/talleres")
+}
+
+const goToCupon= () => {
+  router.push("/canjear")
+}
+
+const goToAjustes= () => {
+  router.push("/ajustes")
+}
+
+const goToComentarios= () => {
+  router.push("/comentarios")
+}
+
+const goToAtencion= () => {
+  router.push("/atencion")
+}
+
+const goToTienda= () => {
+  router.push("/tallerYtiendas")
+}
+
 
 // State management
 const isDrawerOpen = ref(false);
@@ -298,15 +340,44 @@ const editing = ref({
 });
 
 // Menu items configuration
+
 const menuItems = [
-  { label: 'Lista de Favoritos', icon: HeartIcon },
-  { label: 'Canjear', icon: Briefcase },
-  { label: 'Talleres', icon: NotepadText },
-  { label: 'Canjear cupón', icon: TicketPercent },
-  { label: 'Ajustes', icon: Settings2 },
-  { label: 'Comentarios', icon: MessageSquare },
-  { label: 'Atención al cliente', icon: Headset }
-];
+  { 
+    label: 'Lista de Favoritos', 
+    icon: HeartIcon, 
+    onClick: goToFavoritos 
+  },
+  { 
+    label: 'Compras', 
+    icon: Briefcase, 
+    onClick: goToCompras 
+  },
+  { 
+    label: 'Talleres', 
+    icon: NotepadText, 
+    onClick: goToTalleres 
+  },
+  { 
+    label: 'Canjear cupón', 
+    icon: TicketPercent, 
+    onClick: goToCupon 
+  },
+  { 
+    label: 'Ajustes', 
+    icon: SettingsIcon, 
+    onClick: goToAjustes 
+  },
+  { 
+    label: 'Comentarios', 
+    icon: MessageSquare, 
+    onClick: goToComentarios 
+  },
+  { 
+    label: 'Atención al cliente', 
+    icon: Headset, 
+    onClick: goToAtencion 
+  }
+]
 
 // API Configuration
 const API_URL = 'http://localhost:5001';
@@ -316,17 +387,7 @@ const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value;
 };
 
-const goToHome = () => {
-  router.push("/tallerMes");
-};
 
-const goToTienda = () => {
-  router.push("/tallerYtiendas");
-};
-
-const goToCarritoCompras = () => {
-  router.push("/carritoCompras");
-};
 
 // Utility Functions
 const formatDate = (date) => {
