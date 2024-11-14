@@ -113,7 +113,8 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.GITHUB_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        let existingUser  = await Usuario.findOne({ githubId: profile.id });
+        console.log(profile);
+        let existingUser  = await Usuario.findOne({ correo: profile.email });
 
         if (existingUser ) {
             return done(null, existingUser );
