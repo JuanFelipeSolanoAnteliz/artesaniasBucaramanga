@@ -112,6 +112,7 @@
         >
           <div class="relative h-40 w-full">
             <img
+            @click="goToPreventaD(product._id)"
               :src="product.fotos"
               :alt="product.nombre"
               class="absolute inset-0 w-full h-full object-cover rounded-t-lg text-white"
@@ -167,6 +168,9 @@ const goDetalleTaller = (id) => {
   router.push(`/detalleTaller/${id}`)
 }
 
+const goToPreventaD = (productId) => {
+  router.push(`/preventaD/${productId}`);
+}
 const goToHome = () => {
   router.push("/tallerMes")
 }
