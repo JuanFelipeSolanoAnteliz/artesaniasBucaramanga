@@ -1,6 +1,7 @@
 const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config();
 
@@ -148,7 +149,7 @@ class UserController{
             });
 
             // Guardar el nuevo usuario
-            await newUser .save();
+            const loadUser = await newUser.save();
 
             // Esperar 1 segundo (1000 ms)
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -162,14 +163,8 @@ class UserController{
             }
 
             // Generar el token
-            const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1h' });
-
-            // Configurar la cookie
-            res.cookie('login', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 3600000
-            });
+            const token = jwt.sign({ id: loadUser._id, correo: newUser.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            req.session.auth = token;
 
             return res.status(201).json({ message: 'Usuario creado y autenticado con éxito', jwt: token });
 
