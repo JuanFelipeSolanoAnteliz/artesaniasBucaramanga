@@ -32,12 +32,6 @@ app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'client/dist/index.html'));
 });
 
-
-app.listen(config, () => {
-    console.log(`Server running at http://${config.host}:${config.port}`);
-});
-
-
 // Inicializar Passport
 app.use(passport.initialize());
 app.use(passport.session()); // Asegúrate de que esta línea esté habilitada
