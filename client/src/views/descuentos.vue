@@ -161,6 +161,7 @@ const products = ref([])
 const isLoading = ref(false)
 const error = ref(null)
 const selectedCategory = ref(null)
+const searchQuery = ref('')
 
 const goDetalleTaller = (id) => {
   router.push(`/detalleTaller/${id}`)
@@ -316,7 +317,14 @@ const selectCategory = async (categoryName) => {
 }
 
 const filteredProducts = computed(() => {
-  return products.value
+  if (!searchQuery.value) return products.value
+  
+  const query = searchQuery.value.toLowerCase()
+  return products.value.filter(product => 
+    product.nombre.toLowerCase().includes(query) ||
+    product.descripcion.toLowerCase().includes(query) ||
+    product.categoria.toLowerCase().includes(query)
+  )
 })
 
 const categories = [
@@ -324,11 +332,11 @@ const categories = [
   'Cerámica',
   'Joyeria',
   'Talla en piedra',
-  'Talla en madera',
   'Bordado',
   'Hojalateria',
   'Estampado',
-  'Textileria'
+  'Textileria',
+  'Jardineria'
 ]
 
 onMounted(async () => {
