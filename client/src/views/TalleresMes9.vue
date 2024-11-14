@@ -123,7 +123,9 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div v-for="product in filteredProducts" :key="product._id" class="relative">
-              <img :src="product.fotos[0]" :alt="product.nombre" class="w-full h-48 object-cover rounded-lg"/>
+              <img 
+              @click="goToPreventa(product._id)"
+              :src="product.fotos[0]" :alt="product.nombre" class="w-full h-48 object-cover rounded-lg"/>
               <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 p-2 rounded-b-lg">
                 <h3 class="text-white text-sm font-medium">{{ product.nombre }}</h3>
                 <p class="text-white text-xs">S/.{{ product.precio }}</p>
@@ -187,6 +189,9 @@ const router = useRouter();
 const goTotallres = () => {
   router.push("/tallerMes");
 };
+const goToPreventa = (productId) => {
+  router.push(`/preventa/${productId}`);
+}
 
 const goTotienda = () => {
   router.push("/tallerYtiendas");
