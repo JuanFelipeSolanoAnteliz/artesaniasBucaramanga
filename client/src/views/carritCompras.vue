@@ -63,94 +63,114 @@
 
     <!-- Main Content -->
     <main class="pt-11 pb-20 min-h-screen">
-      <!-- Hero Banner -->
-      <div class="relative h-28 bg-transparent">
-        <div class="absolute inset-0 flex flex-col justify-center px-4">
-          <p class="text-sm text-gray-600 mb-2 absolute inset-x-0 bottom-0 ml-4">Revisa aquí los productos que añadiste a tu carrito</p>
-          <h1 class="text-black text-xl"> Tu carrito de compras</h1>
-        </div>
+      <!-- Loading State -->
+      <div v-if="isLoading" class="flex justify-center items-center min-h-screen">
+        <div class="text-black">Cargando...</div>
       </div>
 
-      <div class="space-y-4 px-4">
-        <!-- Products List -->
-        <div class="space-y-2 ">
-          <div v-for="item in cartItems" :key="item.id" 
-               class="bg-[#D9D9D9] rounded p-4 flex gap-2 h-32">
-            <img :src="item.image" :alt="item.name" class="w-24 h-24 object-cover rounded-lg"/>
-            <div class="flex-1  ">
-              <h3 class=" text-xs text-black">{{ item.name }}</h3>
-              <span class="text-xs text-black">S/{{ item.price.toFixed(2) }}</span>
-              <p class="text-xs text-black">{{ item.dimensions }}</p>
-              <p class="text-xs text-black ">{{ item.artisan }}</p>
-              
-              <div class="flex justify-between space-y-2">
-                
-                <div class="flex gap-5">
-                  <div class="flex items-center  rounded-lg">
-                    <button @click="decreaseQuantity(item)" 
-                            class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-700 mr-1 bg-[#3D3D3D]">
-                      -
-                    </button>
-                    <span class=" bg-[#3D3D3D] w-6 h-6 flex items-center justify-center rounded hover:bg-gray-700">{{ item.quantity }}</span>
-                    <button @click="increaseQuantity(item)"
-                            class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-700 ml-1 bg-[#3D3D3D]">
-                      +
-                    </button>
-                  </div>
-                </div>
+      <!-- Error State -->
+      <div v-else-if="error" class="flex justify-center items-center min-h-screen">
+        <div class="text-red-500">{{ error }}</div>
+      </div>
 
-                <button @click="removeItem(item.id)" 
-                        class="text-[#3D3D3D] hover:text-red-400">
-                  <Trash2Icon class="h-5 w-5" />
-                </button>
+      <!-- Content When Loaded -->
+      <div v-else>
+        <!-- Hero Banner -->
+        <div class="relative h-28 bg-transparent">
+          <div class="absolute inset-0 flex flex-col justify-center px-4">
+            <p class="text-sm text-gray-600 mb-2 absolute inset-x-0 bottom-0 ml-4">
+              Revisa aquí los productos que añadiste a tu carrito
+            </p>
+            <h1 class="text-black text-xl">Tu carrito de compras</h1>
+          </div>
+        </div>
+
+        <div class="space-y-4 px-4">
+          <!-- Products List -->
+          <div class="space-y-2">
+            <div v-if="cartItems.length === 0" class="text-black text-center py-4">
+              No hay productos en el carrito
+            </div>
+            <div v-for="item in cartItems" :key="item.id" 
+                 class="bg-[#D9D9D9] rounded p-4 flex gap-2 h-32">
+              <img :src="item.image" :alt="item.name" class="w-24 h-24 object-cover rounded-lg"/>
+              <div class="flex-1">
+                <h3 class="text-xs text-black">{{ item.name }}</h3>
+                <span class="text-xs text-black">S/{{ item.price.toFixed(2) }}</span>
+                <p class="text-xs text-black">{{ item.dimensions }}</p>
+                <p class="text-xs text-black">{{ item.artisan }}</p>
+                
+                <div class="flex justify-between space-y-2">
+                  <div class="flex gap-5">
+                    <div class="flex items-center rounded-lg">
+                      <button @click="decreaseQuantity(item)" 
+                              class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-700 mr-1 bg-[#3D3D3D]">
+                        -
+                      </button>
+                      <span class="bg-[#3D3D3D] w-6 h-6 flex items-center justify-center rounded hover:bg-gray-700">
+                        {{ item.quantity }}
+                      </span>
+                      <button @click="increaseQuantity(item)"
+                              class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-700 ml-1 bg-[#3D3D3D]">
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button @click="removeItem(item.id)" 
+                          class="text-[#3D3D3D] hover:text-red-400">
+                    <Trash2Icon class="h-5 w-5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Coupon Section -->
-        <div class="bg-[#D9D9D9] rounded p-3">
-          <h3 class="font-sm mb-2 text-black text-xs">Añadir cupón de descuento</h3>
-          <div class="flex gap-2">
-            <input v-model="couponCode" 
-                   type="text"
-                   placeholder="Ingresa el código"
-                   class="flex-1 bg-[#3D3D3D] rounded px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-700" />
-            <button @click="applyCoupon"
-                    class="bg-[#3D3D3D] px-4 py-2 rounded hover:bg-gray-700 text-xs">
-              Aplicar
-            </button>
+          <!-- Coupon Section -->
+          <div class="bg-[#D9D9D9] rounded p-3">
+            <h3 class="font-sm mb-2 text-black text-xs">Añadir cupón de descuento</h3>
+            <div class="flex gap-2">
+              <input v-model="couponCode" 
+                     type="text"
+                     placeholder="Ingresa el código"
+                     class="flex-1 bg-[#3D3D3D] rounded px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-700" />
+              <button @click="applyCoupon"
+                      class="bg-[#3D3D3D] px-4 py-2 rounded hover:bg-gray-700 text-xs">
+                Aplicar
+              </button>
+            </div>
           </div>
-        </div>
 
-        <!-- Order Summary -->
-        <div class="bg-[#D9D9D9] rounded p-4 space-y-">
-          <div class="flex justify-between">
-            <span class="text-black text-xs">Sub total</span>
-            <span class="text-black text-xs" >S/{{ subtotal.toFixed(2) }}</span>
+          <!-- Order Summary -->
+          <div class="bg-[#D9D9D9] rounded p-4 space-y-2">
+            <div class="flex justify-between">
+              <span class="text-black text-xs">Sub total</span>
+              <span class="text-black text-xs">S/{{ subtotal.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-black text-xs">Gastos de envío</span>
+              <span class="text-black text-xs">S/{{ shippingCost.toFixed(2) }}</span>
+            </div>
+            <div v-if="discount > 0" class="flex justify-between text-green-500 text-xs">
+              <span>Descuento</span>
+              <span>-S/{{ discount.toFixed(2) }}</span>
+            </div>
           </div>
-          <div class="flex justify-between">
-            <span class="text-black text-xs">Gastos de envío</span>
-            <span class="text-black text-xs" >S/{{ shippingCost.toFixed(2) }}</span>
-          </div>
-          <div v-if="discount > 0" class="flex justify-between text-green-500 text-xs">
-            <span>Descuento</span>
-            <span>-S/{{ discount.toFixed(2) }}</span>
-          </div>
-        </div>
 
-        <div class="bg-[#D9D9D9] rounded p-4 ">
-          <div class="h-3 flex justify-between text-black text-xs">
-            <span>Total</span>
-            <span class="text-black">S/{{ total.toFixed(2) }}</span>
+          <div class="bg-[#D9D9D9] rounded p-4">
+            <div class="h-3 flex justify-between text-black text-xs">
+              <span>Total</span>
+              <span class="text-black">S/{{ total.toFixed(2) }}</span>
+            </div>
           </div>
+          
+          <!-- Checkout Button -->
+          <button @click="openConfirmModal"
+                  class="w-32 h-8 text-white rounded bg-[#3D3D3D] text-xs"
+                  :disabled="cartItems.length === 0">
+            Realizar compra
+          </button>
         </div>
-        
-        <!-- Checkout Button -->
-        <button @click="openConfirmModal"
-                class="w-32 h-8 text-white rounded bg-[#3D3D3D] text-xs">
-          Realizar compra
-        </button>
       </div>
     </main>
 
@@ -158,13 +178,13 @@
     <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
       <div class="flex justify-around p-3">
         <button @click="goTotienda" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <Store  class="h-6 w-6" />
+          <Store class="h-6 w-6" />
         </button>
         <button @click="goToDescuentos" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <BadgePercent class="h-6 w-6" />
         </button>
         <button @click="goToHome" class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
-          <HomeIcon  class="h-6 w-6" />
+          <HomeIcon class="h-6 w-6" />
         </button>
         <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
           <ShoppingCart class="h-6 w-6" />
@@ -174,6 +194,8 @@
         </button>
       </div>
     </nav>
+
+    
 
     <!-- Confirmation Modal -->
     <div v-if="showConfirmModal" 
@@ -236,130 +258,197 @@
       </button>
     </div>
   </div>
+  
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Trash2Icon, MenuIcon, SearchIcon, HomeIcon, UserIcon, HeartIcon, Store, BadgePercent, ShoppingCart, Briefcase, NotepadText, TicketPercent, Headset, Settings2, MessageSquare } from 'lucide-vue-next'
+import { 
+  Trash2Icon, MenuIcon, SearchIcon, HomeIcon, UserIcon, 
+  Store, BadgePercent, ShoppingCart, Settings2
+} from 'lucide-vue-next'
+
+// API configuration
+const API_BASE_URL = 'http://localhost:5001'
+const API_HEADERS = {
+  "Content-Type": "application/json",
+  "x-version": "1.0.0"
+}
+
+// API functions with better error handling
+const fetchVouchers = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/vouchers`, {
+      method: 'GET',
+      headers: API_HEADERS
+    })
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    return data.data || [] // Retorna el array de vouchers desde data.data
+  } catch (error) {
+    console.error('Error fetching vouchers:', error)
+    throw new Error('No se pudieron cargar los cupones')
+  }
+}
+
+const fetchOrders = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders/`, {
+      method: 'GET',
+      headers: API_HEADERS
+    })
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    
+    // Si carrito es un array de ObjectId, lo convertimos a un formato que podamos usar
+    if (data.data && data.data.carrito) {
+      return data.data.carrito.map(id => ({
+        productId: typeof id === 'object' ? id.$oid || id : id,
+        quantity: 1  // Cantidad por defecto
+      }))
+    }
+    return []
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    throw new Error('No se pudieron cargar las órdenes')
+  }
+}
+
+
+const fetchProducts = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/products`, {
+      method: 'GET',
+      headers: API_HEADERS
+    })
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    // Asegurarse de devolver el array de productos desde data.data
+    if (!data.data || !Array.isArray(data.data)) {
+      throw new Error('Formato de datos de productos inválido')
+    }
+    return data.data
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    throw new Error('No se pudieron cargar los productos')
+  }
+}
 
 const router = useRouter()
-
-const goToHome = () => {
-  router.push("/tallerMes")
-}
-
-const goTotallres = () => {
-  router.push("/tallerMes")
-}
-
-const goTotienda = () => {
-  router.push("/tallerYtiendas")
-}
-
-const goToDescuentos = () => {
-  router.push("/descuentos")
-}
-
-const goToUser = () => {
-  router.push("/user")
-}
-
+const cartItems = ref([])
+const validVouchers = ref({})
+const isLoading = ref(true)
+const error = ref(null)
 const isDrawerOpen = ref(false)
-const selectedCategory = ref(null)
-
-const toggleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value
-}
-
-const selectCategory = (categoryName) => {
-  selectedCategory.value = selectedCategory.value === categoryName ? null : categoryName
-}
-
-const categories = [
-  'Textileria',
-  'Cerámica',
-  'Joyeria',
-  'Talla en piedra',
-  'Talla en madera',
-  'Bordado',
-  'Hojalateria',
-  'Estampado',
-  'Pintura tradicional'
-]
-
-const menuItems = [
-  { label: 'Lista de Favoritos', icon: HeartIcon },
-  { label: 'Canjear', icon: Briefcase },
-  { label: 'Talleres', icon: NotepadText },
-  { label: 'Canjear cupón', icon: TicketPercent },
-  { label: 'Ajustes', icon: Settings2 },
-  { label: 'Comentarios', icon: MessageSquare },
-  { label: 'Atención al cliente', icon: Headset }
-]
-
-const cartItems = ref([
-  {
-    id: 1,
-    name: 'Vasija pequeña con diseño de flor',
-    price: 50,
-    dimensions: '13x10 cm, 2 KG',
-    artisan: 'Artesanos productores de Chazuta',
-    image: '/placeholder.svg?height=150&width=150',
-    quantity: 1
-  },
-  {
-    id: 2,
-    name: 'Bolso negro con diseño de flores',
-    price: 40,
-    dimensions: '40x20 cm',
-    artisan: 'Asoc. Pequeña Roma',
-    image: '/placeholder.svg?height=150&width=150',
-    quantity: 1
-  }
-])
-
 const couponCode = ref('')
 const appliedCoupon = ref(null)
 const shippingCost = ref(20)
+const showConfirmModal = ref(false)
+const showSuccessScreen = ref(false)
 
-const validCoupons = {
-  'DESCUENTO20': 0.20,
-  'ENVIOGRATIS': 1.0, // 100% discount on shipping
-  'PRIMERA': 0.15
+// Load cart data with proper error handling
+const loadCartData = async () => {
+  try {
+    isLoading.value = true
+    error.value = null
+
+    // Fetch all required data concurrently
+    const [vouchersData, ordersData, productsData] = await Promise.all([
+      fetchVouchers(),
+      fetchOrders(),
+      fetchProducts()
+    ])
+
+    console.log('Orders Data:', ordersData)     // Debug log
+    console.log('Products Data:', productsData) // Debug log
+
+    // Process vouchers
+    validVouchers.value = vouchersData.reduce((acc, voucher) => {
+      acc[voucher.codigo] = voucher.descuento / 100
+      return acc
+    }, {})
+
+    // Map orders to products
+    cartItems.value = ordersData.map(order => {
+      // Manejar diferentes formatos de ID
+      const orderId = typeof order === 'string' ? order : order.productId
+      
+      const product = productsData.find(p => {
+        // Comparar diferentes formatos posibles de ID
+        return p._id === orderId || 
+               p._id === orderId.$oid || 
+               p._id.toString() === orderId.toString()
+      })
+      
+      if (!product) {
+        console.warn(`Producto no encontrado para el ID: ${orderId}`)
+        return null
+      }
+
+      return {
+        id: product._id,
+        name: product.nombre,
+        price: product.precio,
+        dimensions: product.categoria,
+        artisan: product.artesanoId,
+        image: product.fotos?.[0] || '', 
+        quantity: order.quantity || 1,
+        stock: product.stock
+      }
+    }).filter(Boolean) // Elimina los elementos null
+
+    console.log('Processed Cart Items:', cartItems.value) // Debug log
+
+    isLoading.value = false
+  } catch (err) {
+    error.value = err.message || 'Error loading cart data'
+    isLoading.value = false
+    console.error('Error in cart setup:', err)
+  }
 }
 
+// Load data on mount
+onMounted(() => {
+  loadCartData()
+})
+
+// Computed properties
 const subtotal = computed(() => {
-  return cartItems.value.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  return cartItems.value.reduce((sum, item) => {
+    const itemTotal = item.price * item.quantity
+    return sum + (isNaN(itemTotal) ? 0 : itemTotal)
+  }, 0)
 })
 
 const discount = computed(() => {
   if (!appliedCoupon.value) return 0
-  if (appliedCoupon.value === 'ENVIOGRATIS') {
-    return shippingCost.value
-  }
-  return subtotal.value * validCoupons[appliedCoupon.value]
+  const voucherDiscount = validVouchers.value[appliedCoupon.value] || 0
+  return appliedCoupon.value === 'ENVIOGRATIS' 
+    ? shippingCost.value 
+    : subtotal.value * voucherDiscount
 })
 
-const total = computed(() => {
-  return subtotal.value + shippingCost.value - discount.value
+const total = computed(() => 
+  Math.max(0, subtotal.value + shippingCost.value - discount.value)
+)
+
+// Verificación adicional para el botón de compra
+const canPurchase = computed(() => {
+  return cartItems.value.length > 0 && 
+         cartItems.value.every(item => item.quantity <= item.stock)
 })
 
-const increaseQuantity = (item) => {
-  if (item.quantity < 10) item.quantity++
-}
-
-const decreaseQuantity = (item) => {
-  if (item.quantity > 1) item.quantity--
-}
-
-const removeItem = (itemId) => {
-  cartItems.value = cartItems.value.filter(item => item.id !== itemId)
-}
-
+// Methods
 const applyCoupon = () => {
   const code = couponCode.value.toUpperCase()
-  if (validCoupons[code]) {
+  if (validVouchers.value[code]) {
     appliedCoupon.value = code
     alert('¡Cupón aplicado exitosamente!')
   } else {
@@ -368,8 +457,46 @@ const applyCoupon = () => {
   couponCode.value = ''
 }
 
-const showConfirmModal = ref(false)
-const showSuccessScreen = ref(false)
+const increaseQuantity = (item) => {
+  if (item.quantity < Math.min(10, item.stock)) {
+    item.quantity++
+  } else {
+    alert('No hay suficiente stock disponible')
+  }
+}
+
+const decreaseQuantity = (item) => {
+  if (item.quantity > 1) {
+    item.quantity--
+  }
+}
+
+const removeItem = (itemId) => {
+  cartItems.value = cartItems.value.filter(item => item.id !== itemId)
+}
+
+const retryLoad = () => {
+  loadCartData()
+}
+
+// Navigation methods
+const goToHome = () => router.push("/tallerMes")
+const goTotienda = () => router.push("/tallerYtiendas")
+const goToDescuentos = () => router.push("/descuentos")
+const goToUser = () => router.push("/user")
+
+// Menu items
+const menuItems = [
+  { label: 'Inicio', icon: HomeIcon },
+  { label: 'Tiendas', icon: Store },
+  { label: 'Descuentos', icon: BadgePercent },
+  { label: 'Mi perfil', icon: UserIcon },
+  { label: 'Configuración', icon: Settings2 }
+]
+
+const toggleDrawer = () => {
+  isDrawerOpen.value = !isDrawerOpen.value
+}
 
 const openConfirmModal = () => {
   showConfirmModal.value = true
