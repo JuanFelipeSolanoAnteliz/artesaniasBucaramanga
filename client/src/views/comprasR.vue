@@ -3,7 +3,7 @@
     <!-- Header con flecha -->
     <div class="triangle"></div>
 
-    <!-- Flecha (debe estar encima del triángulo) -->
+    <!-- Flecha -->
     <div class="absolute top-1 left-[3px] mt-4 z-20">
       <img 
         src="../assets/img/flechaB.svg" 
@@ -26,7 +26,7 @@
     </div>
     
     <!-- Purchased Items -->
-    <div class="flex-1 overflow-y-auto mb-4 "> 
+    <div class="flex-1 overflow-y-auto mb-4"> 
       <!-- Item Card 1 -->
       <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
         <img src="" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" />
@@ -78,18 +78,26 @@
       </div>
     </div>
 
-    <!-- Título "Sigue viendo más artesanías" ajustado más arriba -->
+    <!-- Título "Sigue viendo más artesanías" -->
     <h2 class="text-left text-base font-medium ml-1.5 mt-2 mb-1">Sigue viendo más artesanías</h2>
 
     <!-- More Products Section with Scroll -->
-    <div class="flex-1 overflow-y-auto max-h-products"> <!-- Clase corregida -->
-      <div class="grid grid-cols-2 gap-4">
-        <div v-for="(item, index) in moreProducts" :key="index" class="relative">
-          <img :src="`@/assets/${item.image}`" :alt="item.name" class="w-full h-40 object-cover rounded-lg" />
+    <div class="flex-1 overflow-y-auto max-h-products">
+      <div v-if="error" class="text-red-500 text-center py-4">
+        {{ error }}
+      </div>
+      <div v-else class="grid grid-cols-2 gap-4">
+        <div           @click="goToPreventa(workshopDetails._id)"  v-for="item in workshopDetails" :key="item.id" class="relative">
+          <img 
+            :src="item.fotos" 
+            :alt="item.nombre"
+            class="w-full h-40 object-cover rounded-lg"
+            @error="handleImageError"
+          />
           <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 p-2 rounded-b-lg">
-            <p class="text-white text-xs">{{ item.name }}</p>
-            <p class="text-white text-xs opacity-75">{{ item.artist }}</p>
-            <p class="text-white text-xs opacity-90">{{ item.price }}</p>
+            <p class="text-white text-xs">{{ item.nombre }}</p>
+            <p class="text-white text-xs opacity-75">{{ item.nombre }}</p>
+            <p class="text-white text-xs opacity-90">S/. {{ item.precio }}</p>
           </div>
         </div>
       </div>
@@ -98,70 +106,69 @@
 </template>
 
 <script setup>
-import { ChevronLeftIcon, MessageSquareIcon } from 'lucide-vue-next'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
-import placeholder from "../assets/img/workshop.svg"
-const moreProducts = [
-  {
-    name: 'Tapiz Chumpi Andino III',
-    artist: 'Taller Amay Aqllas',
-    image: placeholder,
-    price: 'S/. 45.00'
-  },
-  {
-    name: 'Pechera de Chompe René',
-    artist: 'Sharon Imako',
-    image: placeholder,
-    price: 'S/. 30.00'
-  },
-  {
-    name: 'Producto 3',
-    artist: 'Artista 3',
-    image: placeholder,
-    price: 'S/. 50.00'
-  },
-  {
-    name: 'Producto 4',
-    artist: 'Artista 4',
-    image: placeholder,
-    price: 'S/. 60.00'
-  },
-  {
-    name: 'Producto 5',
-    artist: 'Artista 5',
-    image: placeholder,
-    price: 'S/. 70.00'
-  },
-  {
-    name: 'Producto 6',
-    artist: 'Artista 6',
-    image: placeholder,
-    price: 'S/. 80.00'
+// import { ChevronLeftIcon, MessageSquareIcon } from 'lucide-vue-next'
+import axios from 'axios'
+
+
+const goToPreventa = (productId) => {
+  router.push(`/preventa/${productId}`);
+}
+const handleImageError = (e) => {
+  e.target.src = '../assets/img/default-product.jpg' // Asegúrate de tener esta imagen por defecto
+}
+
+const workshopDetails = ref([])
+const error = ref(null)
+const fetchAllProducts = async () => {
+  try {
+    const response = await axios.get('http://localhost:5001/products', {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+    
+    if (response.data && response.data.data) {
+      workshopDetails.value = response.data.data
+    } else {
+      error.value = 'No se encontraron productos'
+    }
+  } catch (err) {
+    console.error('Error fetching workshop details:', err)
+    error.value = 'Error al cargar los productos'
   }
-]
+}
+
+
+onMounted(() => {
+  fetchAllProducts()
+
+})
 </script>
 
 <style scoped>
-/* Definición única del triángulo */
 .triangle {
   position: absolute;
   top: 0;
   left: 0;
   width: 0;
   height: 0;
-  border-left: 32px solid #D9D9D9; /* Color gris más oscuro */
+  border-left: 32px solid #D9D9D9;
   border-bottom: 30px solid transparent;
   border-top: 28px solid transparent;
-  z-index: 10; /* Aseguramos que el triángulo esté debajo de la flecha */
+  z-index: 10;
 }
 
-/* Ajustes en los cuadros de productos */
 .bg-gray-100 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  height: 9rem; /* Aumento la altura a 9rem (h-36) */
+  height: 9rem;
 }
 
 .flex-1 {
@@ -184,9 +191,24 @@ const moreProducts = [
   font-size: 0.75rem;
 }
 
-/* Corregir la clase max-height para usar una clase estándar */
 .max-h-products {
-  max-height: calc(100vh - 300px); /* Altura dinámica para limitar la sección */
-  overflow-y: auto; /* Permite el scroll vertical */
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+/* Añadido para mejor manejo de carga y errores */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+img {
+  transition: opacity 0.3s ease;
+}
+
+img[src=''] {
+  opacity: 0;
 }
 </style>
