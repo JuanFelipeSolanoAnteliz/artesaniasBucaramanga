@@ -22,11 +22,13 @@ exports.getHistory = async ( req, res ) => {
 exports.getCart = async (req, res)=> {
     try{
         let user = req.data.id;
-        console.log(user)
-        const orders = await Users.findById(user).populate('compras');
-        console.log(orders);
-        if( orders.compras.length === 0 ){return res.status(404).json({ status:404, message:' there are not purchases'})}
-        return res.status(200).json({ status:200, message:'products fetched successfully', data:orders.compras});
+        let result = await Users.findOne(
+            {_id: new ObjectId(user)},
+            { carrito: 1},
+            {_id:0}
+        );
+        if (!result){return res.status(404).json({ status:404, message:'not products'})}
+        return res.status(200).json({ status:200, message:'products fetched successfully', data:result});
     }catch(error){
         console.log(error);
         return res.status(500).json({ status:500, message:'error while fetching the products', error:error});
