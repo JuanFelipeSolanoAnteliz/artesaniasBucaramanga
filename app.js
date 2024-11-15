@@ -1,85 +1,88 @@
-require('dotenv').config();
+const indexRouter = require('./server/views/indexRouter');
 const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const { join } = require('path');
+const dotenv =  require('dotenv').config();
+const userRouter = require('./server/router/userRouter');
+const productRouter = require('./server/router/productRouter');
+const voucherRouter = require('./server/router/voucherRouter');
+const workshopsRouter = require('./server/router/workshopRouter');
+const orderRouter = require('./server/router/paymentsRouter');
 const session = require('express-session');
 const passport = require('passport');
-const userRouter = require('./server/router/userRouter'); 
-const connectDB = require('./server/helper/connect'); 
+const sessionConfig = require('./server/middleware/sessionConfig');
 require('./server/middleware/passportSetup');
-const http = require('http');
-const socketIo = require('socket.io');
-const Chat = require('./server/model/chatModel');
-
+const connectDB = require('./server/helper/connect');
 
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+const httpServer = createServer(app);
 
-
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-
-// Middleware para manejar JSON y formularios
+app.use(sessionConfig);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-connectDB();
-
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 3600000
+const io = new Server(httpServer, {
+    cors: {
+      origin: "http://localhost:5001", 
+      methods: ["GET", "POST","PUT","DELETE"]
     }
-}));
+  });
+
+app.use("/", indexRouter);
+app.use('/users',userRouter);
+app.use('/products', productRouter);
+app.use('/vouchers',voucherRouter);
+app.use('/workshops',workshopsRouter);
+app.use('/orders',orderRouter);
+
+app.use(express.static(join(__dirname, 'client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, 'client', 'dist', 'index.html'));
+  });
+  
 
 app.use(passport.initialize());
-app.use(passport.session());
-
-app.use('/users', userRouter); 
-
-io.on('connection', (socket) => {
-    console.log('Nuevo usuario conectado');
-
-    socket.on('sendMessage', async (data) => {
-        const { sender, receiver, message } = data;
-
-        // Buscar el chat existente o crear uno nuevo
-        let chat = await Chat.findOne({ sender, receiver });
-        if (!chat) {
-            chat = new Chat({ sender, receiver, messages: [] });
-        }
-
-        // Agregar el mensaje al array de mensajes
-        chat.messages.push({ text: message, timestamp: new Date() });
-        await chat.save();
-
-        // Emitir el mensaje a ambos usuarios
-        socket.emit('receiveMessage', { sender, message });
-        socket.to(receiver).emit('receiveMessage', { sender, message });
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Usuario desconectado');
-    });
-});
-
+app.use(passport.session()); // Asegúrate de que esta línea esté habilitada
+ 
+connectDB()
+// Manejo de rutas no encontradas
 app.use((req, res) => {
     res.status(404).json({ message: 'Not Found' });
 });
 
-const config = {
-    port: process.env.EXPRESS_PORT || 5001,
-    host: process.env.EXPRESS_HOST_NAME || 'localhost'
-};
+const users = new Map();
 
-server.listen(config.port, () => {
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('register user', (userId) => {
+    users.set(socket.id, userId);
+    socket.join(userId);
+    console.log(`User ${userId} registered`);
+  });
+
+  socket.on('chat message', (msg) => {
+    const userId = users.get(socket.id);
+    console.log(`Message from manolo: ${msg}`);
+    console.log(msg,'este es el log del mensaje en app')
+    socket.broadcast.emit('chat message', { userId, msg });
+  });
+
+  socket.on('disconnect', () => {
+    const userId = users.get(socket.id);
+    users.delete(socket.id);
+    console.log(`User ${userId} disconnected`);
+  });
+});
+
+const config = {
+    port:process.env.EXPRESS_PORT,
+    host:process.env.EXPRESS_HOST_NAME,
+} 
+ 
+httpServer.listen(config, () => {
     console.log(`Server running at http://${config.host}:${config.port}`);
 });
+
+console.log('Socket.IO server is set up and running!');

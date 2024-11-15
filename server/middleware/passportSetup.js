@@ -4,6 +4,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy; // Importa la estrategia de GitHub
 const Usuario = require('../model/userModel');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken')
 
 dotenv.config();
 
@@ -14,22 +15,22 @@ passport.use(new DiscordStrategy({
     callbackURL: process.env.DISCORD_CALLBACK_URL,
     scope: ['identify', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
+    // console.log(profile)
     try {
-        let existingUser  = await Usuario.findOne({ discordId: profile.id });
-
+        let existingUser  = await Usuario.findOne({ correo: profile.email });
         if (existingUser ) {
             return done(null, existingUser );
         }
 
-        const existingUserName = await Usuario.findOne({ userName: profile.username });
+        const existingUserName = await Usuario.findOne({ userName: profile.userName });
         if (existingUserName) {
             return done(null, existingUserName);
         }
 
         const newUser  = new Usuario({
             userName: profile.username || "",
-            nombre: profile.username || "Usuario Sin Nombre",
-            correo: profile.email || `${profile.username}@discord.com`,
+            nombre: profile.userName || "Usuario Sin Nombre",
+            correo: profile.email || `${profile.userName}@discord.com`,
             contraseña: "",
             fotoPerfil: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : "",
             direccion: "",
@@ -42,12 +43,21 @@ passport.use(new DiscordStrategy({
             talleresInscritos: [],
             cupones: [],
             discordId: profile.id || "",
-            avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : ""
+            avatar: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : "",
+            carrito:[]
         });
-
-        await newUser .save();
-        done(null, newUser );
+        
+        try {
+            console.log('hola estoy guardando');
+            await newUser.save();
+            console.log("Nuevo usuario guardado correctamente"); // Para confirmar que se guarda
+            done(null, newUser);
+        } catch (error) {
+            console.error("Error al guardar el nuevo usuario: ", error); // Log del error
+            done(error, null);
+        }
     } catch (error) {
+        console.log(error)
         done(error, null);
     }
 }));
@@ -59,8 +69,8 @@ passport.use(new GoogleStrategy({
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        let existingUser  = await Usuario.findOne({ googleId: profile.id });
-
+        console.log(profile)
+        let existingUser  = await Usuario.findOne({ correo: profile.emails[0].value });
         if (existingUser ) {
             return done(null, existingUser );
         }
@@ -89,7 +99,7 @@ passport.use(new GoogleStrategy({
             avatar: profile.photos[0].value || ""
         });
 
-        await newUser .save();
+        await newUser.save();
         done(null, newUser );
     } catch (error) {
         done(error, null);
@@ -103,7 +113,8 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.GITHUB_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        let existingUser  = await Usuario.findOne({ githubId: profile.id });
+        console.log(profile);
+        let existingUser  = await Usuario.findOne({ correo: profile.email });
 
         if (existingUser ) {
             return done(null, existingUser );

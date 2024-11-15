@@ -1,19 +1,16 @@
 <template>
-  <div id="app">
-    <chat />
+  <div class="bg-[#121212] " id="app">
+    <router-view />
   </div>
 </template>
 
 <script>
-const chat = require('./components/chat.vue'); // Usar CommonJS para importar
-
-module.exports = {
-  components: {
-    chat
-  }
-};
+export default {
+  name: 'App'
+}
 </script>
 
 <style>
-/* Estilos generales de tu aplicación */
+/* Puedes agregar estilos globales aquí */
+
 </style>

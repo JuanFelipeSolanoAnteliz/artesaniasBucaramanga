@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     talleresInscritos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'talleres' }],
     cupones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cupones' }],
     tipo: { type: String, enum: ['comprador', 'vendedor'], required: true },
-}, { versionKey: false });
+    carrito: [{ type: mongoose.Schema.Types.ObjectId, ref: 'productos' }]
+}, { versionKey: false }); 
 
 module.exports = mongoose.model('usuarios', userSchema);

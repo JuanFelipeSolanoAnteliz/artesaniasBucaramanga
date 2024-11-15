@@ -1,0 +1,130 @@
+[{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000011"
+  },
+  "codigo": "DESCUENTO10",
+  "descuento": 10,
+  "tipo": "general",
+  "fechaExpiracion": {
+    "$date": "2025-12-31T23:59:59.000Z"
+  },
+  "usuarioId": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000018"
+  },
+  "codigo": "OFERTA5",
+  "descuento": 5,
+  "tipo": "general",
+  "fechaExpiracion": {
+    "$date": "2024-08-31T23:59:59.000Z"
+  },
+  "usuarioId": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000012"
+  },
+  "codigo": "NAVIDAD20",
+  "descuento": 20,
+  "tipo": "general",
+  "fechaExpiracion": {
+    "$date": "2024-12-25T23:59:59.000Z"
+  },
+  "usuarioId": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b2300001a"
+  },
+  "codigo": "FIESTA20",
+  "descuento": 20,
+  "tipo": "general",
+  "fechaExpiracion": {
+    "$date": "2024-05-01T23:59:59.000Z"
+  },
+  "usuarioId": null
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000017"
+  },
+  "codigo": "JUAN50",
+  "descuento": 50,
+  "tipo": "asignado a usuario",
+  "fechaExpiracion": {
+    "$date": "2025-01-15T23:59:59.000Z"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4574"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000016"
+  },
+  "codigo": "LAURA5",
+  "descuento": 5,
+  "tipo": "asignado a usuario",
+  "fechaExpiracion": {
+    "$date": "2024-10-01T23:59:59.000Z"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4573"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000013"
+  },
+  "codigo": "CAMILA15",
+  "descuento": 15,
+  "tipo": "asignado a usuario",
+  "fechaExpiracion": {
+    "$date": "2024-06-30T23:59:59.000Z"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4567"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000014"
+  },
+  "codigo": "SOFIA25",
+  "descuento": 25,
+  "tipo": "asignado a usuario",
+  "fechaExpiracion": {
+    "$date": "2024-07-31T23:59:59.000Z"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4569"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000015"
+  },
+  "codigo": "DANIELA30",
+  "descuento": 30,
+  "tipo": "asignado a usuario",
+  "fechaExpiracion": {
+    "$date": "2024-09-15T23:59:59.000Z"
+  },
+  "usuarioId": {
+    "$oid": "5f3e5f4c2c0e4a1d4c8b4571"
+  }
+},
+{
+  "_id": {
+    "$oid": "64f2c111fc13ae1b23000019"
+  },
+  "codigo": "DESCUENTO35",
+  "descuento": 35,
+  "tipo": "general",
+  "fechaExpiracion": {
+    "$date": "2024-11-30T23:59:59.000Z"
+  },
+  "usuarioId": null
+}]
