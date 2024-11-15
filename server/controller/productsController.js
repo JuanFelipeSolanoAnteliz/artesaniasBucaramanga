@@ -9,7 +9,21 @@ exports.getFavProduct = async ( req, res ) =>{
         let ususario = req.data.id;
         const favs = await Users.findById(ususario).populate('favoritos');
         console.log(favs.favoritos);
+        if(favs.favoritos.length === 0 ){ return res.status(404).json({ status:404, message:'There are not products in favorites list' })}
         return res.status(200).json({ status:200, mesasge:'products fetched successfully', data:favs.favoritos })
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({ status:500, message:'error while fetching products', error:error })
+    }
+}
+
+exports.getBoughtProduct = async ( req, res ) =>{
+    try{
+        let ususario = req.data.id;
+        const favs = await Users.findById(ususario).populate('compras');
+        console.log(favs);
+        if(favs.compras.length === 0 ){ return res.status(404).json({ status:404, message:'There are not products in favorites list' })}
+        return res.status(200).json({ status:200, mesasge:'products fetched successfully', data:favs.compras })
     }catch(error){
         console.log(error)
         return res.status(500).json({ status:500, message:'error while fetching products', error:error })
