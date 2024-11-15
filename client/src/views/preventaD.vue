@@ -96,7 +96,7 @@
           alt="carrito" 
           class="text-left text-base font-medium ml-[-12px] w-5 h-5" 
         />
-        <span class="text-sm font-medium">Añadir a mi carrito de compras</span>
+        <span @click="goToCarrito" class="text-sm font-medium">Añadir a mi carrito de compras</span>
       </button>
     </div>
   </div>
@@ -148,6 +148,11 @@ const addToCart = () => {
 const goBack = () => {
   router.back()
 }
+
+const goToCarrito = () => {
+  router.push("/carritoCompras")
+}
+
 </script>
 
 <style scoped>
