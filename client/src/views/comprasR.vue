@@ -4,11 +4,12 @@
     <div class="triangle"></div>
 
     <!-- Flecha -->
-    <div class="absolute top-1 left-[3px] mt-4 z-20">
+    <div  @click="goBack" class="absolute top-1 left-[3px] mt-4 z-20">
+     
       <img 
-        src="../assets/img/flechaB.svg" 
-        alt="Volver"
-        class="w-4 h-4" 
+      src="../assets/img/flechaB.svg" 
+      alt="Volver"
+       class="w-4 h-4" 
       />
     </div>
 
@@ -144,11 +145,15 @@ const fetchAllProducts = async () => {
   }
 }
 
+   
 
 onMounted(() => {
   fetchAllProducts()
 
 })
+const goBack = () => {
+  router.back()
+}
 </script>
 
 <style scoped>
