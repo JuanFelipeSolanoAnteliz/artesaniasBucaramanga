@@ -5,8 +5,9 @@
         <!-- Back button with diamond background -->
         <div class="triangle"></div>
 
-        <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+        <div  class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
           <img 
+          @click="goBack"
             src="../assets/img/flechaB.svg" 
             alt="Volver"
             class="w-4 h-4" 
@@ -77,8 +78,11 @@
   </template>
   
   <script setup>
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
+
   const goBack = () => {
-    // Add navigation logic here
+    router.push("/tallerMes");
   }
   </script>
   

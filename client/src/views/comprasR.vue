@@ -4,7 +4,7 @@
     <div class="triangle"></div>
 
     <!-- Flecha -->
-    <div class="absolute top-1 left-[3px] mt-4 z-20">
+    <div @click="goBack" class="absolute top-1 left-[3px] mt-4 z-20">
       <img 
         src="../assets/img/flechaB.svg" 
         alt="Volver"
@@ -109,21 +109,27 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
-const router = useRouter();
-
-// import { ChevronLeftIcon, MessageSquareIcon } from 'lucide-vue-next'
 import axios from 'axios'
 
+const router = useRouter();
 
 const goToPreventa = (productId) => {
   router.push(`/preventa/${productId}`);
 }
+
+const goBack = () => {
+  router.back();
+}
+
+
 const handleImageError = (e) => {
   e.target.src = '../assets/img/default-product.jpg' // Asegúrate de tener esta imagen por defecto
 }
 
 const workshopDetails = ref([])
 const error = ref(null)
+
+
 const fetchAllProducts = async () => {
   try {
     const response = await axios.get('http://localhost:5001/products', {

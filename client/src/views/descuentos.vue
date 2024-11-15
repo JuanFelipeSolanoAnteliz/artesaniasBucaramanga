@@ -304,7 +304,7 @@ const fetchProductsByCategory = async (category = '') => {
     products.value = data.data
   } catch (e) {
     console.error('Error fetching products:', e)
-    error.value = 'No se pudo cargar los productos.'
+    error.value = 'No hay prodcutos con descuentos en esta categoria:(.'
   } finally {
     isLoading.value = false
   }

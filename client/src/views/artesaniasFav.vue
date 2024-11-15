@@ -3,7 +3,7 @@
     
     <div class="triangle"></div>
 
-    <div class="absolute top-5 left-[3px] mt-4">
+    <div @click="goBack" class="absolute top-5 left-[3px] mt-4">
       <img 
         src="../assets/img/flechaB.svg" 
         alt="Volver"
@@ -90,6 +90,13 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goBack = () => {
+  router.back();
+}
 
 // Importación de imágenes
 import textIcon from '../assets/img/text.svg'

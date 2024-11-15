@@ -6,7 +6,7 @@
         <div class="triangle"></div>
       
         <!-- Back button with flecha image positioned above the triangle -->
-        <div class="absolute top-0 left-[-1px] mt-4"> <!-- Move left more with negative value -->
+        <div @click="goBack" class="absolute top-0 left-[-1px] mt-4"> <!-- Move left more with negative value -->
           <img 
             src="../assets/img/flecha.svg" 
             alt="Volver"
@@ -59,6 +59,13 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { SendIcon } from 'lucide-vue-next'
 import { io } from 'socket.io-client'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goBack = () => {
+  router.back();
+};
 
 const socket = io('http://localhost:5001') // Adjust the URL to match your server
 
@@ -95,10 +102,7 @@ const sendMessage = () => {
     newMessage.value = ''
   }
 }
-  const goBack = () => {
-    // Implement navigation logic here
-    console.log('Navigate back')
-  }
+
   </script>
   
   <style scoped>

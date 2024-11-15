@@ -4,7 +4,7 @@
     <div class="relative h-20 flex-shrink-0">
       <div class="triangle"></div>
 
-      <div class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+      <div @click="goBack" class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
         <img 
           src="../assets/img/flechaB.svg" 
           alt="Volver"
@@ -57,7 +57,7 @@
       <div>
         <h2 class="text-left text-base font-medium ml-1.5 text-lg font-medium mb-4">¿Necesitas atención personalizada? habla con nuestro equipo de soporte</h2>
         
-        <div class="space-y-3">
+        <div @click="goToChat" class="space-y-3">
           <button class="w-full text-left p-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors flex items-center text-sm">
             <img 
               src="../assets/img/chat.svg" 
@@ -81,9 +81,15 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goToChat = () => {
+  router.push("/chat");
+};
 const goBack = () => {
-  // Add navigation logic here
-  console.log('Go back clicked')
+  router.back();
 }
 </script>
 

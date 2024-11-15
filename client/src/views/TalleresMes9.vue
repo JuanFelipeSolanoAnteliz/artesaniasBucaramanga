@@ -78,7 +78,7 @@
           <img src="../assets/img/categorias1.png" alt="Categorías" class="">
         </div>
         <div v-else class="flex justify-between justify-center relative">
-          <img @click="goTotallres" class="relative top-[-10px]" src="../assets/img/back.png" alt="Back">
+          <img @click="goBack" class="relative top-[-10px]" src="../assets/img/back.png" alt="Back">
           <img src="../assets/img/titleCategorias.png" class="mr-36" alt="Categorías">
         </div>
 
@@ -185,7 +185,10 @@ import axios from 'axios';
 
 const router = useRouter();
 
-
+const goBack = () => {
+  router.back();
+};
+ 
 const goTotallres = () => {
   router.push("/tallerMes");
 };
