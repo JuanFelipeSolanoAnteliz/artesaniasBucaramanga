@@ -70,16 +70,16 @@ class UserController{
         }
     }
 
-
     static async loginAndAuth(req, res) {
         try {
-            const { userName, correo, telefono, contraseña } = req.body;
-
+            const { userName, correo, telefono } = req.body;
+            const contraseña = req.body['contraseña'];
+    
             // Verificar que al menos uno de los campos de identificación esté presente
             if (!userName && !correo && !telefono) {
                 return res.status(400).json({ message: 'Please provide userName, correo, or telefono' });
             }
-
+    
             // Buscar al usuario por userName, correo o telefono
             let user;
             if (userName) {
@@ -89,29 +89,38 @@ class UserController{
             } else if (telefono) {
                 user = await Users.findOne({ telefono });
             }
-
+    
             // Si no se encuentra el usuario
             if (!user) {
-                return res.status(404).json({ message: 'User  not found' });
+                return res.status(404).json({ message: 'User not found' });
             }
-
+    
+            // Verificar que ambos valores existen antes de compararlos
+            if (!contraseña || !user.contraseña) {
+                return res.status(400).json({ message: 'Password is required' });
+            }
+    
             // Verificar la contraseña
+            console.log("Contraseña ingresada:", contraseña);
+            console.log("Contraseña en la base de datos:", user.contraseña);
+            
             const isMatch = await bcrypt.compare(contraseña, user.contraseña);
             if (!isMatch) {
                 return res.status(401).json({ message: 'Invalid password' });
             }
-
+    
             // Crear el token JWT
             const token = jwt.sign({ id: user._id, correo: user.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
             req.session.auth = token;
-
+    
             return res.status(202).json({ message: 'User logged in successfully', token });
             
-        }catch(error){
+        } catch (error) {
             console.log(error);
-            return error;
+            return res.status(500).json({ message: 'An error occurred during login' });
         }
     }
+    
 
 
     static async createAndAuth(req, res) {

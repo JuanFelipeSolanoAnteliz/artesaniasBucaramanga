@@ -87,7 +87,7 @@
           <div 
             :class="{
               'grid grid-cols-5 gap-1': !selectedCategory,
-              'grid grid-cols-10 gap-4 overflow-x-auto': selectedCategory
+              'grid grid-cols-10 gap-12 overflow-x-auto': selectedCategory
             }"
             class="text-black px-4"
           >
@@ -387,7 +387,7 @@ const toggleDrawer = () => {
 /* Estilos para el scroll horizontal en categorías cuando hay una seleccionada */
 .grid-cols-10 {
   grid-auto-flow: column;
-  gap: 70px;
+  gap: 110px;
   grid-auto-columns: min-content;
   overflow-x: auto;
   scrollbar-width: none; /* Para Firefox */

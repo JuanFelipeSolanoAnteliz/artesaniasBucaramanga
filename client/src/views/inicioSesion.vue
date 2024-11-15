@@ -5,12 +5,12 @@
           Inicia sesion y continua viendo tus artesanías favoritas
         </h1>
   
-        <div class="buttons">
-  <button  @click="handleGithubLogin" class="social-button facebook">
+  <div class="buttons">
+    <button @click="handleGithubLogin" class="social-button github">
     <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12.001 2.002c-5.522 0-9.999 4.477-9.999 9.999 0 4.99 3.656 9.126 8.437 9.879v-6.988h-2.54v-2.891h2.54V9.798c0-2.508 1.493-3.891 3.776-3.891 1.094 0 2.24.195 2.24.195v2.459h-1.264c-1.24 0-1.628.772-1.628 1.563v1.875h2.771l-.443 2.891h-2.328v6.988C18.344 21.129 22 16.992 22 12.001c0-5.522-4.477-9.999-9.999-9.999z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 5.301 3.438 9.801 8.207 11.398.6.11.793-.261.793-.577v-2.265c-3.338.727-4.039-1.612-4.039-1.612-.546-1.388-1.333-1.761-1.333-1.761-1.088-.743.083-.728.083-.728 1.2.083 1.832 1.267 1.832 1.267 1.07 1.833 2.809 1.3 3.492.992.107-.777.418-1.3.759-1.597-2.667-.3-5.467-1.334-5.467-5.922 0-1.308.47-2.381 1.246-3.222-.125-.303-.54-1.521.118-3.168 0 0 1.007-.324 3.3 1.23 1.185-.33 2.448-.495 3.697-.5 1.248.006 2.511.17 3.696.5 2.292-1.554 3.299-1.23 3.299-1.23.658 1.647.243 2.865.118 3.168.778.84 1.246 1.914 1.246 3.222 0 4.603-2.806 5.613-5.487 5.907.429.368.819 1.095.819 2.211v3.267c0 .316.188.693.798.577C20.564 21.8 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
     </svg>
-    Regístrate con Facebook
+    Regístrate con GitHub
   </button>
 
   <button @click="handleDiscordLogin" class="social-button discord">
@@ -27,7 +27,7 @@
     Regístrate con Gmail
   </button>
 
-  <button @click="goToPoliticas" class="social-button user">
+  <button @click="goToLoguin" class="social-button user">
     <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
     </svg>
@@ -52,8 +52,8 @@ const API_URL = 'http://localhost:5001/users'
 const error = ref(null)
 
 // Funciones de navegación
-const goToIniciarSesion = () => {
-  router.push("/inicioSesion")
+const goToLoguin = () => {
+  router.push("/loguin")
 }
 
 const goToCrearTelefono = () => {
