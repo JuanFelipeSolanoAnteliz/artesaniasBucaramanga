@@ -5,6 +5,20 @@ const Vouchers = require('../model/voucherModel');
 const Users = require('../model/userModel');
 const Product = require('../model/productsModel');
 
+exports.getHistory = async ( req, res ) => {
+    try{
+        let user = req.data.id;
+        let result = await Pedidos.find(
+            { usuarioId: new ObjectId(user) }
+          );
+        if( result.length === 0 ){return res.status(404).json({ status:404, message:' there is not a product with this id'})}
+        return res.status(200).json({ status:200, message:'product fetched successfully', data:result});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({ status:500, message:'error while fetching the product', error:error});
+    }
+} 
+
 exports.getCart = async (req, res)=> {
     try{
         let user = req.data.id;
