@@ -39,10 +39,6 @@ exports.addToCart = async (req, res) => {
     try {
         let product = req.params.id;
         let user = req.data.id;
-        let validate = await Users.findOne({_id: new ObjectId(req.data.id)});
-        validate.forEach(element => {
-            if(element === product){ return res.status(200).json({ status: 200, message:'Product already added to cart'});        }
-        });
         let updateUserInfo = await Users.updateOne(
             { _id: new ObjectId(user) },
             { $push: { carrito: new ObjectId(product)} }
