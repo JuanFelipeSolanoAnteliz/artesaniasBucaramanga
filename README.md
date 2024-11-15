@@ -1,230 +1,296 @@
-# .env:
-MONGODB_URI= URI valentina
-MONGODB_DB_NAME= nombre db
-SECRET_KEY=729e97f2f54e6a1edb3cfe3d7b1b96516458312623d8757bb1cbb4245a8a4d1eb5d3111961baeb8227a6ba6971c15f54da447862813a07d391a02de5447814031cca4ab6921f44d57fb7b2d3e9aa3d8e07987071ede00d3ff13b70ad05134c5162cdd27bb7f58cfd0620548ca45946d16af151f3b4c50965ae44f5cf690cdccb
+# API de Usuarios 📱👤
 
-# instalar:
+## Descripción
+Esta API permite la gestión de usuarios, incluyendo autenticación, creación, actualización, manejo de imágenes de perfil y la integración con servicios externos como Discord, Google y GitHub.
+
+---
+
+## Configuración Inicial ⚙️
+
+### Requisitos
+
+Instala las dependencias necesarias:
+
+```bash
 npm i mongoose
 npm i dotenv
 npm i jsonwebtoken
 npm i passport
 npm i passport-discord
 npm i express-session
-npm i cookie-parser 
+npm i cookie-parser
 npm install passport-google-oauth20
 npm install passport-github2
-npm i socket.io 
+npm i socket.io
 npm i socket.io-client
 npm i cloudinary
 npm install cloudinary
 npm install multer
+```
 
+### Variables de Entorno 🌍
 
-# APIs:
+Configura las siguientes variables en tu archivo `.env`:
 
-primero activar server :
+```dotenv
+MONGODB_URI=mongodb+srv://<tu_usuario>:<tu_contraseña>@<tu_cluster>.mongodb.net/<tu_base_de_datos>
+MONGODB_DB_NAME=<nombre_de_tu_base_de_datos>
+SECRET_KEY=<tu_clave_secreta>
 
-´´´
-npm run dev:server
-´´´
+# Credenciales de Discord
+DISCORD_CLIENT_ID=<tu_id_cliente_discord>
+DISCORD_CLIENT_SECRET=<tu_secreto_cliente_discord>
+DISCORD_CALLBACK_URL=http://localhost:5001/users/auth/discord/callback
 
-# APIS PARA USERS:
+# Credenciales de Google
+GOOGLE_CLIENT_ID=<tu_id_cliente_google>
+GOOGLE_CLIENT_SECRET=<tu_secreto_cliente_google>
+GOOGLE_CALLBACK_URL=http://localhost:5001/users/auth/google/callback
 
+# Credenciales de GitHub
+GITHUB_CLIENT_ID=<tu_id_cliente_github>
+GITHUB_CLIENT_SECRET=<tu_secreto_cliente_github>
 
-## get all users:
-GET http://localhost:5001/users/getAllUsers (se puede dar click y ver)
+# Credenciales de Cloudinary
+CLOUDINARY_CLOUD_NAME=<tu_nombre_de_cloud>
+CLOUDINARY_API_KEY=<tu_api_key>
+CLOUDINARY_API_SECRET=<tu_api_secret>
+```
 
+---
 
-## get one user:
-GET http://localhost:5001/users/{id} (se puede dar click y ver la info pero especifica una ID antes)
-ejemplo:
-http://localhost:5001/users/getUser/672cb5e790cb620ef1ae1e88
+## Endpoints de la API 🚀
 
+### 1. Obtener todos los usuarios 🧑‍🤝‍🧑
 
-## create one user(no bcrypt):
-POST http://localhost:5001/users/newUser (user body en thunderClient)
+**Método**: `GET`  
+**URL**: `http://localhost:5001/users/getAllUsers`
 
-esta API crea un usuario nuevo normal, pero no encripta contraseña ojo
+Obtiene una lista de todos los usuarios registrados.
 
-body:
-´´´
-{
+**Respuesta:**
+
+```json
+[
+  {
+    "_id": "123456",
     "userName": "juanperez",
     "nombre": "Juan Pérez",
     "correo": "juan.perez@example.com",
-    "contraseña": "miContraseñaSegura",
+    "telefono": "123456789",
     "fotoPerfil": "url_a_la_foto",
     "direccion": "Calle Falsa 123",
-    "telefono": "1234567890",
     "sexo": "masculino",
     "fechaNacimiento": "1990-01-01"
-}
-´´´
+  },
+  ...
+]
+```
 
+---
 
+### 2. Obtener un usuario por ID 🆔
 
-## edit one user(email cant be same than other):
-PUT http://localhost:5001/users/updateUser/:id (user body en thunderClient)
+**Método**: `GET`  
+**URL**: `http://localhost:5001/users/{id}`  
+**Ejemplo de URL**: `http://localhost:5001/users/672cb5e790cb620ef1ae1e88`
 
-el editar puede editar cualquier campo del dato desde uno solo, hasta todo, las unicas condiciones son no se puede modificar el tipo, el email no se puede poner uno existente y se debe poner el _id del usuario, id ejemplo:
+Obtiene la información de un usuario específico mediante su ID.
 
-http://localhost:5001/users/updateUser/672b784954bc940d9200e06f
+**Respuesta:**
 
-y en body:
-
+```json
 {
-    "_id": {
-        "$oid": "5f3e5f4c2c0e4a1d4c8b4575"
-    },
-    "userName": "carlosmendez",
-    "nombre": "Carlos Méndez",
-    "correo": "carlos.mendez@example.com",
-    "contraseña": "$2a$10$PmfVghukfkgkfbdhfhPhU3rdKhHvghgkj45j.PgghH5yH",
-    "fotoPerfil": "https://example.com/foto/carlos.jpg",
-    "direccion": "Avenida 45, Armenia",
-    "telefono": "3201234567",
-    "sexo": "femenino",
-    "fechaNacimiento": "1995-05-15",
-    "favoritos": [
-        {
-            "$oid": "64f2c111fc13ae1b23000009"
-        }
-    ],
-    "compras": [],
-    "talleresInscritos": [
-        {
-            "$oid": "64f2c111fc13ae1b23000030"
-        }
-    ],
-    "cupones": []
+  "_id": "672cb5e790cb620ef1ae1e88",
+  "userName": "juanperez",
+  "nombre": "Juan Pérez",
+  "correo": "juan.perez@example.com",
+  "telefono": "123456789",
+  "fotoPerfil": "url_a_la_foto",
+  "direccion": "Calle Falsa 123",
+  "sexo": "masculino",
+  "fechaNacimiento": "1990-01-01"
 }
+```
 
-O tambien: 
+---
 
+### 3. Crear un nuevo usuario 👤
+
+**Método**: `POST`  
+**URL**: `http://localhost:5001/users/newUser`
+
+Crea un nuevo usuario **sin** cifrar la contraseña. Recibe los datos del usuario en el cuerpo de la solicitud.
+
+**Cuerpo de la solicitud:**
+
+```json
 {
-    "sexo": "femenino",
-    "fechaNacimiento": "1995-05-15",
-    "direccion": "Nueva Calle 456"
+  "userName": "juanperez",
+  "nombre": "Juan Pérez",
+  "correo": "juan.perez@example.com",
+  "contraseña": "miContraseñaSegura",
+  "fotoPerfil": "url_a_la_foto",
+  "direccion": "Calle Falsa 123",
+  "telefono": "1234567890",
+  "sexo": "masculino",
+  "fechaNacimiento": "1990-01-01"
 }
+```
 
-o incluso:
+---
 
+### 4. Actualizar un usuario 🔄
+
+**Método**: `PUT`  
+**URL**: `http://localhost:5001/users/updateUser/:id`  
+**Ejemplo de URL**: `http://localhost:5001/users/updateUser/672b784954bc940d9200e06f`
+
+Actualiza la información de un usuario. Los campos pueden ser modificados, pero hay restricciones:
+- No puedes cambiar el tipo de usuario.
+- El correo debe ser único (no se puede asignar un correo que ya esté registrado).
+
+**Cuerpo de la solicitud (ejemplo):**
+
+```json
 {
-    "correo": "juan.perez@example.com"
+  "sexo": "femenino",
+  "fechaNacimiento": "1995-05-15",
+  "direccion": "Nueva Calle 456"
 }
+```
 
+---
 
-## search one userName,telefono or correo and log in with token and bcrypt password (complete usefull):
+### 5. Autenticación de usuario (Login) 🔑
 
-POST http://localhost:5001/users/loginAndAuth
+**Método**: `POST`  
+**URL**: `http://localhost:5001/users/loginAndAuth`
 
-esta API lo que hace es servir de login tomando cualquiera de los 3 datos y la contraseña encriptada, verifica en la db y si todo es correcto, crea el token de acceso a la pagina
+Inicia sesión con cualquiera de los siguientes parámetros: `userName`, `correo` o `telefono`, junto con la contraseña encriptada. Si los datos son correctos, se devuelve un token JWT.
 
-ejemplos combinaciones de login manual:
+**Cuerpo de la solicitud (ejemplo 1):**
 
-1:
+```json
 {
   "userName": "juanperez",
   "contraseña": "tuContraseña123"
 }
+```
 
-2:
+**Cuerpo de la solicitud (ejemplo 2):**
+
+```json
 {
   "correo": "juan.perez@example.com",
   "contraseña": "tuContraseña123"
 }
+```
 
-3:
+**Respuesta:**
+
+```json
 {
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+---
+
+### 6. Crear un usuario y autenticarlo al mismo tiempo 🛠️
+
+**Método**: `POST`  
+**URL**: `http://localhost:5001/users/createAndAuth`
+
+Crea un nuevo usuario y lo autentica al mismo tiempo. El correo o teléfono debe ser único y todos los campos deben ser proporcionados.
+
+**Cuerpo de la solicitud (ejemplo con correo):**
+
+```json
+{
+  "userName": "juanperez",
+  "nombre": "Juan Pérez",
+  "correo": "juan.perez@example.com",
+  "contraseña": "miContraseñaSegura",
+  "fotoPerfil": "http://ejemplo.com/miFoto.jpg",
+  "direccion": "Calle Falsa 123",
   "telefono": "123456789",
-  "contraseña": "tuContraseña123"
+  "sexo": "masculino",
+  "fechaNacimiento": "1990-01-01"
 }
+```
 
+**Cuerpo de la solicitud (ejemplo con teléfono):**
 
-## create one user and log in with token and bcrypt password (complete usefull):
-POST http://localhost:5001/users/createAndAuth (body on thunder client needed)
-
-esta funcion funciona de forma que crea una cuenta nueva al igual que la logea o verifica, para eso se deben ingresar los siguientes valores obligatorios para funcionar:
-
-condiciones: el email debe ser unico, todo es string y todo debe estar lleno
-
-ejemplo de body CON CORREO:
-´´´
+```json
 {
-    "userName": "juanperez",
-    "nombre": "Juan Pérez",
-    "correo": "juan.perez@example.com",
-    "contraseña": "miContraseñaSegura",
-    "fotoPerfil": "http://ejemplo.com/miFoto.jpg",
-    "direccion": "Calle Falsa 123",
-    "telefono": "123456789",
-    "sexo": "masculino",
-    "fechaNacimiento": "1990-01-01"
+  "userName": "sofiahernandez",
+  "nombre": "Sofía Hernández",
+  "contraseña": "mypassword456",
+  "fotoPerfil": "http://ejemplo.com/sofia.jpg",
+  "direccion": "Avenida 45, Bucaramanga",
+  "telefono": "3209876543",
+  "sexo": "femenino",
+  "fechaNacimiento": "1988-12-25"
 }
-´´´
+```
 
-ejemplo de body CON TELEFONO Y NO CORREO:
-´´´
+---
+
+### 7. Autenticación con servicios externos 🔐
+
+#### Autenticación con Discord 🎮
+
+**Método**: `GET`  
+**URL**: `http://localhost:5001/users/auth/discord`
+
+Redirige al usuario a Discord para iniciar sesión. Si el usuario ya existe en la base de datos, no se crea un nuevo registro, pero se actualizan los datos disponibles.
+
+#### Autenticación con Google 🌍
+
+**Método**: `GET`  
+**URL**: `http://localhost:5001/users/auth/google`
+
+Redirige al usuario a Google para iniciar sesión. Si el usuario ya existe en la base de datos, no se crea un nuevo registro, pero se actualizan los datos disponibles.
+
+#### Autenticación con GitHub 🐙
+
+**Método**: `GET`  
+**URL**: `http://localhost:5001/users/auth/github`
+
+Redirige al usuario a GitHub para iniciar sesión. Si el usuario ya existe en la base de datos, no se crea un nuevo registro, pero se actualizan los datos disponibles.
+
+---
+
+### 8. Cambiar imagen de perfil 📸
+
+**Método**: `PUT`  
+**URL**: `http://localhost:5001/users/profile-image/{idUsuario}`  
+**Ejemplo de URL**: `http://localhost:5001/users/profile-image/6730348ef39c6117a094b829`
+
+Permite a un usuario actualizar su imagen de perfil. El usuario debe enviar la nueva imagen mediante un archivo en formato `Form-data`.
+
+**Ejemplo de solicitud:**
+
+```http
+PUT http://localhost:5001/users/profile-image/6730348ef39c6117a094b829
+```
+
+**Respuesta:**
+
+```json
 {
-    "userName": "sofiahernandez",
-    "nombre": "Sofía Hernández",
-    "contraseña": "mypassword456",
-    "fotoPerfil": "http://ejemplo.com/sofia.jpg",
-    "direccion": "Avenida 45, Bucaramanga",
-    "telefono": "3209876543",
-    "sexo": "femenino",
-    "fechaNacimiento": "1988-12-25"
+  "message": "Imagen de perfil actualizada",
+  "newImageUrl": "https://res.cloudinary.com/d
+
+sh2beqdt/image/upload/v1579983928/mi-foto-perfil.jpg"
 }
-´´´
+```
 
-resultado de la operacion:
+---
 
-Status: 201 Created
-{
-  "message": "Successfully created and authenticated",
-  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNhZGJhY2Q4ZWMzZTQ3OGIzYzUxMyIsImNvcnJlbyI6Imp1YW4ucGVyZXNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA5ODEzMDcsImV4cCI6MTczMDk4NDkwN30.R64yiD9LMKiL_YlHkKkEx9iGEcvVSXYidx_u05bCACA"
-}
+## Notas adicionales 📝
 
-
-
-
-# authenticate discord
-http://localhost:5001/users/auth/discord
-
-redirecciona para autenticar discord, de ahi toma la data la transforma al 
-formato de usuarios y sube la data, si se hace otro login igual no crea un
-nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
-que se puede editar para rellenar valores que no da discord predeterminadamente)
-
-
-# authenticate Google
-http://localhost:5001/users/auth/google
-
-redirecciona para autenticar google, de ahi toma la data la transforma al 
-formato de usuarios y sube la data, si se hace otro login igual no crea un
-nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
-que se puede editar para rellenar valores que no da google predeterminadamente)
-
-# authenticate Github
-http://localhost:5001/users/auth/github
-
-redirecciona para autenticar github, de ahi toma la data la transforma al 
-formato de usuarios y sube la data, si se hace otro login igual no crea un
-nuevo dato sino que pasa de largo, verificando que existe el dato(por lo 
-que se puede editar para rellenar valores que no da github predeterminadamente)
-
-
-
-# change image profile user
-
-PUT http://localhost:5001/users/profile-image/{idUsuario}
-
-ejemplo:
-http://localhost:5001/users/profile-image/6730348ef39c6117a094b829
-
-Esta API permite a un usuario subir su imagen de perfil enviando un archivo 
-mediante Form-data a un endpoint específico que incluye su ID de usuario. El 
-servidor recibe la imagen, la procesa, la almacena en un servicio de cloud 
-(como Cloudinary), genera una URL pública y actualiza el perfil del usuario 
-con esta nueva imagen, reemplazando cualquier imagen anterior. La operación es 
-segura, válida solo para el usuario autenticado, y devuelve la URL de la nueva imagen de perfil.
+- Asegúrate de tener la base de datos MongoDB configurada correctamente antes de usar estos endpoints.
+- Los tokens JWT generados en el proceso de login deben ser enviados en el encabezado de las solicitudes que requieran autenticación (`Authorization: Bearer <token>`).
+  
