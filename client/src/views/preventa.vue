@@ -51,7 +51,7 @@
       <!-- Add to cart button -->
       <button @click="fetchAddToCart" class="text-left ml-2.5 bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6">
         <img src="../assets/img/car.svg" alt="cart" class="text-left text-base font-medium ml-[-12px] w-5 h-5" />
-        <span class="text-sm text-left font-medium">Añadir a mi carrito de compras</span>
+        <span @click="goToCarrito" class="text-sm text-left font-medium">Añadir a mi carrito de compras</span>
       </button>
     </div>
   </div>
@@ -126,6 +126,10 @@ const addToCart = () => {
 
 const goBack = () => {
   router.back()
+}
+
+const goToCarrito = () => {
+  router.push("/carritoCompras")
 }
 </script>
 
