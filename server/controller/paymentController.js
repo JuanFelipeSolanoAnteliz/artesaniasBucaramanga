@@ -3,6 +3,7 @@ const connectDB = require('../helper/connect');
 const Pedidos = require('../model/paymentsModel');
 const Vouchers = require('../model/voucherModel');
 const Users = require('../model/userModel');
+const Product = require('../model/productsModel');
 
 exports.getCart = async (req, res)=> {
     try{
@@ -24,15 +25,19 @@ exports.addToCart = async (req, res) => {
     try {
         let product = req.params.id;
         let user = req.data.id;
+        let validate = await Users.findOne({_id: new ObjectId(req.data.id)});
+        validate.forEach(element => {
+            if(element === product){ return res.status(200).json({ status: 200, message:'Product already added to cart'});        }
+        });
         let updateUserInfo = await Users.updateOne(
             { _id: new ObjectId(user) },
             { $push: { carrito: new ObjectId(product)} }
         );
         if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not add the product to the cart'}); }
-        res.status(214).json({ status: 214, message:'Product added to cart', data: updateUserInfo });
+        return res.status(214).json({ status: 214, message:'Product added to cart', data: updateUserInfo });
     } catch (error) {
         console.log(error)
-        res.status(500).send({ message: 'Error while adding to cart', error: error });     
+        return res.status(500).send({ message: 'Error while adding to cart', error: error });     
     }
 }
 
@@ -58,16 +63,19 @@ exports.addOrder = async(req, res) => {
         let getPrice = async ()=>{
             let products = req.body.productos;
             let result = 0;
-            products.forEach(element => {
-                let operation = element.precio * element.cantidad;
+            for (const element of products) {
+                await Product.updateOne({ _id: element.productoId, stock: { $gt: 0 } }, { $inc: { stock: - element.cantidad } });
+                let precioProducto = await Product.findOne({_id: element.productoId});
+                let operation = precioProducto.precio * element.cantidad;
                 result += operation;
-            });
+            }
             if(req.body.voucher){
                 let voucher = await Vouchers.findOne({_id: new ObjectId(req.body.voucher)});
                 let now = new Date();
                 if(voucher.fechaExpiracion < now ){
                     return result;
                 }
+
                 if(voucher.length > 0 || voucher.usuarioId === null || voucher.usuarioId === req.data.id){
                     let discount = (result*voucher.descuento) / 100;
                     let finalPrice = result - discount;
@@ -80,7 +88,7 @@ exports.addOrder = async(req, res) => {
             }
             return result;
         }
-
+        console.log(await getPrice())
         let totalPrice = await getPrice();
         let newPedido = new Pedidos({
             usuarioId: new ObjectId(req.data.id),
@@ -89,7 +97,6 @@ exports.addOrder = async(req, res) => {
             fecha: new Date(),
             estado: "pendiente"
           })
-    
         let result = await newPedido.save();
         return res.status(200).json({ status:200, message: 'Order added correctly', data:result});
     }catch(error){

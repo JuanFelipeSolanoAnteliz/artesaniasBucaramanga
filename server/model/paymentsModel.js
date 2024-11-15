@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     productoId: { type: mongoose.Schema.Types.ObjectId, ref: 'productos', required: true },
     cantidad: { type: Number, required: true, min: 1 },
-    precio: { type: Number, required: true, min: 0 }
 }, 
 { 
     _id: false 
