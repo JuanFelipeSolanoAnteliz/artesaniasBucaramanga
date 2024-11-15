@@ -6,11 +6,18 @@ const Users= require('../model/userModel');
 
 exports.getFavProduct = async ( req, res ) =>{
     try{
+        let categoria = req.params.category;
         let ususario = req.data.id;
+        let emptyList = []
         const favs = await Users.findById(ususario).populate('favoritos');
         console.log(favs.favoritos);
-        if(favs.favoritos.length === 0 ){ return res.status(404).json({ status:404, message:'There are not products in favorites list' })}
-        return res.status(200).json({ status:200, mesasge:'products fetched successfully', data:favs.favoritos })
+        favs.favoritos.forEach(element => {
+            if( element.categoria === categoria ){
+                emptyList.push(element)
+            }
+        });
+        if(emptyList.length === 0 ){ return res.status(404).json({ status:404, message:'There are not products in favorites list' })};
+        return res.status(200).json({ status:200, mesasge:'products fetched successfully', data:emptyList })
     }catch(error){
         console.log(error)
         return res.status(500).json({ status:500, message:'error while fetching products', error:error })
