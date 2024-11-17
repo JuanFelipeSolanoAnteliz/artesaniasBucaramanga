@@ -154,9 +154,12 @@ const addToCart = async () => {
       }
     )
     workshopDetails.value = response.data.data
-    console .log(response.json());
-    window.location.href = 'http://localhost:5001/carritoCompras';
-    return response.json();
+    console .log(response, 'asdasdasdasdasdasdasdasdasdad');
+    if(response.status === 214){
+      window.location.replace('http://localhost:5001/carritoCompras');
+      return;
+    }
+    alert('Error al agregsr al carrito')
   } catch (err) {
     console.error('Error fetching workshop details:', err)
     err.value = 'Error al sibir producto al carrito'
