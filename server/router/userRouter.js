@@ -3,12 +3,13 @@ const passport = require('passport');
 const UserController = require('../controller/userController');
 const jwt = require('jsonwebtoken');
 const {auth} = require ("../middleware/JWTdecoded")
+const limit = require('../limit/userLimit');
 
 const router = express.Router();
 
 router.get('/getAllUsers', UserController.getAllUsers);
 router.post('/newUser', UserController.createAndAuth );
-router.post('/loginAndAuth', UserController.loginAndAuth);
+router.post('/loginAndAuth', limit.login ,UserController.loginAndAuth);
 router.post('/createAndAuth', UserController.createAndAuth);
 
 router.get('/auth/discord', passport.authenticate('discord'));
