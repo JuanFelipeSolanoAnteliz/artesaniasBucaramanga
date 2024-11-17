@@ -2,6 +2,7 @@ const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jwt = require('jsonwebtoken')
+const rateLimit = require('express-rate-limit');
 
 require('dotenv').config();
 
@@ -78,55 +79,44 @@ class UserController{
 
     static async loginAndAuth(req, res) {
         try {
-            const { userName, correo, telefono } = req.body;
-            const contraseña = req.body['contraseña'];
+            const { userName, correo, telefono, contraseña } = req.body;
     
-            // Verificar que al menos uno de los campos de identificación esté presente
+            req.session.loginAttempts = req.session.loginAttempts || 0;
+            req.session.blockUntil = req.session.blockUntil || null;
+    
+            if (req.session.blockUntil && Date.now() < req.session.blockUntil) {
+                return res.status(429).json({ message: 'Demasiados intentos. Intenta más tarde.' });
+            }
+    
+            if (req.session.blockUntil && Date.now() >= req.session.blockUntil) {
+                req.session.loginAttempts = 0;
+                req.session.blockUntil = null;
+            }
+    
             if (!userName && !correo && !telefono) {
-                return res.status(400).json({ message: 'Please provide userName, correo, or telefono' });
+                return res.status(400).json({ message: 'Proporciona userName, correo o telefono' });
             }
     
-            // Buscar al usuario por userName, correo o telefono
-            let user;
-            if (userName) {
-                user = await Users.findOne({ userName });
-            } else if (correo) {
-                user = await Users.findOne({ correo });
-            } else if (telefono) {
-                user = await Users.findOne({ telefono });
+            const user = await Users.findOne(userName ? { userName } : correo ? { correo } : { telefono });
+            if (!user || !contraseña || !(await bcrypt.compare(contraseña, user.contraseña))) {
+                req.session.loginAttempts++;
+                if (req.session.loginAttempts >= 3) {
+                    req.session.blockUntil = Date.now() + 30 * 1000; // Bloqueo durante 30 segundos
+                    return res.status(429).json({ message: 'Demasiados intentos. Intenta más tarde.' });
+                }
+                return res.status(401).json({ message: 'Usuario o contraseña inválidos' });
             }
     
-            // Si no se encuentra el usuario
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-    
-            // Verificar que ambos valores existen antes de compararlos
-            if (!contraseña || !user.contraseña) {
-                return res.status(400).json({ message: 'Password is required' });
-            }
-    
-            // Verificar la contraseña
-            console.log("Contraseña ingresada:", contraseña);
-            console.log("Contraseña en la base de datos:", user.contraseña);
-            
-            const isMatch = await bcrypt.compare(contraseña, user.contraseña);
-            if (!isMatch) {
-                return res.status(401).json({ message: 'Invalid password' });
-            }
-    
-            // Crear el token JWT
+            req.session.loginAttempts = 0;
             const token = jwt.sign({ id: user._id, correo: user.correo }, process.env.SECRET_KEY, { expiresIn: '1h' });
             req.session.auth = token;
     
-            return res.status(202).json({ message: 'User logged in successfully', token });
-            
+            return res.status(202).json({ message: 'Inicio de sesión exitoso', token });
         } catch (error) {
-            console.log(error);
-            return res.status(500).json({ message: 'An error occurred during login' });
+            console.error(error);
+            return res.status(500).json({ message: 'Error durante el inicio de sesión' });
         }
-    }
-    
+    } 
 
 
     static async createAndAuth(req, res) {
