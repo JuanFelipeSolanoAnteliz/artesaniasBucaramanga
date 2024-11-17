@@ -298,6 +298,39 @@ const fetchVouchers = async () => {
   }
 }
 
+const removeItem = async (itemId) => {
+  try {
+    isLoading.value = true;
+    const response = await fetch(`${API_BASE_URL}/orders/removeFromCart/${itemId}`, {
+      method: 'PUT',
+      headers: API_HEADERS
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error al eliminar el producto: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (data.status === 214) {
+      // Actualizar el estado local solo si la eliminación fue exitosa
+      cartItems.value = cartItems.value.filter(item => item.id !== itemId);
+      console.log('Producto eliminado exitosamente');
+      
+      // Recargar los datos del carrito para asegurar sincronización
+      await loadCartData();
+    } else {
+      throw new Error('Error al eliminar el producto del carrito');
+    }
+
+  } catch (error) {
+    console.error('Error al eliminar del carrito:', error);
+    error.value = 'Error al eliminar el producto del carrito';
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 const fetchOrders = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/orders`, {
@@ -309,7 +342,7 @@ const fetchOrders = async () => {
     }
     const data = await response.json()
     
-    // Si carrito es un array de ObjectId, lo convertimos a un formato que podamos usar
+
     if (data.data && data.data.carrito) {
       return data.data.carrito.map(id => ({
         productId: typeof id === 'object' ? id.$oid || id : id,
@@ -346,77 +379,73 @@ const fetchProducts = async () => {
 }
 
 const router = useRouter()
-const cartItems = ref([])
 const validVouchers = ref({})
-const isLoading = ref(true)
-const error = ref(null)
 const isDrawerOpen = ref(false)
 const couponCode = ref('')
 const appliedCoupon = ref(null)
 const shippingCost = ref(20)
 const showConfirmModal = ref(false)
 const showSuccessScreen = ref(false)
+const cartItems = ref([])
+const isLoading = ref(true)
+const error = ref(null)
 
 // Load cart data with proper error handling
 const loadCartData = async () => {
   try {
-    isLoading.value = true
-    error.value = null
+    isLoading.value = true;
+    error.value = null;
 
     // Fetch all required data concurrently
     const [vouchersData, ordersData, productsData] = await Promise.all([
       fetchVouchers(),
       fetchOrders(),
       fetchProducts()
-    ])
-
-    console.log('Orders Data:', ordersData)     // Debug log
-    console.log('Products Data:', productsData) // Debug log
+    ]);
 
     // Process vouchers
     validVouchers.value = vouchersData.reduce((acc, voucher) => {
-      acc[voucher.codigo] = voucher.descuento / 100
-      return acc
-    }, {})
+      acc[voucher.codigo] = voucher.descuento / 100;
+      return acc;
+    }, {});
 
-    // Map orders to products
-    cartItems.value = ordersData.map(order => {
-      // Manejar diferentes formatos de ID
-      const orderId = typeof order === 'string' ? order : order.productId
-      
-      const product = productsData.find(p => {
-        // Comparar diferentes formatos posibles de ID
-        return p._id === orderId || 
-               p._id === orderId.$oid || 
-               p._id.toString() === orderId.toString()
+    // Map orders to products with better error handling
+    cartItems.value = ordersData
+      .filter(order => order && (order.productId || order)) // Asegurarse que el order existe
+      .map(order => {
+        const orderId = typeof order === 'string' ? order : order.productId;
+        
+        const product = productsData.find(p => 
+          p._id === orderId || 
+          p._id === (orderId.$oid || orderId) || 
+          p._id.toString() === orderId.toString()
+        );
+
+        if (!product) {
+          console.warn(`Producto no encontrado para el ID: ${orderId}`);
+          return null;
+        }
+
+        return {
+          id: product._id,
+          name: product.nombre,
+          price: product.precio,
+          dimensions: product.categoria,
+          artisan: product.artesanoId,
+          image: product.fotos?.[0] || '',
+          quantity: order.quantity || 1,
+          stock: product.stock
+        };
       })
-      
-      if (!product) {
-        console.warn(`Producto no encontrado para el ID: ${orderId}`)
-        return null
-      }
+      .filter(Boolean); // Eliminar productos null
 
-      return {
-        id: product._id,
-        name: product.nombre,
-        price: product.precio,
-        dimensions: product.categoria,
-        artisan: product.artesanoId,
-        image: product.fotos?.[0] || '', 
-        quantity: order.quantity || 1,
-        stock: product.stock
-      }
-    }).filter(Boolean) // Elimina los elementos null
-
-    console.log('Processed Cart Items:', cartItems.value) // Debug log
-
-    isLoading.value = false
   } catch (err) {
-    error.value = err.message || 'Error loading cart data'
-    isLoading.value = false
-    console.error('Error in cart setup:', err)
+    error.value = err.message || 'Error al cargar los datos del carrito';
+    console.error('Error en la configuración del carrito:', err);
+  } finally {
+    isLoading.value = false;
   }
-}
+};
 
 // Load data on mount
 onMounted(() => {
@@ -475,9 +504,7 @@ const decreaseQuantity = (item) => {
   }
 }
 
-const removeItem = (itemId) => {
-  cartItems.value = cartItems.value.filter(item => item.id !== itemId)
-}
+
 
 const retryLoad = () => {
   loadCartData()
