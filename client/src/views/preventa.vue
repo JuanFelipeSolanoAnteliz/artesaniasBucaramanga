@@ -74,6 +74,28 @@ const router = useRouter()
 const productId = computed(() => route.params.id)
 const IDproducto = computed(() => route.params.id)
 
+
+const toggleFavorite = async () => {
+  if (!isFavorite.value) {
+    await axios.put(`http://localhost:5001/products/${productId.value}`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+  } else {
+    // Quitar de favoritos 
+    await axios.delete(`http://localhost:5001/products/${productId.value}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+  }
+  isFavorite.value = !isFavorite.value
+}
+
+
 const fetchWorkshopDetails = async () => {
   try {
     const response = await axios.get(`http://localhost:5001/products/getOne/${productId.value}`, {
@@ -116,9 +138,8 @@ onMounted(() => {
   fetchWorkshopDetails()
 })
 
-const toggleFavorite = async () => {
-  isFavorite.value = !isFavorite.value
-}
+
+
 
 const addToCart = () => {
   // Lógica para añadir al carrito
