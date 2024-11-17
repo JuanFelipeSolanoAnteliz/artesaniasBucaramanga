@@ -71,17 +71,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import QRCode from 'qrcode.vue'
 
 const qrValue = ref('')
 const error = ref(null)
+const idTofetch = computed(() => Route.params.id);
+
+console.log(idTofetch, 'id to fetch');
 
 const fetchDataForQR = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:5001/workshops/all`,   
+      `http://localhost:5001/workshops/${idTofetch.value}`,   
       {
         headers: {
           'Content-Type': 'application/json',
@@ -89,8 +92,8 @@ const fetchDataForQR = async () => {
         }
       }
     )
-    qrValue.value = response.data.data[0].documental 
-    console.log(qrValue.value, 'this is qrValue')
+    console.log(response, 'response')
+    qrValue.value = response.data.data._id 
     error.value = null
   } catch (err) {
     console.error('Error fetching data:', err)
