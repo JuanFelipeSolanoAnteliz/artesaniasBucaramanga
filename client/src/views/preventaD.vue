@@ -154,7 +154,6 @@ const addToCart = async () => {
       }
     )
     workshopDetails.value = response.data.data
-    console .log(response, 'asdasdasdasdasdasdasdasdasdad');
     if(response.status === 214){
       window.location.replace('http://localhost:5001/carritoCompras');
       return;
