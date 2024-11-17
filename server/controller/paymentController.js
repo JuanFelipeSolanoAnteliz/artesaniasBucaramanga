@@ -39,12 +39,26 @@ exports.addToCart = async (req, res) => {
     try {
         let product = req.params.id;
         let user = req.data.id;
-        let updateUserInfo = await Users.updateOne(
-            { _id: new ObjectId(user) },
-            { $push: { carrito: new ObjectId(product)} }
+        const updateUserInfo = await Users.updateOne(
+            { _id: user, carrito: { $ne: product } }, 
+            { $addToSet: { carrito: product } }         
         );
-        if ( updateUserInfo === false){ return res.status(304).json({ status:304, message:'can not add the product to the cart'}); }
-        return res.status(214).json({ status: 214, message:'Product added to cart', data: updateUserInfo });
+
+        if (updateUserInfo.modifiedCount === 0) {
+            return res.status(214).json({ 
+                status: 214, 
+                message: 'Product already in cart', 
+                data: updateUserInfo 
+            });
+        };
+
+        if (updateUserInfo.modifiedCount > 0) {
+            return res.status(214).json({ 
+                status: 214, 
+                message: 'Product added to cart', 
+                data: updateUserInfo 
+            });
+        }
     } catch (error) {
         console.log(error)
         return res.status(500).send({ message: 'Error while adding to cart', error: error });     
