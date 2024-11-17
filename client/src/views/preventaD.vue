@@ -96,7 +96,7 @@
           alt="carrito" 
           class="text-left text-base font-medium ml-[-12px] w-5 h-5" 
         />
-        <span @click="goToCarrito" class="text-sm font-medium">Añadir a mi carrito de compras</span>
+        <span class="text-sm font-medium">Añadir a mi carrito de compras</span>
       </button>
     </div>
   </div>
@@ -141,8 +141,26 @@ const toggleFavorite = () => {
   isFavorite.value = !isFavorite.value
 }
 
-const addToCart = () => {
-  console.log('Añadido al carrito')
+const addToCart = async () => {
+  try {
+    const response = await axios.put(
+      `http://localhost:5001/orders/addToCart/${productId.value}`, 
+      {},  
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-version': '1.0.0'
+        }
+      }
+    )
+    workshopDetails.value = response.data.data
+    console .log(response.json());
+    window.location.href = 'http://localhost:5001/carritoCompras';
+    return response.json();
+  } catch (err) {
+    console.error('Error fetching workshop details:', err)
+    err.value = 'Error al sibir producto al carrito'
+  }
 }
 
 const goBack = () => {
