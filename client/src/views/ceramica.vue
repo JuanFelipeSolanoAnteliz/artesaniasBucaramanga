@@ -25,6 +25,10 @@ const formatDate = (dateString) => {
   }
 }
 
+const redirectToDetail = async (id)=>{
+  router.push(`/qr/${id}`)
+}
+
 const fetchWorkshopDetails = async () => {
   loading.value = true
   error.value = null
@@ -111,7 +115,7 @@ onMounted(() => {
       <!-- Workshop Content -->
       <div class="flex-1 px-4 py-3 space-y-3 overflow-y-auto text-sm">
         <p class="text-left text-sm leading-snug">
-          {{ workshopDetails.descripcion }}
+          {{ workshopDetails.descripcion }} <span @click="redirectToDetail(workshopDetails._id)">Ver mas ... </span>
         </p>
 
         <div class="space-y-2 text-sm">
@@ -158,7 +162,7 @@ onMounted(() => {
 
       <!-- Registration Button -->
       <div class="p-4">
-        <button class="w-full bg-[#D9D9D9] rounded-lg py-3 px-4 flex items-center justify-between text-sm">
+        <button  class="w-full bg-[#D9D9D9] rounded-lg py-3 px-4 flex items-center justify-between text-sm">
           <div class="flex items-center">
             <img src="../assets/img/page.svg" alt="" class="w-6 h-6 mr-2" />
             <span class="font-medium text-base">Inscribirse al taller</span>

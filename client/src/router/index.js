@@ -40,7 +40,7 @@ const routes = [
   { path: '/comentarios', component: comentarios },
   { path: '/atencion', component: atencion },
   { path: '/chat', component: chat },
-  { path: '/qr', component: qr },
+  { path: '/qr/:id', component: qr },
   { path: '/ceramica/:id', component: ceramica},
   
   { path: '/', component: explore },
