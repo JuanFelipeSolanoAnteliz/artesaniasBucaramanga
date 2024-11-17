@@ -600,7 +600,6 @@ const openConfirmModal = () => {
 const addOrder = async () => {
   try {
     const products = await fetchOrders();
-    console.log(products, 'si ')
     const bodyReq = {
       productos:[]
     };
@@ -609,8 +608,6 @@ const addOrder = async () => {
         productoId:element.productId,
         cantidad:element.quantity
       };
-
-      console.log(obj, 'hola soy producto')
       bodyReq.productos.push(obj);
     });
     const response = await fetch(`${API_BASE_URL}/orders`, {
