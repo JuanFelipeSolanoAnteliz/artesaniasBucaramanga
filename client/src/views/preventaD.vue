@@ -137,7 +137,24 @@ onMounted(() => {
 })
 
 
-const toggleFavorite = () => {
+
+const toggleFavorite = async () => {
+  if (!isFavorite.value) {
+    await axios.post(`http://localhost:5001/products/${productId.value}`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+  } else {
+    // Quitar de favoritos 
+    await axios.delete(`http://localhost:5001/products/${productId.value}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-version': '1.0.0'
+      }
+    })
+  }
   isFavorite.value = !isFavorite.value
 }
 

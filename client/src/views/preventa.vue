@@ -77,7 +77,7 @@ const IDproducto = computed(() => route.params.id)
 
 const toggleFavorite = async () => {
   if (!isFavorite.value) {
-    await axios.put(`http://localhost:5001/products/${productId.value}`, {}, {
+    await axios.post(`http://localhost:5001/products/${productId.value}`, {}, {
       headers: {
         'Content-Type': 'application/json',
         'x-version': '1.0.0'

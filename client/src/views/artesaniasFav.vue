@@ -118,6 +118,8 @@ import tallaMadera from "../assets/img/woodWorkshopCategory.svg";
 import estampado from "../assets/img/stampedCategory.svg";
 import bordado from "../assets/img/embroideryCategory.svg";
 import ceramica from "../assets/img/ceramicCategory.svg";
+import Hojalateria from "../assets/img/sheetMetalCategory.svg";
+import pinturaTradicional from "../assets/img/paintingTraditionalCategory.svg";
 
 // Categorías
 const categories = [
@@ -129,6 +131,8 @@ const categories = [
   { id: 'Talla_madera', name: 'Talla en madera', icon: tallaMadera },
   { id: 'Orfebreria', name: 'Orfebrería', icon: orfebreria },
   { id: 'Estampado', name: 'Estampado', icon: estampado },
+  { nombre: 'Hojalateria', imagen: Hojalateria },
+  { nombre: 'Pintura tradicional', imagen: pinturaTradicional }
 ]
 
 // Fetch de favoritos
