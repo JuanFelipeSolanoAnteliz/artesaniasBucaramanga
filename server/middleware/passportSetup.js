@@ -48,12 +48,9 @@ passport.use(new DiscordStrategy({
         });
         
         try {
-            console.log('hola estoy guardando');
             await newUser.save();
-            console.log("Nuevo usuario guardado correctamente"); // Para confirmar que se guarda
             done(null, newUser);
         } catch (error) {
-            console.error("Error al guardar el nuevo usuario: ", error); // Log del error
             done(error, null);
         }
     } catch (error) {
@@ -69,7 +66,6 @@ passport.use(new GoogleStrategy({
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        console.log(profile)
         let existingUser  = await Usuario.findOne({ correo: profile.emails[0].value });
         if (existingUser ) {
             return done(null, existingUser );
@@ -113,7 +109,6 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.GITHUB_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        console.log(profile);
         let existingUser  = await Usuario.findOne({ correo: profile.email });
 
         if (existingUser ) {

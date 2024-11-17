@@ -75,12 +75,14 @@ exports.addOrder = async(req, res) => {
             let result = 0;
             for (const element of products) {
                 await Product.updateOne({ _id: element.productoId, stock: { $gt: 0 } }, { $inc: { stock: - element.cantidad } });
+                let userId = req.data.id;                 
+                await Users.updateOne( {_id: new ObjectId(userId)}, { $pull: { carrito: new ObjectId(element.productoId)} })               
                 let precioProducto = await Product.findOne({_id: element.productoId});
                 let operation = precioProducto.precio * element.cantidad;
                 result += operation;
             }
             if(req.body.voucher){
-                let voucher = await Vouchers.findOne({_id: new ObjectId(req.body.voucher)});
+                let voucher = await Vouchers.findOne({_id: new ObjectId(req.body.voucher)},);
                 let now = new Date();
                 if(voucher.fechaExpiracion < now ){
                     return result;

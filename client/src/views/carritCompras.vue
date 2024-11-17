@@ -89,14 +89,14 @@
           </div>
         </div>
 
-        <div class="space-y-4 px-4">
+        <div  class="space-y-4 px-4">
           <!-- Products List -->
-          <div class="space-y-2">
+          <div id="productList" class="space-y-2">
             <div v-if="cartItems.length === 0" class="text-black text-center py-4">
               No hay productos en el carrito
             </div>
             <div v-for="item in cartItems" :key="item.id" 
-                 class="bg-[#D9D9D9] rounded p-4 flex gap-2 h-32">
+              :id="item.id"  class="bg-[#D9D9D9] rounded p-4 flex gap-2 h-32">
               <img :src="item.image" :alt="item.name" class="w-24 h-24 object-cover rounded-lg"/>
               <div class="flex-1">
                 <h3 class="text-xs text-black">{{ item.name }}</h3>
@@ -209,7 +209,7 @@
           ¿Seguro de realizar la compra?
         </h2>
         <div class="flex justify-center gap-4">
-          <button @click="confirmPurchase" 
+          <button @click="addOrder" 
                   class="bg-[#3D3D3D] text-white px-6 py-2 rounded-lg hover:bg-gray-700">
             Si
           </button>
@@ -333,7 +333,7 @@ const removeItem = async (itemId) => {
 
 const fetchOrders = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/orders/`, {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
       method: 'GET',
       headers: API_HEADERS
     })
@@ -531,6 +531,41 @@ const toggleDrawer = () => {
 
 const openConfirmModal = () => {
   showConfirmModal.value = true
+
+}
+
+const addOrder = async () => {
+  try {
+    const products = await fetchOrders();
+    console.log(products, 'si ')
+    const bodyReq = {
+      productos:[]
+    };
+    products.forEach(element => {
+      const obj = {
+        productoId:element.productId,
+        cantidad:element.quantity
+      };
+
+      console.log(obj, 'hola soy producto')
+      bodyReq.productos.push(obj);
+    });
+    const response = await fetch(`${API_BASE_URL}/orders`, {
+      method: 'POST',
+      headers: API_HEADERS,
+      body:JSON.stringify(bodyReq)
+    })
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    showConfirmModal.value = false
+    showSuccessScreen.value = true
+    const data = await response.json()
+    return data; 
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+    throw new Error('No se pudieron cargar las órdenes')
+  }
 }
 
 const confirmPurchase = () => {
