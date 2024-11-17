@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white min-h-screen">
+  <div @click="goBack" class="bg-white min-h-screen">
     <div class="triangle"></div>
 
     <div class="absolute top-1 left-[3px] mt-4">
@@ -20,7 +20,7 @@
     <!-- Workshop Description -->
     <div class="px-4 sm:px-6 text-center mb-6">
       <p class="text-sm sm:text-base px-4 sm:px-6">
-        El Taller de Arte Awaq Ayllus reúne a más de 60 tejedores y tejedoras ayacuchanos que producen tapices murales y delicadas piezas bordadas para diversos usos decorativos y utilitarios.
+       {{ workshopDetails.descripcion }}
       </p>
     </div>
 
@@ -35,14 +35,20 @@
     <div class="relative aspect-video bg-gray-100 overflow-hidden rounded-md mx-4 sm:mx-6">
       <div class="p-4 bg-[#D9D9D9]"> 
         <img 
-          src="https://via.placeholder.com/150x150" 
+          :src="workshopDetails.documental" 
           alt="Workshop Video"
           class="w-full h-full object-cover"
         />
       </div>
-      <button class="absolute inset-0 m-auto w-16 h-16 bg-white/80 rounded-full flex items-center justify-center">
-        <img src="https://via.placeholder.com/150x150" alt="Play" class="w-8 h-8" />
-      </button>
+      <a 
+        :href="workshopDetails.documental" 
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <button class="absolute inset-0 m-auto w-16 h-16 bg-white/80 rounded-full flex items-center justify-center">
+          <img src="../assets/img/play-button-svgrepo-com.svg" alt="Play" class="w-8 h-8" />
+        </button>
+      </a>
     </div>
 
     <!-- Interactive Section -->
@@ -72,14 +78,21 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import QRCode from 'qrcode.vue'
 
 const qrValue = ref('')
 const error = ref(null)
-const idTofetch = computed(() => Route.params.id);
+const route = useRoute()
+const router = useRouter()
+const idTofetch = computed(() => route.params.id);
+const workshopDetails = ref(null)
+console.log(idTofetch.value, 'id to fetch');
 
-console.log(idTofetch, 'id to fetch');
+const goBack = ()=>{
+    router.back()
+}
 
 const fetchDataForQR = async () => {
   try {
@@ -93,7 +106,8 @@ const fetchDataForQR = async () => {
       }
     )
     console.log(response, 'response')
-    qrValue.value = response.data.data._id 
+    qrValue.value = response.data.data.documental
+    workshopDetails.value = response.data.data
     error.value = null
   } catch (err) {
     console.error('Error fetching data:', err)
