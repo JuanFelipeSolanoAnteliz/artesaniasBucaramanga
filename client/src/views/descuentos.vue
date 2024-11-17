@@ -7,15 +7,16 @@
             <MenuIcon class="h-6 w-6" />
           </button>
           <div class="flex-1 mx-4">
-            <div class="relative">
-              <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-              <input
-                type="search"
-                placeholder="Buscar producto o tienda..."
-                class="w-full bg-[#3D3D3D] rounded-lg py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gray-700"
-              />
+              <div class="relative">
+                <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                <input
+                  v-model="searchQuery"
+                  type="search"
+                  placeholder="Buscar producto o tienda..."
+                  class="w-full bg-[#3D3D3D] rounded-lg py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gray-700"
+                />
+              </div>
             </div>
-          </div>
         </div>
       </header>
   
