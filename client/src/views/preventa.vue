@@ -51,7 +51,7 @@
       <!-- Add to cart button -->
       <button @click="fetchAddToCart" class="text-left ml-2.5 bg-[#D9D9D9] text-gray-900 py-3 px-4 rounded-lg flex items-center justify-center gap-2 mt-6">
         <img src="../assets/img/car.svg" alt="cart" class="text-left text-base font-medium ml-[-12px] w-5 h-5" />
-        <span @click="goToCarrito" class="text-sm text-left font-medium">Añadir a mi carrito de compras</span>
+        <span  class="text-sm text-left font-medium">Añadir a mi carrito de compras</span>
       </button>
     </div>
   </div>
@@ -102,6 +102,8 @@ const fetchAddToCart = async () => {
       }
     )
     workshopDetailsCart.value = response.data.data
+    window.location.href = 'http://localhost:5001/carritoCompras';
+    return response.json();
   } catch (err) {
     console.error('Error fetching workshop details:', err)
     err.value = 'Error al sibir producto al carrito'
@@ -111,8 +113,7 @@ const fetchAddToCart = async () => {
 
 
 onMounted(() => {
-  fetchWorkshopDetails(),
-  fetchAddToCart()
+  fetchWorkshopDetails()
 })
 
 const toggleFavorite = async () => {
@@ -129,7 +130,6 @@ const goBack = () => {
 }
 
 const goToCarrito = () => {
-  router.push("/carritoCompras")
 }
 </script>
 
