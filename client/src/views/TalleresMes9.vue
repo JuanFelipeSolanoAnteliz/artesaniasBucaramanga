@@ -112,28 +112,32 @@
 
         <!-- Products Section -->
         <div v-if="selectedCategory" class="space-y-4 mt-2 px-4">
-          <div class="relative">
-            <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-black" />
-            <input
-              type="search"
-              placeholder="Buscar producto o palabra clave..."
-              class="w-full bg-[#D9D9D9] rounded py-2 pl-10 text-sm text-black p-4"
-            />
-          </div>
+      <div class="relative">
+        <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-black" />
+        <input
+          v-model="searchQuery"
+          type="search"
+          placeholder="Buscar producto o palabra clave..."
+          class="w-full bg-[#D9D9D9] rounded py-2 pl-10 text-sm text-black p-4"
+        />
+      </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <div v-for="product in filteredProducts" :key="product._id" class="relative">
-              <img 
-              @click="goToPreventa(product._id)"
-              :src="product.fotos[0]" :alt="product.nombre" class="w-full h-48 object-cover rounded-lg"/>
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 p-2 rounded-b-lg">
-                <h3 class="text-white text-sm font-medium">{{ product.nombre }}</h3>
-                <p class="text-white text-xs">S/.{{ product.precio }}</p>
-                <p class="text-white text-xs opacity-75">{{ product.artesanoId }}</p>
-              </div>
-            </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div v-for="product in filteredProducts" :key="product._id" class="relative">
+          <img 
+            @click="goToPreventa(product._id)"
+            :src="product.fotos[0]" 
+            :alt="product.nombre" 
+            class="w-full h-48 object-cover rounded-lg"
+          />
+          <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 p-2 rounded-b-lg">
+            <h3 class="text-white text-sm font-medium">{{ product.nombre }}</h3>
+            <p class="text-white text-xs">S/.{{ product.precio }}</p>
+            <p class="text-white text-xs opacity-75">{{ product.artesanoId }}</p>
           </div>
         </div>
+      </div>
+    </div>
 
         <!-- Default content when no category is selected -->
         <div v-else class="p-4">
@@ -184,6 +188,7 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const router = useRouter();
+const searchQuery = ref('');
 
 const goBack = () => {
   router.back();
@@ -310,9 +315,36 @@ const selectCategory = async (categoryName) => {
   products.value = await fetchProductsByCategory(categoryName);
 };
 
+
 const filteredProducts = computed(() => {
-  if (!selectedCategory.value) return [];
-  return products.value.filter(product => product.categoria === selectedCategory.value);
+  if (!selectedCategory.value || !products.value) return [];
+  
+  // Asegurarse de que products.value es un array
+  if (!Array.isArray(products.value)) return [];
+
+  try {
+    if (!searchQuery.value?.trim()) {
+      // Si no hay búsqueda, retornar todos los productos de la categoría
+      return products.value;
+    }
+
+    const search = searchQuery.value.toLowerCase().trim();
+    
+    return products.value.filter(product => {
+      if (!product) return false;
+      
+      // Verificar cada campo antes de usarlo
+      const nameMatch = product.nombre?.toLowerCase().includes(search) || false;
+      const artisanMatch = product.artesanoId?.toLowerCase().includes(search) || false;
+      const descMatch = product.descripcion?.toLowerCase().includes(search) || false;
+      const priceMatch = product.precio?.toString().includes(search) || false;
+
+      return nameMatch || artisanMatch || descMatch || priceMatch;
+    });
+  } catch (error) {
+    console.error('Error en filtrado:', error);
+    return products.value || []; // En caso de error, mostrar todos los productos
+  }
 });
 
 const categories = [

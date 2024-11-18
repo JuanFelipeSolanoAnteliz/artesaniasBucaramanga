@@ -20,7 +20,7 @@
           required
         >
       </div>
-      <button  type="submit" class="login-button">
+      <button type="submit" class="login-button">
         Iniciar sesión
       </button>
       <a href="#" class="forgot-password">
@@ -37,42 +37,52 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const router = useRouter()
-const identifier = ref('')
-const password = ref('')
+const identifier = ref('')  // Variable para el identificador (usuario, correo, teléfono)
+const password = ref('')    // Variable para la contraseña
 
 const goToPoliticas = () => router.push("/politicas")
 
 const handleSubmit = async () => {
   try {
-    // Determinar tipo de identificador
+    // Preparar los datos de inicio de sesión
     const loginData = {
-      password: password.value
-    }
-    
-    // Validar si es email
+      contraseña: password.value
+    };
     if (identifier.value.includes('@')) {
-      loginData.correo = identifier.value
-    } 
-    // Validar si es teléfono (solo números)
-    else if (/^\d+$/.test(identifier.value)) {
-      loginData.telefono = identifier.value
-    } 
-    // Si no es email ni teléfono, es username
-    else {
-      loginData.userName = identifier.value
+      loginData.correo = identifier.value;
+    } else if (/^\d+$/.test(identifier.value)) {
+      loginData.telefono = identifier.value;
+    } else {
+      loginData.userName = identifier.value;
     }
-    
-    const response = await axios.post('http://localhost:5001/users/loginAndAuth', loginData)
-    
-    if (response.status === 202 && response.token) {
-      router.push("/politicas")
+
+    // Hacer la solicitud a la API
+    const response = await axios.post('http://localhost:5001/users/loginAndAuth', loginData);
+
+    if (response.status === 202 || response.status === 200) {
+      console.log('Login exitoso:', response.data.message);
+      console.log('Token:', response.data.token);
+
+      // Almacenar el token (por ejemplo, en localStorage)
+      localStorage.setItem('jwt', response.data.token);
+
+      // Redirigir al usuario
+      router.push('/politicas');
+    } else {
+      console.error('Error inesperado en el login:', response.data);
     }
-    console.log(response)
   } catch (error) {
-    console.error('Error en el login:', error)
+    // Manejo de errores de la solicitud
+    console.error('Error en el login:', error.message);
+    if (error.response) {
+      console.error('Detalles del error:', error.response.data);
+    }
   }
-}
+};
+
+
 </script>
+
 
 <style scoped>
 .form-container {

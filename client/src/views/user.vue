@@ -33,12 +33,12 @@
       <div class="p-4">
         <div class="flex items-center space-x-3 mb-6">
           <img
-            src="../assets/img/perfile.png"
+            :src="userData.fotoPerfil || '../assets/img/perfile.png'"
             alt="Profile"
             class="w-12 h-12 rounded-full"
           />
           <div>
-            <h3 class="font-semibold">SaraMartin9</h3>
+            <h3 class="font-semibold">{{ userData.userName }}</h3>
           </div>
         </div>
 
@@ -46,11 +46,11 @@
           <a 
             v-for="(item, index) in menuItems" 
             :key="index" 
-            @click="item.onClick" 
-            class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
-            <!-- Render icon dynamically -->
-            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
-            <span>{{ item.label }}</span>
+            @click="item.onClick"
+            class="flex items-center space-x-3 p-2 rounded-lg cursor-pointer hover:bg-gray-800"
+          >
+            <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1.5" />
+            <span class="text-sm">{{ item.label }}</span>
           </a>
         </nav>
 
@@ -66,178 +66,132 @@
     </div>
 
     <main>
-      <div class="text-black p-0 pt-28">
-        <!-- Profile Photo Section -->
-        <div class="relative flex flex-col items-center mb-8">
-          <div class="absolute top-0 text-center">Foto perfil</div>
-          <img 
-            :src="profileImageUrl" 
-            class="w-40 h-40 object-cover mt-6 rounded-full"
-            alt="Foto de perfil"
-          />
+      <div class="text-black p- pt-28">
+        <div class="">
+          <div class="relative flex flex-col items-center">
+            <div class="absolute top-0 text-center">Foto perfil</div>
+            <img 
+              :src="userData.fotoPerfil || '../assets/img/perfile.png'" 
+              class="w-40 h-40 object-cover mt-6" 
+              alt="Foto de perfil"
+            >
+          </div>
         </div>
-
-        <!-- Loading State -->
-        <div v-if="loading" class="flex justify-center p-6">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-        </div>
-
-        <!-- User Info Form -->
-        <div v-else class="p-6 space-y-4">
-          <!-- Username Field -->
+    
+        <div class="p-6 space-y-4">
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Usuario:</h2>
             <div class="flex items-left space-x-2">
-              <input
-                v-if="editing.username"
-                v-model="editedUser.username"
-                @blur="handleUpdate('username')"
-                @keyup.enter="handleUpdate('username')"
-                class="bg-white border px-12 py-1 text-sm text-black rounded"
-                :placeholder="user.username"
-              />
-              <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black rounded">
-                {{ user.username }}
-              </span>
-              <button 
-                class="text-black hover:text-gray-600" 
-                @click="toggleEdit('username')"
-              >
+              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.userName }}</span>
+              <button class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
-          <!-- Email Field -->
+          <div class="flex items-center justify-between">
+            <h2 class="text-black text-sm">Nombre:</h2>
+            <div class="flex items-left space-x-2">
+              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.nombre }}</span>
+              <button class="text-black">
+                <PencilIcon @click="" class="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Correo:</h2>
             <div class="flex items-left space-x-2">
-              <input
-                v-if="editing.email"
-                v-model="editedUser.email"
-                @blur="handleUpdate('email')"
-                @keyup.enter="handleUpdate('email')"
-                class="bg-white border px-12 py-1 text-sm text-black rounded"
-                :placeholder="user.email"
-                type="email"
-              />
-              <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black rounded">
-                {{ user.email }}
-              </span>
-              <button 
-                class="text-black hover:text-gray-600" 
-                @click="toggleEdit('email')"
-              >
+              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.correo }}</span>
+              <button class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
-          <!-- Phone Field -->
+
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Celular:</h2>
             <div class="flex items-center space-x-2">
-              <span class="bg-[#D9D9D9] px-2 py-1 rounded text-sm ml-2 text-black">
-                {{ user.countryCode }}
-              </span>
-              <input
-                v-if="editing.phone"
-                v-model="editedUser.phone"
-                @blur="handleUpdate('phone')"
-                @keyup.enter="handleUpdate('phone')"
-                class="bg-white border px-3 py-1 text-sm text-black rounded"
-                :placeholder="user.phone || 'Ingresa tu numero'"
-                type="tel"
-              />
-              <span v-else class="bg-[#D9D9D9] px-3 py-1 rounded text-sm text-black">
-                {{ user.phone || 'Ingresa tu numero' }}
-              </span>
-              <button 
-                class="text-black hover:text-gray-600" 
-                @click="toggleEdit('phone')"
-              >
+              <span class="bg-[#D9D9D9] px-2 py-1 rounded text-sm ml-2 text-black">+57</span>
+              <span class="bg-[#D9D9D9] px-3 py-1 rounded text-sm text-black">{{ userData.telefono }}</span>
+              <button class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
-          <!-- Gender and Birthdate Row -->
           <div class="flex">
-            <!-- Gender Field -->
             <div class="flex items-center">
               <h2 class="text-sm text-black">Sexo:</h2>
               <div class="flex items-center space-x-2">
-                <input
-                  v-if="editing.gender"
-                  v-model="editedUser.gender"
-                  @blur="handleUpdate('gender')"
-                  @keyup.enter="handleUpdate('gender')"
-                  class="bg-white border px-3 py-1 text-sm text-black w-8 rounded"
-                  :placeholder="user.gender"
-                />
-                <span v-else class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black">
-                  {{ user.gender }}
-                </span>
-                <button 
-                  class="text-black hover:text-gray-600" 
-                  @click="toggleEdit('gender')"
-                >
+                <span class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black">{{ userData.sexo?.charAt(0).toUpperCase() }}</span>
+                <button class="text-black">
                   <PencilIcon class="h-5 w-5" />
                 </button>
               </div>
             </div>
 
-            <!-- Birthdate Field -->
             <div class="flex ml-2">
               <h2 class="text-sm text-black">Fecha de nacimiento:</h2>
               <div class="flex items-center space-x-2 w-40">
-                <input
-                  v-if="editing.birthdate"
-                  v-model="editedUser.birthdate"
-                  @blur="handleUpdate('birthdate')"
-                  @keyup.enter="handleUpdate('birthdate')"
-                  class="bg-white border px-1 py-1 text-sm text-black w-30 rounded"
-                  :placeholder="user.birthdate"
-                  type="date"
-                />
-                <span v-else class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30">
-                  {{ formatDate(user.birthdate) }}
+                <span class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30">
+                  {{ formatDate(userData.fechaNacimiento) }}
                 </span>
-                <button 
-                  class="text-black hover:text-gray-600" 
-                  @click="toggleEdit('birthdate')"
-                >
+                <button class="text-black">
                   <PencilIcon class="h-5 w-5" />
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Payment Methods Section -->
+          <div class="flex items-center justify-between">
+            <h2 class="text-black text-sm">Dirección:</h2>
+            <div class="flex items-left space-x-2">
+              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.direccion }}</span>
+              <button class="text-black">
+                <PencilIcon class="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
           <div class="space-y-3">
             <h2 class="text-sm text-black">Métodos de pago</h2>
-            <div class="bg-[#3D3D3D] p-3 rounded-md">
-              <p class="text-xs text-white">México | MXN</p>
-              <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                  <img 
-                    src="../assets/img/campuslands.png" 
-                    class="w-8 h-8" 
-                    alt="Visa" 
-                  />
-                  <span class="text-sm text-white">Visa **** 1234</span>
-                </div>
-                <p class="text-xs text-white">Fecha de vencimiento 10/23</p>
-              </div>
+            <div class="bg-[#D9D9D9] p-2 rounded text-black">
+              <span>Visa Mastercard</span>
             </div>
+            <button class="w-full bg-[#D9D9D9] p-3 rounded text-left text-gray-400">
+              Añadir método de pago
+            </button>
           </div>
         </div>
       </div>
     </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 w-full bg-black border-t border-gray-800">
+      <div class="flex justify-around p-3">
+        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <Store @click="goToTienda" class="h-6 w-6" />
+        </button>
+        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <BadgePercent class="h-6 w-6" />
+        </button>
+        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <HomeIcon @click="goToHome" class="h-6 w-6" />
+        </button>
+        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <ShoppingCart @click="goToCarritoCompras" class="h-6 w-6" />
+        </button>
+        <button class="flex flex-col items-center bg-[#3D3D3D] h-10 w-10 rounded-full justify-center">
+          <UserIcon class="h-6 w-6" />
+        </button>
+      </div>
+    </nav>
   </div>
 </template>
-  
+
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   MenuIcon,
@@ -252,94 +206,106 @@ import {
   NotepadText,
   TicketPercent,
   Headset,
-  Settings2,
   MessageSquare,
-  PencilIcon,
-  SettingsIcon
+  SettingsIcon,
+  PencilIcon
 } from 'lucide-vue-next';
 
-// Router setup
 const router = useRouter();
+const isDrawerOpen = ref(false);
+const selectedCategory = ref(null);
+const usuario =  userData.userName
 
-const goDetalleTaller = (id) => {
-  router.push(`/detalleTaller/${id}`)
-}
+const userData = ref({
+  userName: '',
+  nombre: '',
+  correo: '',
+  telefono: '',
+  fotoPerfil: '',
+  direccion: '',
+  sexo: '',
+  fechaNacimiento: ''
+});
 
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return `${date.getDate().toString().padStart(2, '0')} / ${(date.getMonth() + 1).toString().padStart(2, '0')} / ${date.getFullYear().toString().slice(-2)}`;
+};
+
+const fetchUserData = async () => {
+  try {
+    let config = {
+      method:'GET',
+      headers:{
+        "Content-Type": "application/json",
+      }
+    }
+    const response = await fetch(`http://localhost:5001/users/getUser`,config);
+    if (!response.ok) {
+      throw new Error('Failed to fetch user data');
+    }
+    console.log(response);
+    const data = await response.json();
+    userData.value = data;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+  
+};
+
+onMounted(() => {
+  fetchUserData();
+});
+
+const toggleDrawer = () => {
+  isDrawerOpen.value = !isDrawerOpen.value;
+};
+
+const selectCategory = (categoryName) => {
+  selectedCategory.value = selectedCategory.value === categoryName ? null : categoryName;
+};
+
+// Navigation functions
 const goToHome = () => {
-  router.push("/tallerMes")
-}
+  router.push("/tallerMes");
+};
 
-const goToDescuentos = () => {
-  router.push("/descuentos")
-}
+const goToTienda = () => {
+  router.push("/tallerYtiendas");
+};
 
 const goToCarritoCompras = () => {
-  router.push("/carritoCompras")
-}
-
-const goToUser = () => {
-  router.push("/user")
-}
+  router.push("/carritoCompras");
+};
 
 const goToFavoritos = () => {
-  router.push("/artesanias")
-}
+  router.push("/artesanias");
+};
 
 const goToCompras = () => {
-  router.push("/comprasR")
-}
+  router.push("/comprasR");
+};
 
 const goToTalleres = () => {
-  router.push("/talleres")
-}
+  router.push("/talleres");
+};
 
-const goToCupon= () => {
-  router.push("/canjear")
-}
+const goToCupon = () => {
+  router.push("/canjear");
+};
 
-const goToAjustes= () => {
-  router.push("/ajustes")
-}
+const goToAjustes = () => {
+  router.push("/ajustes");
+};
 
-const goToComentarios= () => {
-  router.push("/comentarios")
-}
+const goToComentarios = () => {
+  router.push("/comentarios");
+};
 
-const goToAtencion= () => {
-  router.push("/atencion")
-}
-
-const goToTienda= () => {
-  router.push("/tallerYtiendas")
-}
-
-
-// State management
-const isDrawerOpen = ref(false);
-const loading = ref(true);
-const profileImageUrl = ref('../assets/img/perfile.png');
-
-// User data management
-const user = ref({
-  username: '',
-  email: '',
-  phone: '',
-  gender: '',
-  birthdate: '',
-  countryCode: '+57'
-});
-
-const editedUser = ref({ ...user.value });
-
-const editing = ref({
-  username: false,
-  email: false,
-  phone: false,
-  gender: false,
-  birthdate: false
-});
-
-// Menu items configuration
+const goToAtencion = () => {
+  router.push("/atencion");
+};
 
 const menuItems = [
   { 
@@ -377,98 +343,38 @@ const menuItems = [
     icon: Headset, 
     onClick: goToAtencion 
   }
-]
+];
 
-// API Configuration
-const API_URL = 'http://localhost:5001';
+const filteredProducts = computed(() => {
+  if (!selectedCategory.value) return products;
+  return products.filter(product => product.category === selectedCategory.value);
+});
+</script>
 
-// Navigation Functions
-const toggleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value;
-};
+<style scoped>
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
+.hr {
+  color: black;
+}
 
+#main-container {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('../assets/img/fondoPantalla.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
 
-// Utility Functions
-const formatDate = (date) => {
-  if (!date) return '';
-  try {
-    const dateObj = new Date(date);
-    return dateObj.toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    });
-  } catch {
-    return date;
-  }
-};
-
-// Edit Mode Functions
-const toggleEdit = (field) => {
-  Object.keys(editing.value).forEach(key => {
-    if (key !== field) editing.value[key] = false;
-  });
-  editing.value[field] = !editing.value[field];
-  if (editing.value[field]) {
-    editedUser.value[field] = user.value[field];
-  }
-};
-
-// API Functions
-const handleUpdate = async (field) => {
-  if (!editing.value[field] || editedUser.value[field] === user.value[field]) {
-    editing.value[field] = false;
-    return;
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/users/updateUser/${userId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ [field]: editedUser.value[field] })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to update user data');
-    }
-
-    user.value[field] = editedUser.value[field];
-    editing.value[field] = false;
-
-  } catch (error) {
-    console.error('Error updating user data:', error);
-    editedUser.value[field] = user.value[field];
-  } // Correct closing brace here
-};
-  </script>
-  
-  <style scoped>
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .hr {
-    color: black;
-  }
-  
-  #main-container {
-    min-height: 100vh;
-    width: 100%;
-    background-image: url('../assets/img/fondoPantalla.svg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-  }
-  
-  #main-container > * {
-    z-index: 1;
-  }
-  </style>
+#main-container > * {
+  z-index: 1;
+}
+</style>

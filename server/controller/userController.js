@@ -1,7 +1,8 @@
 const Users = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 
 require('dotenv').config();
 
@@ -22,8 +23,9 @@ class UserController{
     static async getUserById(req, res) {
         try {
            
-            const { id } = req.params;
-            const user = await Users.findById(id);
+            const  id  = req.data.id;
+            console.log(id)
+            const user = await Users.findOne({_id: new ObjectId(id)});
             if (!user) {
                 return res.status(404).json({ message: 'User  not found' });
             }
@@ -38,7 +40,7 @@ class UserController{
 
     static async updateUser(req, res) {
         try {
-            const { id } = req.params;
+            const  id  = req.data.id;
             const updates = req.body;
 
             if (updates.correo) {

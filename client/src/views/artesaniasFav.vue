@@ -131,8 +131,8 @@ const categories = [
   { id: 'Talla_madera', name: 'Talla en madera', icon: tallaMadera },
   { id: 'Orfebreria', name: 'Orfebrería', icon: orfebreria },
   { id: 'Estampado', name: 'Estampado', icon: estampado },
-  { nombre: 'Hojalateria', imagen: Hojalateria },
-  { nombre: 'Pintura tradicional', imagen: pinturaTradicional }
+  { id: 'Hojalateria',name: 'Hojalateria', icon: Hojalateria },
+  { id: 'Pintura tradicional', name: 'Pintura tradicional',icon: pinturaTradicional }
 ]
 
 // Fetch de favoritos

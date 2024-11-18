@@ -1,3 +1,8 @@
+Para poder correr el proyecto:
+- npm i (Descargar dependencias)
+- npm run dev 
+
+
 ARTESANIAS API DOCUMENTATION:
 
 

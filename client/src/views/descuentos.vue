@@ -21,7 +21,7 @@
       </header>
   
       <!-- Side Drawer -->
-    <div
+      <div
       v-if="isDrawerOpen"
       class="fixed inset-0 bg-black bg-opacity-50 z-50"
       @click="toggleDrawer"
@@ -49,6 +49,7 @@
             :key="index" 
             @click="item.onClick" 
             class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <!-- Render icon dynamically -->
             <component :is="item.icon" class="bg-[#3D3D3D] h-7 w-7 rounded-full p-1" />
             <span>{{ item.label }}</span>
           </a>
@@ -64,6 +65,7 @@
         </div>
       </div>
     </div>
+
   
       <!-- Main Content -->
       <main class="pt-16 pb-20 min-h-screen">
@@ -164,6 +166,7 @@ const isLoading = ref(false)
 const error = ref(null)
 const selectedCategory = ref(null)
 const searchQuery = ref('')
+const isDrawerOpen = ref(false);
 
 const goDetalleTaller = (id) => {
   router.push(`/detalleTaller/${id}`)
@@ -279,7 +282,7 @@ const menuItems = [
     icon: Headset, 
     onClick: goToAtencion 
   }
-]
+];
 
 const API_BASE_URL = 'http://localhost:5001'
 

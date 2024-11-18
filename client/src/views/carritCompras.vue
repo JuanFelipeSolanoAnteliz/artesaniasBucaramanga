@@ -238,7 +238,7 @@
         Gracias por apoyar a los artesanos peruanos, puedes revisar tu compra en la opción de
       </p>
       
-      <button class="bg-[#A3A3A3] text-white px-6 py-1 rounded mb-4">
+      <button @click="goToCompras" class="bg-[#A3A3A3] text-white px-6 py-1 rounded mb-4">
         Compras
       </button>
       
@@ -270,7 +270,8 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { 
   Trash2Icon, MenuIcon, SearchIcon, HomeIcon, UserIcon, 
-  Store, BadgePercent, ShoppingCart, Settings2
+  Store, BadgePercent, ShoppingCart, HeartIcon,Briefcase,NotepadText,TicketPercent,SettingsIcon,MessageSquare,
+  Headset
 } from 'lucide-vue-next'
 
 // API configuration
@@ -516,14 +517,76 @@ const goTotienda = () => router.push("/tallerYtiendas")
 const goToDescuentos = () => router.push("/descuentos")
 const goToUser = () => router.push("/user")
 
+
+
+
+
+const goToFavoritos = () => {
+  router.push("/artesanias")
+}
+
+const goToCompras = () => {
+  router.push("/comprasR")
+}
+
+const goToTalleres = () => {
+  router.push("/talleres")
+}
+
+const goToCupon= () => {
+  router.push("/canjear")
+}
+
+const goToAjustes= () => {
+  router.push("/ajustes")
+}
+
+const goToComentarios= () => {
+  router.push("/comentarios")
+}
+
+const goToAtencion= () => {
+  router.push("/atencion")
+}
+
 // Menu items
 const menuItems = [
-  { label: 'Inicio', icon: HomeIcon },
-  { label: 'Tiendas', icon: Store },
-  { label: 'Descuentos', icon: BadgePercent },
-  { label: 'Mi perfil', icon: UserIcon },
-  { label: 'Configuración', icon: Settings2 }
-]
+  { 
+    label: 'Lista de Favoritos', 
+    icon: HeartIcon, 
+    onClick: goToFavoritos 
+  },
+  { 
+    label: 'Compras', 
+    icon: Briefcase, 
+    onClick: goToCompras 
+  },
+  { 
+    label: 'Talleres', 
+    icon: NotepadText, 
+    onClick: goToTalleres 
+  },
+  { 
+    label: 'Canjear cupón', 
+    icon: TicketPercent, 
+    onClick: goToCupon 
+  },
+  { 
+    label: 'Ajustes', 
+    icon: SettingsIcon, 
+    onClick: goToAjustes 
+  },
+  { 
+    label: 'Comentarios', 
+    icon: MessageSquare, 
+    onClick: goToComentarios 
+  },
+  { 
+    label: 'Atención al cliente', 
+    icon: Headset, 
+    onClick: goToAtencion 
+  }
+];
 
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value
