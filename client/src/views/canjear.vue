@@ -3,16 +3,16 @@
     <!-- Header -->
     <div class="relative py-4">
       <div class="triangle"></div>
-      <div @click="goBack" class="absolute top-1 left-[3px] mt-4">
+      <div class="absolute top-1 left-[3px] mt-4">
         <img src="../assets/img/flechaB.svg" alt="Volver" class="w-4 h-4"/>
       </div>
-      <div class="relative text-center">
+      <div  @click="goBack"  class="relative text-center z-[60]">
         <img
           src="../assets/img/RectangleA.svg"
           alt="Background"
           class="absolute left-1/2 top-6 -translate-x-1/2 -translate-y-1/2 w-20 h-20"
         />
-        <h1 class="text-xl top-[-1px] font-medium relative z-10">
+        <h1 class="text-xl top-[-1px] font-medium relative z-[50]">
           Canjear<br/>cupón
         </h1>
       </div>
