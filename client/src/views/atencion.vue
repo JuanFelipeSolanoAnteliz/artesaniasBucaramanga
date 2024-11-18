@@ -2,9 +2,9 @@
   <div class="h-screen bg-white flex flex-col overflow-hidden">
     <!-- Header with diamond background -->
     <div class="relative h-20 flex-shrink-0">
-      <div class="triangle"></div>
+      <div  @click="goBack" class="triangle z-[60]"></div>
 
-      <div @click="goBack" class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+      <div @click="goBack" class="absolute top-1 left-[3px] overflow-hidden mt-4 z-[60]"> <!-- Move left more with negative value -->
         <img 
           src="../assets/img/flechaB.svg" 
           alt="Volver"
@@ -13,18 +13,19 @@
       </div>
         
       <!-- Title with diamond background -->
-      <div class="absolute w-full top-1/2 -translate-y-1/2">
+      <div class="absolute w-full top-1/2 -translate-y-1/2 z-[50]"> <!-- Ajustado el z-index a 50 -->
         <img 
           src="../assets/img/RectangleA.svg" 
           alt="Background"
-          class="absolute left-1/2 -translate-x-1/2 w-16 h-16" 
+          class="absolute left-1/2 -translate-x-1/2 w-16 h-16 z-[40]"
         />
-        <h1 class="text-xl font-medium relative z-10 text-center pt-1">
+        <h1 class="text-xl font-medium relative z-[60] text-center pt-1">
           Atención al
           <br />
           cliente
         </h1>
       </div>
+
     </div>
     <br>
 
@@ -89,6 +90,7 @@ const goToChat = () => {
   router.push("/chat");
 };
 const goBack = () => {
+  console.log(window.history.length)
   router.back();
 }
 </script>

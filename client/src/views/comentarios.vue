@@ -3,11 +3,10 @@
       <!-- Header with diamond background -->
       <div class="relative h-20 flex-shrink-0">
         <!-- Back button with diamond background -->
-        <div class="triangle"></div>
+        <div  @click="goBack" class="triangle z-[60]"></div>
 
-        <div  class="absolute top-1 left-[3px] mt-4"> <!-- Move left more with negative value -->
+        <div @click="goBack"  class="absolute top-1 left-[3px] overflow-hidden mt-4 z-[60]"> <!-- Move left more with negative value -->
           <img 
-          @click="goBack"
             src="../assets/img/flechaB.svg" 
             alt="Volver"
             class="w-4 h-4" 
@@ -15,7 +14,7 @@
         </div>
   
         <!-- Title with diamond background -->
-        <div class="absolute w-full top-8 -translate-y-1/2">
+        <div class="absolute w-full top-1/2 -translate-y-1/2 z-[50]">
           <img 
             src="../assets/img/RectangleA.svg" 
             alt="Background"
@@ -82,7 +81,7 @@
   const router = useRouter();
 
   const goBack = () => {
-    router.push("/tallerMes");
+    router.back();
   }
   </script>
   

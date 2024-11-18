@@ -3,9 +3,9 @@
       <!-- Header with diamond background -->
       <div class="relative py-4">
       <!-- Back button with diamond background -->
-      <div class="triangle"></div>
+      <div  @click="goBack" class="triangle z-[60]"></div>
 
-      <div @click="goBack" class="absolute top-5 left-[3px] mt-4"> <!-- Move left more with negative value -->
+      <div @click="goBack" class="absolute w-full top-1/2 -translate-y-1/2 z-[60]"> <!-- Move left more with negative value -->
         <img 
           src="../assets/img/flechaB.svg" 
           alt="Volver"
