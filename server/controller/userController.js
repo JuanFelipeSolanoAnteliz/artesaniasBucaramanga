@@ -39,38 +39,72 @@ class UserController{
 
 
     static async updateUser(req, res) {
+    
         try {
-            const  id  = req.data.id;
-            const updates = req.body;
-
-            if (updates.correo) {
-                const existingUser = await Users.findOne({ correo: updates.correo });
-                if (existingUser && existingUser._id.toString() !== id) {
-                    return res.status(400).json({ message: 'Email is already in use by another user' });
-                }
+          const id = req.data.id;
+          console.log(id)
+          const allowedFields = [
+            'userName',
+            'nombre',
+            'correo',
+            'contraseña',
+            'direccion',
+            'telefono',
+            'sexo',
+            'fechaNacimiento'
+          ];
+      
+          // Filtrar solo los campos permitidos del req.body
+          const updates = Object.keys(req.body)
+            .filter(key => allowedFields.includes(key))
+            .reduce((obj, key) => {
+              obj[key] = req.body[key];
+              return obj;
+            }, {});
+      
+          // Si no hay campos para actualizar, retornar error
+          if (Object.keys(updates).length === 0) {
+            return res.status(400).json({ message: 'No valid fields to update' });
+          }
+      
+          // Validar unicidad de correo y userName si están presentes
+          if (updates.correo || updates.userName) {
+            const query = {
+              $or: [],
+              _id: { $ne: id }
+            };
+      
+            if (updates.correo) query.$or.push({ correo: updates.correo });
+            if (updates.userName) query.$or.push({ userName: updates.userName });
+      
+            const existingUser = await Users.findOne(query);
+            if (existingUser) {
+              const field = existingUser.correo === updates.correo ? 'Email' : 'Username';
+              return res.status(400).json({ message: `${field} is already in use` });
             }
-
-            if (updates.userName) {
-                const existingUserName = await Users.findOne({ userName: updates.userName });
-                if (existingUserName && existingUserName._id.toString() !== id) {
-                    return res.status(400).json({ message: 'Username is already in use by another user' });
-                }
-            }
-
-            delete updates.tipo;
-
-            const result = await Users.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
-
-            if (!result) {
-                return res.status(404).json({ message: 'User  not found' });
-            }
-
-            res.status(200).json(result);
+          }
+      
+          // Actualizar usuario
+          const result = await Users.findByIdAndUpdate(
+            id,
+            updates,
+            { new: true, runValidators: true }
+          );
+      
+          if (!result) {
+            return res.status(404).json({ message: 'User not found' });
+          }
+      
+          return res.status(200).json(result);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error updating user' });
+          console.error(error);
+          return res.status(500).json({ message: 'Error updating user', error:error});
         }
-    }
+      }
+
+
+
+      
 
     static async loginAndAuth(req, res) {
         try {

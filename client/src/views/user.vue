@@ -79,53 +79,121 @@
         </div>
     
         <div class="p-6 space-y-4">
+          <!-- Usuario -->
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Usuario:</h2>
             <div class="flex items-left space-x-2">
-              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.userName }}</span>
-              <button class="text-black">
+              <div v-if="editingField === 'userName'" class="flex items-center">
+                <input 
+                  type="text"
+                  v-model="tempValue"
+                  @blur="handleUpdate('userName')"
+                  @keyup.enter="handleUpdate('userName')"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  ref="editInput"
+                />
+              </div>
+              <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">
+                {{ userData.userName }}
+              </span>
+              <button @click="startEditing('userName', userData.userName)" class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
+          <!-- Nombre -->
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Nombre:</h2>
             <div class="flex items-left space-x-2">
-              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.nombre }}</span>
-              <button class="text-black">
-                <PencilIcon @click="" class="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between">
-            <h2 class="text-black text-sm">Correo:</h2>
-            <div class="flex items-left space-x-2">
-              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.correo }}</span>
-              <button class="text-black">
+              <div v-if="editingField === 'nombre'" class="flex items-center">
+                <input 
+                  type="text"
+                  v-model="tempValue"
+                  @blur="handleUpdate('nombre')"
+                  @keyup.enter="handleUpdate('nombre')"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  ref="editInput"
+                />
+              </div>
+              <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">
+                {{ userData.nombre }}
+              </span>
+              <button @click="startEditing('nombre', userData.nombre)" class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
+          <!-- Correo -->
+          <div class="flex items-center justify-between">
+            <h2 class="text-black text-sm">Correo:</h2>
+            <div class="flex items-left space-x-2">
+              <div v-if="editingField === 'correo'" class="flex items-center">
+                <input 
+                  type="email"
+                  v-model="tempValue"
+                  @blur="handleUpdate('correo')"
+                  @keyup.enter="handleUpdate('correo')"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  ref="editInput"
+                />
+              </div>
+              <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">
+                {{ userData.correo }}
+              </span>
+              <button @click="startEditing('correo', userData.correo)" class="text-black">
+                <PencilIcon class="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Celular:</h2>
             <div class="flex items-center space-x-2">
               <span class="bg-[#D9D9D9] px-2 py-1 rounded text-sm ml-2 text-black">+57</span>
-              <span class="bg-[#D9D9D9] px-3 py-1 rounded text-sm text-black">{{ userData.telefono }}</span>
-              <button class="text-black">
+              <div v-if="editingField === 'telefono'" class="flex items-center">
+                <input 
+                  type="tel"
+                  v-model="tempValue"
+                  @blur="handleUpdate('telefono')"
+                  @keyup.enter="handleUpdate('telefono')"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  ref="editInput"
+                />
+              </div>
+              <span v-else class="bg-[#D9D9D9] px-3 py-1 rounded text-sm text-black">
+                {{ userData.telefono }}
+              </span>
+              <button @click="startEditing('telefono', userData.telefono)" class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
+          <!-- Sexo y Fecha de nacimiento -->
           <div class="flex">
             <div class="flex items-center">
               <h2 class="text-sm text-black">Sexo:</h2>
               <div class="flex items-center space-x-2">
-                <span class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black">{{ userData.sexo?.charAt(0).toUpperCase() }}</span>
-                <button class="text-black">
+                <div v-if="editingField === 'sexo'" class="flex items-center">
+                  <select 
+                    v-model="tempValue"
+                    @blur="handleUpdate('sexo')"
+                    @change="handleUpdate('sexo')"
+                    class="bg-[#D9D9D9] px-3 py-1 rounded text-sm text-black"
+                    ref="editInput"
+                  >
+                    <option value="masculino">M</option>
+                    <option value="femenino">F</option>
+                    <option value="otro">O</option>
+                  </select>
+                </div>
+                <span v-else class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black">
+                  {{ userData.sexo?.charAt(0).toUpperCase() }}
+                </span>
+                <button @click="startEditing('sexo', userData.sexo)" class="text-black">
                   <PencilIcon class="h-5 w-5" />
                 </button>
               </div>
@@ -134,35 +202,50 @@
             <div class="flex ml-2">
               <h2 class="text-sm text-black">Fecha de nacimiento:</h2>
               <div class="flex items-center space-x-2 w-40">
-                <span class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30">
+                <div v-if="editingField === 'fechaNacimiento'" class="flex items-center">
+                  <input 
+                    type="date"
+                    v-model="tempValue"
+                    @blur="handleUpdate('fechaNacimiento')"
+                    @change="handleUpdate('fechaNacimiento')"
+                    class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30"
+                    ref="editInput"
+                  />
+                </div>
+                <span v-else class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30">
                   {{ formatDate(userData.fechaNacimiento) }}
                 </span>
-                <button class="text-black">
+                <button @click="startEditing('fechaNacimiento', userData.fechaNacimiento)" class="text-black">
                   <PencilIcon class="h-5 w-5" />
                 </button>
               </div>
             </div>
           </div>
 
+          <!-- Dirección -->
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Dirección:</h2>
             <div class="flex items-left space-x-2">
-              <span class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">{{ userData.direccion }}</span>
-              <button class="text-black">
+              <div v-if="editingField === 'direccion'" class="flex items-center">
+                <input 
+                  type="text"
+                  v-model="tempValue"
+                  @blur="handleUpdate('direccion')"
+                  @keyup.enter="handleUpdate('direccion')"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  ref="editInput"
+                />
+              </div>
+              <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">
+                {{ userData.direccion }}
+              </span>
+              <button @click="startEditing('direccion', userData.direccion)" class="text-black">
                 <PencilIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
 
-          <div class="space-y-3">
-            <h2 class="text-sm text-black">Métodos de pago</h2>
-            <div class="bg-[#D9D9D9] p-2 rounded text-black">
-              <span>Visa Mastercard</span>
-            </div>
-            <button class="w-full bg-[#D9D9D9] p-3 rounded text-left text-gray-400">
-              Añadir método de pago
-            </button>
-          </div>
+          <!-- ... (mantener la sección de métodos de pago) ... -->
         </div>
       </div>
     </main>
@@ -191,7 +274,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   MenuIcon,
@@ -214,7 +297,11 @@ import {
 const router = useRouter();
 const isDrawerOpen = ref(false);
 const selectedCategory = ref(null);
-const usuario =  userData.userName
+
+// Add these new refs for editing functionality
+const editingField = ref(null);
+const tempValue = ref('');
+const editInput = ref(null);
 
 const userData = ref({
   userName: '',
@@ -236,22 +323,67 @@ const formatDate = (dateString) => {
 const fetchUserData = async () => {
   try {
     let config = {
-      method:'GET',
-      headers:{
+      method: 'GET',
+      headers: {
         "Content-Type": "application/json",
       }
     }
-    const response = await fetch(`http://localhost:5001/users/getUser`,config);
+    const response = await fetch(`http://localhost:5001/users/getUser`, config);
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }
-    console.log(response);
     const data = await response.json();
     userData.value = data;
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
-  
+};
+
+// Updated startEditing function
+const startEditing = async (field, currentValue) => {
+  editingField.value = field;
+  tempValue.value = currentValue;
+  await nextTick();
+  if (editInput.value) {
+    editInput.value.focus();
+  }
+};
+
+// Updated handleUpdate function
+const handleUpdate = async (field) => {
+  if (!tempValue.value.trim()) {
+    editingField.value = null;
+    tempValue.value = '';
+    return;
+  }
+
+  try {
+    const updateData = {
+      [field]: tempValue.value
+    };
+
+    const response = await fetch('http://localhost:5001/users/updateUser', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData)
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update user');
+    }
+
+    // Update local state
+    userData.value[field] = tempValue.value;
+    console.log('Field updated successfully');
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+
+  // Reset editing state
+  editingField.value = null;
+  tempValue.value = '';
 };
 
 onMounted(() => {
@@ -267,82 +399,25 @@ const selectCategory = (categoryName) => {
 };
 
 // Navigation functions
-const goToHome = () => {
-  router.push("/tallerMes");
-};
-
-const goToTienda = () => {
-  router.push("/tallerYtiendas");
-};
-
-const goToCarritoCompras = () => {
-  router.push("/carritoCompras");
-};
-
-const goToFavoritos = () => {
-  router.push("/artesanias");
-};
-
-const goToCompras = () => {
-  router.push("/comprasR");
-};
-
-const goToTalleres = () => {
-  router.push("/talleres");
-};
-
-const goToCupon = () => {
-  router.push("/canjear");
-};
-
-const goToAjustes = () => {
-  router.push("/ajustes");
-};
-
-const goToComentarios = () => {
-  router.push("/comentarios");
-};
-
-const goToAtencion = () => {
-  router.push("/atencion");
-};
+const goToHome = () => router.push("/tallerMes");
+const goToTienda = () => router.push("/tallerYtiendas");
+const goToCarritoCompras = () => router.push("/carritoCompras");
+const goToFavoritos = () => router.push("/artesanias");
+const goToCompras = () => router.push("/comprasR");
+const goToTalleres = () => router.push("/talleres");
+const goToCupon = () => router.push("/canjear");
+const goToAjustes = () => router.push("/ajustes");
+const goToComentarios = () => router.push("/comentarios");
+const goToAtencion = () => router.push("/atencion");
 
 const menuItems = [
-  { 
-    label: 'Lista de Favoritos', 
-    icon: HeartIcon, 
-    onClick: goToFavoritos 
-  },
-  { 
-    label: 'Compras', 
-    icon: Briefcase, 
-    onClick: goToCompras 
-  },
-  { 
-    label: 'Talleres', 
-    icon: NotepadText, 
-    onClick: goToTalleres 
-  },
-  { 
-    label: 'Canjear cupón', 
-    icon: TicketPercent, 
-    onClick: goToCupon 
-  },
-  { 
-    label: 'Ajustes', 
-    icon: SettingsIcon, 
-    onClick: goToAjustes 
-  },
-  { 
-    label: 'Comentarios', 
-    icon: MessageSquare, 
-    onClick: goToComentarios 
-  },
-  { 
-    label: 'Atención al cliente', 
-    icon: Headset, 
-    onClick: goToAtencion 
-  }
+  { label: 'Lista de Favoritos', icon: HeartIcon, onClick: goToFavoritos },
+  { label: 'Compras', icon: Briefcase, onClick: goToCompras },
+  { label: 'Talleres', icon: NotepadText, onClick: goToTalleres },
+  { label: 'Canjear cupón', icon: TicketPercent, onClick: goToCupon },
+  { label: 'Ajustes', icon: SettingsIcon, onClick: goToAjustes },
+  { label: 'Comentarios', icon: MessageSquare, onClick: goToComentarios },
+  { label: 'Atención al cliente', icon: Headset, onClick: goToAtencion }
 ];
 
 const filteredProducts = computed(() => {

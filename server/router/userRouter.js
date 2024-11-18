@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.get('/getAllUsers', UserController.getAllUsers);
 router.post('/newUser', UserController.createAndAuth );
-router.put('/updateUser/:id', UserController.updateUser );
 router.post('/loginAndAuth', UserController.loginAndAuth);
 router.post('/createAndAuth', UserController.createAndAuth);
 
@@ -96,4 +95,5 @@ router.get('/logout', (req, res) => {
 
 router.use(auth)
 router.get('/getUser', UserController.getUserById);
+router.put('/updateUser', UserController.updateUser );
 module.exports = router;

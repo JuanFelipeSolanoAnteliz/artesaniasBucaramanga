@@ -1607,7 +1607,7 @@ Crea un nuevo usuario **sin** cifrar la contraseña. Recibe los datos del usuari
 ### 4. Actualizar un usuario 🔄
 
 **Método**: `PUT`  
-**URL**: `http://localhost:5001/users/updateUser/:id`  
+**URL**: `http://localhost:5001/users/updateUser`  
 **Ejemplo de URL**: `http://localhost:5001/users/updateUser/672b784954bc940d9200e06f`
 
 Actualiza la información de un usuario. Los campos pueden ser modificados, pero hay restricciones:
