@@ -1,6 +1,6 @@
 <template>
-  <div @click="goBack" class="bg-white min-h-screen">
-    <div class="triangle"></div>
+  <div class="bg-white min-h-screen">
+    <div  @click="goBack" class="triangle"></div>
 
     <div class="absolute top-1 left-[3px] mt-4">
       <img 

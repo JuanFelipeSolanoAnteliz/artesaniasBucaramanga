@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb');
 const connectDB = require('../helper/connect');
 const Workshop = require('../model/workshopsModel');
+const Users = require('../model/userModel');
 
 
 exports.getOne = async (req, res) =>{
@@ -50,5 +51,18 @@ exports.search = async (req, res) =>{
         res.status(500).send({ message: 'Error searching for workshops', error: error });  // Error handling for database operations. You might want to log this error or return a more specific error message.
     }
 
+}
 
+
+exports.buyWorkshop = async ( req, res ) =>{
+    try{
+        let id = req.data.id
+        let workshop = req.params.id
+        let result = await Users.updateOne({ _id: new ObjectId(id),talleresInscritos: { $ne: workshop }}, {$set:{ talleresInscritos: new ObjectId(workshop) }});
+        if(!result){return res.status(404).json({ status:404, message:'can not add the workshop'})};
+        return res.status(200).json({ status: 200, message:'workshops added sucessfully', data:result});
+    }catch(error){
+        console.log(error)
+        res.status(500).send({ message: 'Error while fetching workshops', error: error });     
+    }
 }
