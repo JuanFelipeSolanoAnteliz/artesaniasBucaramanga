@@ -14,7 +14,7 @@
       </button>
 
       <!-- Title with diamond background -->
-      <div class="relative text-center z-[50]">
+      <div @click="goBack" class="relative text-center z-[50]">
         <img 
           src="/src/assets/img/RectangleA.svg" 
           alt="Background"

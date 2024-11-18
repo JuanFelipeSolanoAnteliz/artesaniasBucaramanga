@@ -4,7 +4,7 @@
     <div class="relative py-4">
       <div class="triangle"></div>
       <div class="absolute top-1 left-[3px] mt-4">
-        <img src="../assets/img/flechaB.svg" alt="Volver" class="w-4 h-4"/>
+        <img @click="goBack" src="../assets/img/flechaB.svg" alt="Volver" class="w-4 h-4"/>
       </div>
       <div  @click="goBack"  class="relative text-center z-[60]">
         <img

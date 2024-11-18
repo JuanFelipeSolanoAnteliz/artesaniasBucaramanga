@@ -13,7 +13,7 @@
     </div>
 
     <!-- Título de la página -->
-    <div class="relative mb-4">
+    <div @click="goBack" class="relative mb-4">
       <img 
         src="../assets/img/RectangleA.svg" 
         alt="back"
