@@ -142,9 +142,6 @@
               <span v-else class="bg-[#D9D9D9] px-12 py-1 text-sm text-black">
                 {{ userData.correo }}
               </span>
-              <button @click="startEditing('correo', userData.correo)" class="text-black">
-                <PencilIcon class="h-5 w-5" />
-              </button>
             </div>
           </div>
 
