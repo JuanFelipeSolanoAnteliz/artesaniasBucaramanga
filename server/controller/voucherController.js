@@ -22,7 +22,9 @@ exports.addVoucher = async (req, res) =>{
 
 exports.getVouchers = async ( req, res ) =>{
     try{
+        let now = new Date();
         let result = await Vouchers.find({
+                fechaExpiracion: { $gte: now },
                 $or:[
                     {usuarioId:null},
                     {usuarioId:req.data.id}                    
