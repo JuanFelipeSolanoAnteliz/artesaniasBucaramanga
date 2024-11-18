@@ -3,6 +3,34 @@ Para poder correr el proyecto:
 - npm run dev 
 
 
+
+### Variables de Entorno 🌍
+
+Configura las siguientes variables en tu archivo `.env`:
+
+```dotenv
+MONGODB_URI=mongodb+srv://juanfesolant0906:campus2023@universidad.u4hniqa.mongodb.net/artesanias
+MONGODB_DB_NAME=artesanias
+SECRET_KEY=729e97f2f54e6a1edb3cfe3d7b1b96516458312623d8757bb1cbb4245a8a4d1eb5d3111961baeb8227a6ba6971c15f54da447862813a07d391a02de5447814031cca4ab6921f44d57fb7b2d3e9aa3d8e07987071ede00d3ff13b70ad05134c5162cdd27bb7f58cfd0620548ca45946d16af151f3b4c50965ae44f5cf690cdccb
+
+# Credenciales de Discord
+DISCORD_CLIENT_ID=1304082647743463434
+DISCORD_CLIENT_SECRET=RHeLx_q61LKO4IiW3sN7_yd8gY9DLekt
+DISCORD_CALLBACK_URL=http://localhost:5001/users/auth/discord/callback
+
+# Credenciales de Google
+GOOGLE_CLIENT_ID=1017682218779-49r96008qjfi7hitdhnemcbtj7q6s60t.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_CALLBACK_URL=http://localhost:5001/users/auth/google/callback
+
+GITHUB_CLIENT_ID=Ov23lieTt7vhENc5TW4K
+GITHUB_CLIENT_SECRET=6da0988506bd3bf4c826c2c23130d74707262827
+
+EXPRESS_PORT=5001
+EXPRESS_HOST_NAME=localhost 
+
+```
+
 ARTESANIAS API DOCUMENTATION:
 
 
@@ -1503,30 +1531,7 @@ npm install cloudinary
 npm install multer
 ```
 
-### Variables de Entorno 🌍
-
-Configura las siguientes variables en tu archivo `.env`:
-
-```dotenv
-MONGODB_URI=mongodb+srv://<tu_usuario>:<tu_contraseña>@<tu_cluster>.mongodb.net/<tu_base_de_datos>
-MONGODB_DB_NAME=<nombre_de_tu_base_de_datos>
-SECRET_KEY=<tu_clave_secreta>
-# Credenciales de Discord
-DISCORD_CLIENT_ID=<tu_id_cliente_discord>
-DISCORD_CLIENT_SECRET=<tu_secreto_cliente_discord>
-DISCORD_CALLBACK_URL=http://localhost:5001/users/auth/discord/callback
-# Credenciales de Google
-GOOGLE_CLIENT_ID=<tu_id_cliente_google>
-GOOGLE_CLIENT_SECRET=<tu_secreto_cliente_google>
-GOOGLE_CALLBACK_URL=http://localhost:5001/users/auth/google/callback
-# Credenciales de GitHub
-GITHUB_CLIENT_ID=<tu_id_cliente_github>
-GITHUB_CLIENT_SECRET=<tu_secreto_cliente_github>
-# Credenciales de Cloudinary
-CLOUDINARY_CLOUD_NAME=<tu_nombre_de_cloud>
-CLOUDINARY_API_KEY=<tu_api_key>
-CLOUDINARY_API_SECRET=<tu_api_secret>
-```
+`
 
 ---
 
@@ -1753,3 +1758,14 @@ Comments
  (0)
 Comment
 You're not receiving notifications from this thread.
+
+
+## Chat docuemtacion
+
+para poder utiluzar el chat satisfactoriamente se debe:
+- instalar socket io
+- instalar socket-client .io
+
+(Se intalan automaticamente en en npm i)
+
+Para poder probar la funcionalidad del chat,se require copiar y pegar el link del chat en el navegador y asi enviar y recibir mensajes.
