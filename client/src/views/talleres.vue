@@ -5,13 +5,13 @@
       <!-- Back button with diamond background -->
       <div class="triangle"></div>
 
-      <div class="absolute top-5 left-[3px] mt-4" @click="goBack">
+      <button @click="goBack" class="absolute top-5 left-[3px] mt-4" >
         <img 
           src="/src/assets/img/flechaB.svg" 
           alt="Volver"
           class="w-4 h-4 cursor-pointer" 
         />
-      </div>
+      </button>
 
       <!-- Title with diamond background -->
       <div class="relative text-center">

@@ -83,13 +83,13 @@
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Usuario:</h2>
             <div class="flex items-left space-x-2">
-              <div v-if="editingField === 'userName'" class="flex items-center">
+              <div v-if="editingField === 'userName'" class="flex items-center ">
                 <input 
                   type="text"
                   v-model="tempValue"
                   @blur="handleUpdate('userName')"
                   @keyup.enter="handleUpdate('userName')"
-                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black max-w-40 overflow-hidden"
                   ref="editInput"
                 />
               </div>
@@ -106,13 +106,13 @@
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Nombre:</h2>
             <div class="flex items-left space-x-2">
-              <div v-if="editingField === 'nombre'" class="flex items-center">
+              <div v-if="editingField === 'nombre'" class="flex items-center ">
                 <input 
                   type="text"
                   v-model="tempValue"
                   @blur="handleUpdate('nombre')"
                   @keyup.enter="handleUpdate('nombre')"
-                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black max-w-40 overflow-hidden"
                   ref="editInput"
                 />
               </div>
@@ -129,13 +129,13 @@
           <div class="flex items-center justify-between">
             <h2 class="text-black text-sm">Correo:</h2>
             <div class="flex items-left space-x-2">
-              <div v-if="editingField === 'correo'" class="flex items-center">
+              <div v-if="editingField === 'correo'" class="flex items-center overflow-hidden">
                 <input 
                   type="email"
                   v-model="tempValue"
                   @blur="handleUpdate('correo')"
                   @keyup.enter="handleUpdate('correo')"
-                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black max-w-20 "
                   ref="editInput"
                 />
               </div>
@@ -149,17 +149,17 @@
           </div>
 
           <!-- Teléfono -->
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between ">
             <h2 class="text-black text-sm">Celular:</h2>
             <div class="flex items-center space-x-2">
               <span class="bg-[#D9D9D9] px-2 py-1 rounded text-sm ml-2 text-black">+57</span>
-              <div v-if="editingField === 'telefono'" class="flex items-center">
+              <div v-if="editingField === 'telefono'" class="flex items-center ">
                 <input 
                   type="tel"
                   v-model="tempValue"
                   @blur="handleUpdate('telefono')"
                   @keyup.enter="handleUpdate('telefono')"
-                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black"
+                  class="bg-[#D9D9D9] px-12 py-1 text-sm text-black max-w-40 overflow-hidde"
                   ref="editInput"
                 />
               </div>
@@ -177,7 +177,7 @@
             <div class="flex items-center">
               <h2 class="text-sm text-black">Sexo:</h2>
               <div class="flex items-center space-x-2">
-                <div v-if="editingField === 'sexo'" class="flex items-center">
+                <div v-if="editingField === 'sexo'" class="flex items-center ">
                   <select 
                     v-model="tempValue"
                     @blur="handleUpdate('sexo')"
@@ -190,7 +190,7 @@
                     <option value="otro">O</option>
                   </select>
                 </div>
-                <span v-else class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black">
+                <span v-else class="bg-[#D9D9D9] px-3 py-1 rounded text-sm ml-2 text-black max-w-40 overflow-hidden">
                   {{ userData.sexo?.charAt(0).toUpperCase() }}
                 </span>
                 <button @click="startEditing('sexo', userData.sexo)" class="text-black">
@@ -202,13 +202,13 @@
             <div class="flex ml-2">
               <h2 class="text-sm text-black">Fecha de nacimiento:</h2>
               <div class="flex items-center space-x-2 w-40">
-                <div v-if="editingField === 'fechaNacimiento'" class="flex items-center">
+                <div v-if="editingField === 'fechaNacimiento'" class="flex items-center ">
                   <input 
                     type="date"
                     v-model="tempValue"
                     @blur="handleUpdate('fechaNacimiento')"
                     @change="handleUpdate('fechaNacimiento')"
-                    class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30"
+                    class="bg-[#D9D9D9] px-1 py-1 rounded text-sm text-black w-30 max-w-40 overflow-hidden"
                     ref="editInput"
                   />
                 </div>
@@ -245,7 +245,15 @@
             </div>
           </div>
 
-          <!-- ... (mantener la sección de métodos de pago) ... -->
+          <div class="space-y-3">
+          <h2 class="text-sm text-black">Métodos de pago</h2>
+          <div class="bg-[#D9D9D9] p-2 rounded text-black">
+            <span>Visa Mastercard</span>
+          </div>
+          <button class="w-full bg-[#D9D9D9] p-3 rounded text-left text-gray-400">
+            Añadir método de pago
+          </button>
+        </div>
         </div>
       </div>
     </main>
