@@ -57,6 +57,33 @@
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
     </div>
 
+    <!-- Empty State Message -->
+    <div 
+      v-else-if="!loading && (!favorites || favorites.length === 0)" 
+      class="flex flex-col items-center justify-center h-40 bg-gray-50 rounded-lg p-4"
+    >
+      <div class="text-center">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="h-12 w-12 mx-auto mb-2 text-gray-400" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
+          />
+        </svg>
+        <p class="text-gray-600 font-medium">No hay productos favoritos</p>
+        <p class="text-gray-400 text-sm mt-1">
+          No se encontraron artesanías en la categoría {{ selectedCategoryName }}
+        </p>
+      </div>
+    </div>
+
     <!-- Products Grid -->
     <div v-else class="overflow-y-auto mt-8 max-h-[calc(100vh-250px)]">
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
@@ -107,7 +134,7 @@ const categoriesWrapper = ref(null);
 const scrollBar = ref(null);
 const scrollBarPosition = ref(0);
 const selectedCategory = ref('');
-
+const selectedCategoryName = ref('');
 
 // Imports de imágenes
 import joyeriaIcon from '../assets/img/joyeria.svg'
@@ -138,6 +165,9 @@ const categories = [
 // Fetch de favoritos
 const fetchFavorites = async (category) => {
   loading.value = true;
+  // Limpiar favoritos anteriores antes de cargar nuevos
+  favorites.value = [];
+  
   try {
     const response = await fetch(`http://localhost:5001/products/getFavs/${category}`, {
       headers: {
@@ -148,10 +178,11 @@ const fetchFavorites = async (category) => {
 
     if (response.ok) {
       const data = await response.json();
-      favorites.value = data.data;
+      favorites.value = data.data || []; // Asegurarse de que siempre sea un array
     }
   } catch (err) {
     console.error('Error fetching favorites:', err);
+    favorites.value = []; // En caso de error, asegurarse de que favorites esté vacío
   } finally {
     loading.value = false;
   }
@@ -169,14 +200,11 @@ const removeFromFavorites = async (productId) => {
     });
 
     if (response.ok) {
-      // Si la eliminación fue exitosa, actualiza la UI
       favorites.value = favorites.value.filter(product => product._id !== productId);
-      
-      // Opcionalmente puedes mostrar un mensaje de éxito
       console.log('Producto eliminado de favoritos exitosamente');
       
-      // Recargar los favoritos de la categoría actual
-      if (selectedCategory.value) {
+      // Si después de eliminar no quedan productos, recargar la categoría
+      if (favorites.value.length === 0) {
         await fetchFavorites(selectedCategory.value);
       }
     } else {
@@ -194,6 +222,8 @@ const goBack = () => {
 
 const selectCategory = async (categoryId, index) => {
   selectedCategory.value = categoryId;
+  const category = categories.find(cat => cat.id === categoryId);
+  selectedCategoryName.value = category ? category.name : '';
   scrollToCategory(index);
   await fetchFavorites(categoryId);
 };
@@ -232,7 +262,6 @@ const stopDrag = () => {
 
 // Al montar el componente
 onMounted(() => {
-  // Cargar favoritos de la primera categoría
   if (categories.length > 0) {
     selectCategory(categories[0].id, 0);
   }
