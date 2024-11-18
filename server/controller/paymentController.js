@@ -10,7 +10,7 @@ exports.getHistory = async ( req, res ) => {
         let user = req.data.id;
         let result = await Pedidos.find(
             { usuarioId: new ObjectId(user) }
-          );
+          ).populate('productos.productoId');
         if( result.length === 0 ){return res.status(404).json({ status:404, message:' there is not a product with this id'})}
         return res.status(200).json({ status:200, message:'product fetched successfully', data:result});
     }catch(error){

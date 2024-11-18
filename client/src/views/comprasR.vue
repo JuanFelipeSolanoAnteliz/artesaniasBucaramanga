@@ -27,56 +27,38 @@
     
     <!-- Purchased Items -->
     <div class="flex-1 overflow-y-auto mb-4"> 
-      <!-- Item Card 1 -->
-      <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
-        <img src="" alt="Vasija" class="w-16 h-16 object-cover rounded-lg" />
-        <div class="flex-1 ml-3 flex flex-col justify-between">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-left text-base font-medium ml-1.5 text-sm">Vasija pequeña con diseño de flor</p>
-              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">S/.50</p>
-              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">40x40 cm</p>
-              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">Asoc. Pequeña Roma</p>
+    <div v-if="error" class="text-red-500 text-center py-4">
+      {{ error }}
+    </div>
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div v-for="item in purchasesHistory" :key="item.productoId._id" class="bg-white p-4 rounded-lg shadow-md"> 
+        <div class="flex items-start">
+          <img :src="item.productoId.fotos[0]" :alt="item.productoId.nombre" class="w-16 h-16 object-cover rounded-lg" />
+          <div class="flex-1 ml-3 flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-left text-base font-medium">{{ item.productoId.nombre }}</p>
+                <p class="text-left text-sm text-gray-500">S/.{{ item.productoId.precio }}</p>
+                <p class="text-left text-xs text-gray-500">Cantidad: {{ item.cantidad }}</p>
+                <p class="text-left text-xs text-gray-500">Categoría: {{ item.productoId.categoria }}</p>
+              </div>
+              <img 
+                src="../assets/img/comentario.svg" 
+                alt="comentario"
+                class="h-5 w-5 text-gray-500 cursor-pointer"
+              />
             </div>
-            <img 
-              src="../assets/img/comentario.svg" 
-              alt="comentario"
-              class="h-5 w-5 text-gray-500"
-            />
-          </div>
-          <div class="flex flex-col items-start mt-1">
-            <button class="text-left font-medium bg-black text-white text-xs py-1 px-3 rounded-full ml-0">
-              Ver seguimiento del producto
-            </button>
+            <div class="flex flex-col items-start mt-2">
+              <button class="text-left font-medium bg-black text-white text-xs py-1 px-3 rounded-full hover:bg-gray-800 transition duration-300">
+                Ver seguimiento del producto
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-   
-      <!-- Item Card 2 -->
-      <div class="bg-gray-100 rounded-lg p-3 flex mb-2 h-36 w-full"> 
-        <img src="" alt="Bolso" class="w-16 h-16 object-cover rounded-lg" />
-        <div class="flex-1 ml-3 flex flex-col justify-between">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-left text-base font-medium ml-1.5 text-sm">Bolso negro con diseño de flores</p>
-              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">S/.50</p>
-              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">40x40 cm</p>
-              <p class="text-left text-base font-medium ml-1.5 text-xs text-gray-500">Asoc. Pequeña Roma</p>
-            </div>
-            <img 
-              src="../assets/img/comentario.svg" 
-              alt="comentario"
-              class="h-5 w-5 text-gray-500"
-            />
-          </div>
-          <div class="flex flex-col items-start mt-1">
-            <button class="text-left font-medium bg-black text-white text-xs py-1 px-3 rounded-full ml-0">
-              Ver seguimiento del producto
-            </button>
-          </div>
-        </div>
+        <p class="text-left text-sm text-gray-600 mt-2">{{ item.productoId.descripcion }}</p>
       </div>
     </div>
+  </div>
 
     <!-- Título "Sigue viendo más artesanías" -->
     <h2 class="text-left text-base font-medium ml-1.5 mt-2 mb-1">Sigue viendo más artesanías</h2>
@@ -110,6 +92,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
 import axios from 'axios'
+import { data } from 'autoprefixer';
 
 const router = useRouter();
 
@@ -126,7 +109,8 @@ const handleImageError = (e) => {
   e.target.src = '../assets/img/default-product.jpg' // Asegúrate de tener esta imagen por defecto
 }
 
-const workshopDetails = ref([])
+const workshopDetails = ref([]);
+const purchasesHistory = ref([]);
 const error = ref(null)
 
 
@@ -141,6 +125,7 @@ const fetchAllProducts = async () => {
     
     if (response.data && response.data.data) {
       workshopDetails.value = response.data.data
+      console.log(workshopDetails, 'tallerrrrrrrrr')
     } else {
       error.value = 'No se encontraron productos'
     }
@@ -150,10 +135,38 @@ const fetchAllProducts = async () => {
   }
 }
 
+const fetchPurchases = async ( ) =>{
+  try {
+    const response = await axios.get(
+      `http://localhost:5001/orders/history`,   
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-version': '1.0.0'
+        }
+      }
+    );
+
+    console.log(response, 'response')
+    if(response.status===404){
+      error.value = 'Usuario sin productos comprados'
+    }
+     if (response.data && response.data.data) {
+      response.data.data.forEach(element => {
+        element.productos.forEach(element => {
+          purchasesHistory.value.push(element)
+        });
+      });
+      console.log(purchasesHistory.value)
+    }
+  } catch (err) {
+    console.error('Error fetching data:', err)
+  }
+}
 
 onMounted(() => {
   fetchAllProducts()
-
+  fetchPurchases()
 })
 </script>
 
